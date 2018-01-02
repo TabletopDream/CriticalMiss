@@ -27,9 +27,16 @@ namespace CriticalMiss.Data
 
         protected override void OnModelCreating (ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<User>(model =>
+            {
+                model.HasAlternateKey(c => c.UserName)
+                .HasName("AlternateKey_UserName");
+                     
+            });
         }
 
         /** DbSets Go Below Here **/
+
+        public DbSet<User> user { get; set; }
     }
 }
