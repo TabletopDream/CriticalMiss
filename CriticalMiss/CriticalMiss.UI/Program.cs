@@ -19,6 +19,10 @@ namespace CriticalMiss.UI
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder.AddJsonFile("_connections.json");
+                })
                 .UseStartup<Startup>()
                 .Build();
     }
