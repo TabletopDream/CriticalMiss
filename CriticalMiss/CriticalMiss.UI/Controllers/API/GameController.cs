@@ -8,36 +8,37 @@ using Microsoft.AspNetCore.Mvc;
 namespace CriticalMiss.UI.API.Controllers
 {
 
+    [Route("api/games")]
     public class GameController : Controller
     {
-        [HttpGet("/games", Name ="All_Games")]
+        [HttpGet]
         public IActionResult GetAllGames()
         {
             return null;
         }
 
-        [HttpGet("/games/{name}/")]
-        public IActionResult GetGame(string name)
+        [HttpGet("{gameName}")]
+        public IActionResult GetGame(string gameName)
         {
             return null;
         }
 
-        [HttpPost("/games")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateNewGame(IFormCollection game)
         {
             return null;
         }
 
-        [HttpPut("/games/{name}")]
+        [HttpPut("{gameName}")]
         [ValidateAntiForgeryToken]
-        public IActionResult EditGame(string name, IFormCollection gameCollection)
+        public IActionResult EditGame(string gameName, IFormCollection gameCollection)
         {
             return null;
         }
 
-        [HttpDelete("/games/{name}")]
-        public IActionResult DeleteGame(string name)
+        [HttpDelete("{gameName}")]
+        public IActionResult DeleteGame(string gameName)
         {
             return null;
         }
