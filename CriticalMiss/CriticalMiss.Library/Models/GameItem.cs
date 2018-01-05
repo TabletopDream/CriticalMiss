@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CriticalMiss.Library
+namespace CriticalMiss.Library.Models
 {
     public class GameItem : IGameBoardItem
     {
@@ -13,5 +13,7 @@ namespace CriticalMiss.Library
         int IGameBoardItem.PixelHeight { get; set; }
         int IGameBoardItem.XPos { get; set; }
         int IGameBoardItem.YPos { get; set; }
+        int IGameBoardItem.BoardItemId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        IImageAsset IGameBoardItem.ImageAsset { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
