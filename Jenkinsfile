@@ -1,7 +1,7 @@
 node('master') {
     stage('import') {
         try {
-                git url:'https://github.com/TabletopDream/CriticalMiss.git'
+                checkout scm
             
         } catch(error) {
             //slacksend message:{env.BUILD_NUMBER}  color:'danger'
