@@ -3,7 +3,7 @@ node('master') {
         try {
             git url:'https://github.com/TabletopDream/CriticalMiss.git'
         } catch(error) {
-            slacksend message:{env.BUILD_NUMBER}  color:'danger'
+            //slacksend message:{env.BUILD_NUMBER}  color:'danger'
         }
     }
     
@@ -14,7 +14,7 @@ node('master') {
                 bat 'msbuild /t:build, clean CriticalMiss.sln'
             }
         } catch(error) {
-            slacksend message: color:'danger'
+            //slacksend message: color:'danger'
         }
     }
 
@@ -26,7 +26,7 @@ node('master') {
                 bat 'C:\\Program Files\\SonarQube\\SonarQube.Scanner.MSBuild.exe end'
             }
         } catch(error) {
-            slacksend message: color:'danger'
+            //slacksend message: color:'danger'
         }
     }
 
