@@ -1,9 +1,8 @@
 node('master') {
     stage('import') {
         try {
-            dir('CriticalMiss') {
                 git url:'https://github.com/TabletopDream/CriticalMiss.git'
-            }
+            
         } catch(error) {
             //slacksend message:{env.BUILD_NUMBER}  color:'danger'
         }
