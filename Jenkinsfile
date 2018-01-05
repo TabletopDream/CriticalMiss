@@ -10,8 +10,8 @@ node('master') {
     stage('build') {
         try {
             dir('CriticalMiss') {
-                bat 'nuget restore'
-                bat 'msbuild /t:build, clean CriticalMiss.sln'
+                bat 'nuget restore CriticalMiss/CriticalMiss.sln'
+                bat 'msbuild /t:build, clean CriticalMiss/CriticalMiss.sln'
             }
         } catch(error) {
             //slacksend message: color:'danger'
@@ -32,7 +32,9 @@ node('master') {
 
     stage('test') {
         try {
-
+            dir('CriticalMiss') {
+                bat 'msbuild /t: '
+            }
         } catch(error) {
             //slacksend message: color:'danger'
         }
