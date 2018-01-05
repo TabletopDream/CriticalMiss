@@ -11,8 +11,8 @@ node('master') {
     stage('build') {
         try {
             dir('CriticalMiss') {
-                bat 'dotnet restore CriticalMiss/CriticalMiss.sln'
-                bat 'msbuild /t:build CriticalMiss/CriticalMiss.sln'
+                bat 'dotnet restore CriticalMiss.sln'
+                bat 'msbuild /t:build CriticalMiss.sln'
             }
         } catch(error) {
             //slacksend message: color:'danger'
@@ -22,9 +22,9 @@ node('master') {
     stage('analyze') {
         try {
             dir('CriticalMiss') {
-                bat 'C:\\Program Files\\SonarQube\\SonarQube.Scanner.MSBuild.exe begin /k:CriticalMissPipe'
+                bat '"C:\\Program Files\\SonarQube\\SonarQube.Scanner.MSBuild.exe" begin /k:CriticalMissPipe'
                 bat 'msbuild /t:rebuild CriticalMiss.sln'
-                bat 'C:\\Program Files\\SonarQube\\SonarQube.Scanner.MSBuild.exe end'
+                bat '"C:\\Program Files\\SonarQube\\SonarQube.Scanner.MSBuild.exe" end'
             }
         } catch(error) {
             //slacksend message: color:'danger'
