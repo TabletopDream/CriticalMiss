@@ -10,7 +10,7 @@ node('master') {
     stage('build') {
         try {
             dir('CriticalMiss') {
-                bat 'msbuild restore CriticalMiss/CriticalMiss.sln'
+                bat 'dotnet restore CriticalMiss/CriticalMiss.sln'
                 bat 'msbuild /t:build, clean CriticalMiss/CriticalMiss.sln'
             }
         } catch(error) {
