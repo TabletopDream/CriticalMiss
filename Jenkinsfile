@@ -11,7 +11,7 @@ node('master') {
         try {
             dir('CriticalMiss') {
                 bat 'dotnet restore CriticalMiss/CriticalMiss.sln'
-                bat 'msbuild /t:build, clean CriticalMiss/CriticalMiss.sln'
+                bat 'msbuild /t:build CriticalMiss/CriticalMiss.sln'
             }
         } catch(error) {
             //slacksend message: color:'danger'
