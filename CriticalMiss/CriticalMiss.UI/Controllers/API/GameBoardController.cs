@@ -28,8 +28,8 @@ namespace CriticalMiss.UI.Controllers.API
             return null;
         }
 
-        [HttpPut("{id}")]
-        public IActionResult EditBoard(int id, object obj)
+        [HttpPut]
+        public IActionResult EditBoard([FromBody] int id, object obj)
         {
             return null;
         }
