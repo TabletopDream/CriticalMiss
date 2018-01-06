@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CriticalMiss.Data;
+using CriticalMiss.Library.Repository;
+using CriticalMiss.Library.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,8 @@ namespace CriticalMiss.UI
 
                 optionsBuilder.UseSqlServer(conn);
             });
+
+            services.AddTransient<IGameBoardRepository, GameBoardRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

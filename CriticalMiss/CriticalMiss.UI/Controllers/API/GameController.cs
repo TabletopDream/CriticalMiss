@@ -30,7 +30,7 @@ namespace CriticalMiss.UI.API.Controllers
             return null;
         }
 
-        [HttpPut("{gameName}")]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public IActionResult EditGame(string gameName, IFormCollection gameCollection)
         {
