@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "CreateGames";
+}
+
+<h2>CreateGames</h2>
+@model CriticalMiss.Data.Models.Games
+
+@using (Html.BeginForm())
+{
+    <div>
+        <br />
+        <br />
+        <table border="1">
+            <tr>
+                <td>
+                    Username
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Game Name
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.GameName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Password)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit">Create Game</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+

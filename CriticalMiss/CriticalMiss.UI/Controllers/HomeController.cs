@@ -33,5 +33,32 @@ namespace CriticalMiss.UI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpGet]
+        public ActionResult CreateGames()
+        {
+            return View();
+        }
+        //[HttpPost]
+        //public ActionResult CreateGames(Dac.Games games)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            Dac.DataAccess Repo = new Dac.DataAccess();
+        //            if (Repo.CreateGames(games))
+        //            {
+        //                ViewBag.Message = "Game Added Succesfully...";
+        //            }
+        //        }
+        //        return View();
+        //    }
+        //    catch
+        //    {
+        //        ViewBag.Message = "Failed To create new Please try again later";
+        //        return View();
+        //        // throw;
+        //    }
+        //}
     }
 }

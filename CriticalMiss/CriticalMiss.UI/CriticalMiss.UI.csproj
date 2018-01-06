@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CriticalMiss.Data\CriticalMiss.Data.csproj" />
+    <ProjectReference Include="..\CriticalMiss.Library\CriticalMiss.Library.csproj" />
   </ItemGroup>
 
 </Project>

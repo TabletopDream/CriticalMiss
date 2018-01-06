@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CriticalMiss.Data.Models;
 
 namespace CriticalMiss.Data
 {
@@ -31,5 +32,7 @@ namespace CriticalMiss.Data
         }
 
         /** DbSets Go Below Here **/
+        
+        public DbSet<Games> games { get; set; }
     }
 }
