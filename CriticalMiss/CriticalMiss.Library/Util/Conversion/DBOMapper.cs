@@ -1,9 +1,7 @@
 ﻿using CriticalMiss.Data;
 using CriticalMiss.Library.Interfaces;
 using CriticalMiss.Library.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CriticalMiss.Library.Repository.Conversion
 {
@@ -11,7 +9,15 @@ namespace CriticalMiss.Library.Repository.Conversion
     {
         public static ImageAssetDBO ImageAssetToDBO (IImageAsset asset)
         {
-            return null;
+            var dbo = new ImageAssetDBO
+            {
+                AssetDescription = asset.AssetDescription,
+                AssetURI = asset.AssetURI,
+                ImageAssetId = asset.ImageAssetId,
+                DateTimeCreated = asset.DateTimeCreated
+            };
+
+            return dbo;
         }
 
         public static IImageAsset ImageAssetDBOToModel(ImageAssetDBO assetDbo)
@@ -29,13 +35,15 @@ namespace CriticalMiss.Library.Repository.Conversion
         {
             var itemDbo = new GameBoardItemDBO()
             {
-                GameBoardId = item.GameBoard.GameBoardId,
+                GameBoardId = item.GameBoardId,
                 ImageAssetId = item.ImageAsset.ImageAssetId,
                 Name = item.Name,
                 PixelHeight = item.PixelHeight,
                 PixelWidth = item.PixelWidth,
                 XPosition = item.XPos,
-                YPosition = item.YPos
+                YPosition = item.YPos,
+                IsToken = item.IsToken,
+                ItemId = item.BoardItemId
             };
 
             return itemDbo;
@@ -43,21 +51,61 @@ namespace CriticalMiss.Library.Repository.Conversion
 
         public static IGameBoardItem GameBoardItemDBOToModel(GameBoardItemDBO itemDbo)
         {
-            var model = (IGameBoardItem)new GameItem();
+            var model = (IGameBoardItem)new GameBoardItem(itemDbo.GameBoardId);
             model.BoardItemId = itemDbo.ItemId;
-            model.ImageAsset = ImageAssetDBOToModel(itemDbo.ImageAsset);
+            model.Name = itemDbo.Name;
             
-            return null;
+            model.IsToken = itemDbo.IsToken;
+
+            // Pixel Height/Width
+            model.PixelHeight = itemDbo.PixelHeight;
+            model.PixelWidth = itemDbo.PixelWidth;
+
+            model.XPos = itemDbo.XPosition;
+            model.YPos = itemDbo.YPosition;
+
+            model.ImageAsset = ImageAssetDBOToModel(itemDbo.ImageAsset);
+
+            return model;
         }
 
         public static GameBoardDBO GameBoardToDBO(IGameBoard board)
         {
-            return null;
+            var dbo = new GameBoardDBO()
+            {
+                GameBoardId = board.GameBoardId,
+                GameId = board.GameId,
+                Width = board.Width,
+                Height = board.Height,
+                BoardItems = new List<GameBoardItemDBO>()
+            };
+
+            foreach(var item in board.BoardItems)
+            {
+                dbo.BoardItems.Add(GameBoardItemToDBO(item));
+            }
+
+            return dbo;
         }
 
         public static IGameBoard GameBoardDBOToModel(GameBoardDBO boardDbo)
         {
-            return null;
+            var model = (IGameBoard)new GameBoard();
+            model.GameBoardId = boardDbo.GameBoardId;
+            model.GameId = boardDbo.GameBoardId;
+
+            model.Width = boardDbo.Width;
+            model.Height = boardDbo.Height;
+
+            model.BoardItems = new List<IGameBoardItem>();
+
+            foreach(var item in boardDbo.BoardItems)
+            {
+                var itemModel = GameBoardItemDBOToModel(item);
+                model.BoardItems.Add(itemModel);
+            }
+
+            return model;
         }
     }
 }

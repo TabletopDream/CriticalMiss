@@ -9,6 +9,8 @@ namespace CriticalMiss.Library.Models
     {
         int IGameBoard.GameBoardId { get; set; }
 
+        int IGameBoard.GameId { get; set; }
+
         int IGameBoard.Width { get; set; }
 
         int IGameBoard.Height { get; set; }
