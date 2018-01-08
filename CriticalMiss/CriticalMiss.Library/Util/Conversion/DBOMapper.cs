@@ -1,4 +1,5 @@
 ﻿using CriticalMiss.Data;
+using CriticalMiss.Data.Models;
 using CriticalMiss.Library.Interfaces;
 using CriticalMiss.Library.Models;
 using System;
@@ -41,6 +42,8 @@ namespace CriticalMiss.Library.Repository.Conversion
             return itemDbo;
         }
 
+        
+
         public static IGameBoardItem GameBoardItemDBOToModel(GameBoardItemDBO itemDbo)
         {
             var model = (IGameBoardItem)new GameItem();
@@ -58,6 +61,20 @@ namespace CriticalMiss.Library.Repository.Conversion
         public static IGameBoard GameBoardDBOToModel(GameBoardDBO boardDbo)
         {
             return null;
+        }
+
+        //By Rinkal Library to Model
+        public static TabletopGame GetAllGamesToModel(Games g)
+        {
+            var model = (ITableTopGames)new TabletopGame();
+
+            model.GameId = g.GameId;
+            model.GameName = g.GameName;
+            model.UserName = g.UserName;
+            model.Password = g.Password;
+
+            return null;
+            //throw new NotImplementedException();
         }
     }
 }
