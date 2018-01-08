@@ -8,6 +8,7 @@ using CriticalMiss.Data.Models;
 using System.Linq;
 using CriticalMiss.Library.Repository.Conversion;
 using Microsoft.EntityFrameworkCore;
+using CriticalMiss.Library.Interfaces;
 
 namespace CriticalMiss.Library.Repository
 {
@@ -19,7 +20,8 @@ namespace CriticalMiss.Library.Repository
         {
             _context = context;
         }
-        public void Add(TabletopGame entity)
+
+        public void Add(ITableTopGames entity)
         {
             var dobgames = new Games()
             {
@@ -32,37 +34,82 @@ namespace CriticalMiss.Library.Repository
             _context.SaveChanges();
         }
 
-        public void Delete(TabletopGame entity)
+        public void Delete(ITableTopGames entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TabletopGame> GetAll()
+        public IEnumerable<ITableTopGames> GetAll()
         {
             return _context.games.AsEnumerable().Select(g =>
             {
-                return DBOMapper.GetAllGamesToModel(g);
+                return DBOMapper.GetGamesToModel(g);
             });
-
         }
-        public IEnumerable<TabletopGame> GetAll(string username)
+
+        public IEnumerable<ITableTopGames> GetAll(string username)
         {
             return _context.games.AsEnumerable().Where(g => g.UserName == username).
                  AsEnumerable().
                  Select(g =>
                  {
-                     return DBOMapper.GetAllGamesToModel(g);
+                     return DBOMapper.GetGamesToModel(g);
                  });
         }
 
-        public TabletopGame GetById(int id)
+        public ITableTopGames GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(TabletopGame entity)
+        public void Update(ITableTopGames entity)
         {
             throw new NotImplementedException();
         }
+        //public void Add(TabletopGame entity)
+        //{
+        //    var dobgames = new Games()
+        //    {
+        //        UserName = entity.UserName,
+        //        GameName = entity.GameName,
+        //        Password = entity.Password
+        //    };
+
+        //    _context.Add(dobgames);
+        //    _context.SaveChanges();
+        //}
+
+        //public void Delete(TabletopGame entity)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public IEnumerable<TabletopGame> GetAll()
+        //{
+        //    return _context.games.AsEnumerable().Select(g =>
+        //    {
+        //        return DBOMapper.GetAllGamesToModel(g);
+        //    });
+
+        //}
+        //public IEnumerable<TabletopGame> GetAll(string username)
+        //{
+        //    return _context.games.AsEnumerable().Where(g => g.UserName == username).
+        //         AsEnumerable().
+        //         Select(g =>
+        //         {
+        //             return DBOMapper.GetAllGamesToModel(g);
+        //         });
+        //}
+
+        //public TabletopGame GetById(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void Update(TabletopGame entity)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

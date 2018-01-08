@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CriticalMiss.Library.Repository.Interfaces
 {
-    public interface ITabletopGameRepository : IRepository<TabletopGame>
+    public interface ITabletopGameRepository : IRepository<ITableTopGames>
     {
     }
 }

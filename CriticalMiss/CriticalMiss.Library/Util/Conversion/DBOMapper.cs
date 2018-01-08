@@ -76,5 +76,20 @@ namespace CriticalMiss.Library.Repository.Conversion
             return null;
             //throw new NotImplementedException();
         }
+
+        public static ITableTopGames GetGamesToModel(Games g)
+        {
+            var model = (ITableTopGames)new TabletopGame();
+
+            model.GameId = g.GameId;
+            model.GameName = g.GameName;
+            model.UserName = g.UserName;
+            model.Password = g.Password;
+
+            return null;
+            //throw new NotImplementedException();
+        }
+
+
     }
 }
