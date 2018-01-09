@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using CriticalMiss.Data;
 using CriticalMiss.Library.Repository;
 using CriticalMiss.Library.Repository.Interfaces;
+using CriticalMiss.UI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace CriticalMiss.UI
 {
@@ -33,7 +36,19 @@ namespace CriticalMiss.UI
                 optionsBuilder.UseSqlServer(conn);
             });
 
+            // Repositories
             services.AddTransient<IGameBoardRepository, GameBoardRepository>();
+
+            // JSON Model Injections
+
+            // Add JSON Injector Meta Handler
+            // KEEP THIS AS LAST INSTRUCTION
+            services.AddSingleton<IDIMeta>(s =>
+            {
+                return new DIMetaDefault(services);
+            });
+
+            services.AddTransient<IConfigureOptions<MvcJsonOptions>, JsonOptionsSetup>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

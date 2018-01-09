@@ -18,15 +18,5 @@ namespace CriticalMiss.Library.Models
         int IGameBoardItem.YPos { get; set; }
 
         IImageAsset IGameBoardItem.ImageAsset { get; set; }
-
-        public GameBoardItem (int gameBoardId)
-        {
-            ((IGameBoardItem)this).GameBoardId = gameBoardId;
-        }
-
-        public GameBoardItem (IGameBoard gameBoard)
-        {
-            ((IGameBoardItem)this).GameBoardId = gameBoard.GameBoardId;
-        }
     }
 }

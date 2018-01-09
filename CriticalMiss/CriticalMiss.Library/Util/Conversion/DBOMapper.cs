@@ -35,6 +35,7 @@ namespace CriticalMiss.Library.Repository.Conversion
         {
             var itemDbo = new GameBoardItemDBO()
             {
+                ItemId = item.BoardItemId,
                 GameBoardId = item.GameBoardId,
                 ImageAssetId = item.ImageAsset.ImageAssetId,
                 Name = item.Name,
@@ -43,7 +44,6 @@ namespace CriticalMiss.Library.Repository.Conversion
                 XPosition = item.XPos,
                 YPosition = item.YPos,
                 IsToken = item.IsToken,
-                ItemId = item.BoardItemId
             };
 
             return itemDbo;
@@ -51,7 +51,8 @@ namespace CriticalMiss.Library.Repository.Conversion
 
         public static IGameBoardItem GameBoardItemDBOToModel(GameBoardItemDBO itemDbo)
         {
-            var model = (IGameBoardItem)new GameBoardItem(itemDbo.GameBoardId);
+            var model = (IGameBoardItem)new GameBoardItem();
+            model.GameBoardId = itemDbo.GameBoardId;
             model.BoardItemId = itemDbo.ItemId;
             model.Name = itemDbo.Name;
             
