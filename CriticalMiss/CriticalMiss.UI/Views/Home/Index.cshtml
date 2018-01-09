@@ -8,14 +8,17 @@
 <h1>Welcome to Critical Miss! The Online Tabletop!</h1>
 
 <h2>Log In</h2>
-<form>
+@using (Html.BeginForm())
+{
     @Html.Label("UserName")
     @Html.TextBoxFor(m => Model.UserName)
     @Html.Label("Password")
     @Html.TextBoxFor(m => Model.Password)
 
-    <button type="submit">Log In</button>
-</form>
+    <input type="submit" value="Login" class="btn btn-default" />
+}
+
+
 
 <p>Don't have an Account? <a asp-action="Create">Register here!</a></p>
 

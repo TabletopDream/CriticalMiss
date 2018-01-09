@@ -13,18 +13,19 @@ namespace CriticalMiss.UI.Controllers
         // GET: Home
         public ActionResult Index() //Home Page
         {
-            return View();
+            User u = new User();
+            return View(u);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(User u)
         {
-            return RedirectToAction("Details");
+            return RedirectToAction(nameof(Details));
         }
 
         // GET: Home/Details/5
-        public ActionResult Details(int id) // List of Games , Game Browswer
+        public ActionResult Details() // List of Games , Game Browswer
         {
             return View();
         }
