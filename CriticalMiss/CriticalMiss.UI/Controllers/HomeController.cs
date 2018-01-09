@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CriticalMiss.UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using lib = CriticalMiss.Library.Models;
 
 namespace CriticalMiss.UI.Controllers
 {
@@ -21,7 +22,12 @@ namespace CriticalMiss.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(User u)
         {
-            return RedirectToAction(nameof(Details));
+            lib.User User = new lib.User();
+            if(RegisteredUser(u.UserName, u.Password))
+            {
+                return RedirectToAction(nameof(Details));
+            }
+            return View();
         }
 
         // GET: Home/Details/5
