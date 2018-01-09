@@ -29,6 +29,13 @@ namespace CriticalMiss.Library.Models
             }
             return false;
         }
+
+        public void CreateUser()
+        {
+            //db.user.Add({
+            //    UserName = this.UserName
+            //});
+        }
     }
 
     
