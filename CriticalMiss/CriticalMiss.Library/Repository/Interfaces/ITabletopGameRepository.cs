@@ -8,5 +8,6 @@ namespace CriticalMiss.Library.Repository.Interfaces
 {
     public interface ITabletopGameRepository : IRepository<ITableTopGames>
     {
+        //IEnumerable<ITableTopGames> GetGameByUsername(string username);
     }
 }

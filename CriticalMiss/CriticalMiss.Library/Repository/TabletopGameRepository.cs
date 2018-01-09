@@ -25,7 +25,7 @@ namespace CriticalMiss.Library.Repository
         {
             var dobgames = new Games()
             {
-                UserName = entity.UserName,
+                //UserName = entity.UserName,
                 GameName = entity.GameName,
                 Password = entity.Password
             };
@@ -43,19 +43,19 @@ namespace CriticalMiss.Library.Repository
         {
             return _context.games.AsEnumerable().Select(g =>
             {
-                return DBOMapper.GetGamesToModel(g);
+                return DBOMapper.GetGamesDBOToLibrary(g);
             });
         }
-
-        public IEnumerable<ITableTopGames> GetAll(string username)
-        {
-            return _context.games.AsEnumerable().Where(g => g.UserName == username).
-                 AsEnumerable().
-                 Select(g =>
-                 {
-                     return DBOMapper.GetGamesToModel(g);
-                 });
-        }
+        //Comment for unnecessary created username
+        //public IEnumerable<ITableTopGames> GetGameByUsername(string username)
+        //{
+        //    return _context.games.AsEnumerable().Where(g => g.UserName == username).
+        //         AsEnumerable().
+        //         Select(g =>
+        //         {
+        //             return DBOMapper.GetGamesDBOToLibrary(g);
+        //         });
+        //}
 
         public ITableTopGames GetById(int id)
         {

@@ -8,7 +8,7 @@ namespace CriticalMiss.Library.Interfaces
     {
         int GameId { get; set; }
 
-        string UserName { get; set; }
+        //string UserName { get; set; }
 
         string Password { get; set; }
 

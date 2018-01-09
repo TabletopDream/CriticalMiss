@@ -52,7 +52,7 @@ namespace CriticalMiss.UI.Controllers
         {
             var dob = new Games()
             {
-                UserName = creategames.UserName,
+                //UserName = creategames.UserName,
                 GameName=creategames.GameName,
                 Password=creategames.Password   
             };
@@ -66,12 +66,12 @@ namespace CriticalMiss.UI.Controllers
             var dob = _context.games.AsEnumerable();
             return View(dob);
         }
-        [HttpGet]
-        public ActionResult GetGames(string username)
-        {
-            var dob = _context.games.Where(a => a.UserName == username).AsEnumerable();
-            return View(dob);
-        }
+        //[HttpGet]
+        //public ActionResult GetGames(string username)
+        //{
+        //    var dob = _context.games.Where(a => a.UserName == username).AsEnumerable();
+        //    return View(dob);
+        //}
 
     }
 }

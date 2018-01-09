@@ -25,7 +25,7 @@ namespace CriticalMiss.Library.Repository.Conversion
 
             return model;
         }
-
+        //ex for library to database
         public static GameBoardItemDBO GameBoardItemToDBO (IGameBoardItem item)
         {
             var itemDbo = new GameBoardItemDBO()
@@ -64,30 +64,44 @@ namespace CriticalMiss.Library.Repository.Conversion
         }
 
         //By Rinkal Library to Model
-        public static TabletopGame GetAllGamesToModel(Games g)
+        //public static TabletopGame GetAllGamesToModel(Games g)
+        //{
+        //    var model = (ITableTopGames)new TabletopGame();
+
+        //    model.GameId = g.GameId;
+        //    model.GameName = g.GameName;
+        //    model.UserName = g.UserName;
+        //    model.Password = g.Password;
+
+        //    return null;
+        //    //throw new NotImplementedException();
+        //}
+        //By Rinkal Library to Model
+
+        //Database to Library
+        public static ITableTopGames GetGamesDBOToLibrary(Games g)
         {
             var model = (ITableTopGames)new TabletopGame();
 
             model.GameId = g.GameId;
             model.GameName = g.GameName;
-            model.UserName = g.UserName;
+           // model.UserName = g.UserName;
             model.Password = g.Password;
 
-            return null;
+            return model;
             //throw new NotImplementedException();
         }
-
-        public static ITableTopGames GetGamesToModel(Games g)
+        //Library to Database
+        public static TabletopGame GetGamesLibraryToModel(ITableTopGames games)
         {
-            var model = (ITableTopGames)new TabletopGame();
+            var model = new TabletopGame();
 
-            model.GameId = g.GameId;
-            model.GameName = g.GameName;
-            model.UserName = g.UserName;
-            model.Password = g.Password;
+            model.GameId = games.GameId;
+            model.GameName = games.GameName;
+           // model.UserName = games.UserName;
+            model.Password = games.Password;
 
-            return null;
-            //throw new NotImplementedException();
+            return model;
         }
 
 
