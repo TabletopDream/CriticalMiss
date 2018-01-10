@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CriticalMiss.UI.Controllers.API
 {
+    [Route("api/boards")]
     public class GameBoardController : Controller
     {
         private CriticalMissDbContext _context;
@@ -27,23 +28,23 @@ namespace CriticalMiss.UI.Controllers.API
         // is the appropriate place for this request/return
         [HttpGet("api/games/{gameId:int}/boards")]
         //[Produces("application/json")]
-        public IActionResult GetAllBoardsForGame([FromRoute] int gameId)
-        {
-            try
-            {
-                var boards = _gameBoardRepo.GetBoardsForGame(gameId);
+        //public IActionResult GetAllBoardsForGame([FromRoute] int gameId)
+        //{
+        //    try
+        //    {
+        //        var boards = _gameBoardRepo.GetBoardsForGame(gameId);
 
-                var returnObject = new { gameid = gameId, boards };
-                return Ok(returnObject);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // The InvalidOperationException is thrown by the repo when
-                // the submitted game ID does not exist within the database.
+        //        var returnObject = new { gameid = gameId, boards };
+        //        return Ok(returnObject);
+        //    }
+        //    catch (InvalidOperationException ex)
+        //    {
+        //        // The InvalidOperationException is thrown by the repo when
+        //        // the submitted game ID does not exist within the database.
 
-                return NotFound(new { message = ex.Message});
-            }
-        }
+        //        return NotFound(new { message = ex.Message});
+        //    }
+        //}
 
         [HttpGet("api/boards/{id:int}")]
         public IActionResult GetGameBoard([FromRoute] int id)
