@@ -9,7 +9,7 @@ namespace CriticalMiss.Library.Interfaces
     {
         int BoardItemId { get; set; }
 
-        IGameBoard GameBoard { get; set; }
+        int GameBoardId { get; set; }
 
         /// <summary>
         /// The user-assigned name for this board item. This name property

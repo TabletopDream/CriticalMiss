@@ -26,6 +26,9 @@ namespace CriticalMiss.Data
 
         public ImageAssetDBO ImageAsset { get; set; }
 
+        [Column("IsToken")]
+        public bool IsToken { get; set; }
+
         [Column("XPosition")]
         public int XPosition { get; set; }
 
