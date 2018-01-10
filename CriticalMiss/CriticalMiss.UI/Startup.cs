@@ -37,12 +37,11 @@ namespace CriticalMiss.UI
             });
 
             // Repositories
-            services.AddTransient<IGameBoardRepository, GameBoardRepository>();
+            //services.AddTransient<IGameBoardRepository, GameBoardRepository>();
 
             // JSON Model Injections
 
             // Add JSON Injector Meta Handler
-            // KEEP THIS AS LAST INSTRUCTION
             services.AddSingleton<IDIMeta>(s =>
             {
                 return new DIMetaDefault(services);

@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.Library", "Cri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.Tests", "CriticalMiss.Tests\CriticalMiss.Tests.csproj", "{2085E1DD-B2BF-4262-89BA-24FB4DE7FDCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriticalMiss.WebService.Data", "CriticalMiss.WebService.Data\CriticalMiss.WebService.Data.csproj", "{4748C6FD-B09C-47B3-85F7-5824428AD3F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.WebService.Data", "CriticalMiss.WebService.Data\CriticalMiss.WebService.Data.csproj", "{4748C6FD-B09C-47B3-85F7-5824428AD3F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriticalMiss.WebService.Library", "CriticalMiss.WebService.Library\CriticalMiss.WebService.Library.csproj", "{A1EDADE0-3EFA-482F-B4F7-9186C0FB96D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.WebService.Library", "CriticalMiss.WebService.Library\CriticalMiss.WebService.Library.csproj", "{A1EDADE0-3EFA-482F-B4F7-9186C0FB96D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
