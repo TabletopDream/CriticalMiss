@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CriticalMiss.Common.Interfaces
 {
-    interface IBoard
+    public interface IBoard
     {
         int Width { get; set; }
         int Height { get; set; }
