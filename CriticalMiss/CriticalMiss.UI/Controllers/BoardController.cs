@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriticalMiss.UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,9 @@ namespace CriticalMiss.UI.Controllers
         // GET: Board
         public ActionResult Index()
         {
+            Board b = new Board();
+            b.Width = 10;
+            b.PixelCount = 70;
             return View();
         }
 
