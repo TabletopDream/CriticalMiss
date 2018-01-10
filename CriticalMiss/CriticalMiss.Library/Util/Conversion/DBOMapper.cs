@@ -1,4 +1,5 @@
 ﻿using CriticalMiss.Data;
+using CriticalMiss.Data.Models;
 using CriticalMiss.Library.Interfaces;
 using CriticalMiss.Library.Models;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace CriticalMiss.Library.Repository.Conversion
 
             return model;
         }
-
+        //ex for library to database
         public static GameBoardItemDBO GameBoardItemToDBO (IGameBoardItem item)
         {
             var itemDbo = new GameBoardItemDBO()
@@ -48,6 +49,8 @@ namespace CriticalMiss.Library.Repository.Conversion
 
             return itemDbo;
         }
+
+        
 
         public static IGameBoardItem GameBoardItemDBOToModel(GameBoardItemDBO itemDbo)
         {
@@ -108,5 +111,48 @@ namespace CriticalMiss.Library.Repository.Conversion
 
             return model;
         }
+
+        //By Rinkal Library to Model
+        //public static TabletopGame GetAllGamesToModel(Games g)
+        //{
+        //    var model = (ITableTopGames)new TabletopGame();
+
+        //    model.GameId = g.GameId;
+        //    model.GameName = g.GameName;
+        //    model.UserName = g.UserName;
+        //    model.Password = g.Password;
+
+        //    return null;
+        //    //throw new NotImplementedException();
+        //}
+        //By Rinkal Library to Model
+
+        //Database to Library
+        public static ITableTopGames GetGamesDBOToLibrary(Games g)
+        {
+            var model = (ITableTopGames)new TabletopGame();
+
+            model.GameId = g.GameId;
+            model.GameName = g.GameName;
+           // model.UserName = g.UserName;
+            model.Password = g.Password;
+
+            return model;
+            //throw new NotImplementedException();
+        }
+        //Library to Database
+        public static TabletopGame GetGamesLibraryToModel(ITableTopGames games)
+        {
+            var model = new TabletopGame();
+
+            model.GameId = games.GameId;
+            model.GameName = games.GameName;
+           // model.UserName = games.UserName;
+            model.Password = games.Password;
+
+            return model;
+        }
+
+
     }
 }

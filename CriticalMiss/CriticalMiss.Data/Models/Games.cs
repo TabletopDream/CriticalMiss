@@ -14,9 +14,9 @@ namespace CriticalMiss.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GameId { get; set; }
 
-        [Column("UserName")]
-        [Required]
-        public string UserName { get; set; }
+        //[Column("UserName")]
+        //[Required]
+        //public string UserName { get; set; }
 
         [Column("GameName")]
         [Required]
