@@ -15,6 +15,13 @@ namespace CriticalMiss.Library.Models
         public List<IBoardItem> Items { get; set; }
         public int LocalId { get; set; }
 
+        public Board(int width, int height, int id)
+        {
+            Width = width;
+            Height = height;
+            LocalId = id;
+        }
+
         public void CreateItem()
         {
             var c = Items.Count;
