@@ -11,5 +11,6 @@ namespace CriticalMiss.WebService.Library.Services.Interfaces
         void Create(IModel model);
         void Update(IModel model);
         void DeleteById(int id);
+        IEnumerable<IModel> ReadAll();
     }
 }
