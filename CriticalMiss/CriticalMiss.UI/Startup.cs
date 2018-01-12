@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriticalMiss.Data;
-using CriticalMiss.Library.Repository;
-using CriticalMiss.Library.Repository.Interfaces;
 using CriticalMiss.UI.Extensions;
+using CriticalMiss.UI.Repository;
+using CriticalMiss.UI.Repository.Interfaces;
+using CriticalMiss.UI.Services.HTTP;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +29,17 @@ namespace CriticalMiss.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
-            {
-                var conn = Configuration.GetConnectionString("CriticalMissDB");
+            //services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
+            //{
+            //    var conn = Configuration.GetConnectionString("CriticalMissDB");
 
-                optionsBuilder.UseSqlServer(conn);
-            });
+            //    optionsBuilder.UseSqlServer(conn);
+            //});
+            // Configuration options
+            services.Configure<HttpServicesConfiguration>(Configuration.GetSection(HttpServicesConfiguration.ConfigurationKey));
 
             // Repositories
+            services.AddTransient<IGameBoardRepository, GameBoardRepository>();
             //services.AddTransient<IGameBoardRepository, GameBoardRepository>();
 
             // JSON Model Injections

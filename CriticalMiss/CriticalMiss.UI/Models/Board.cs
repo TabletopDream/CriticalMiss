@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CriticalMiss.Common.Interfaces;
+﻿using CriticalMiss.Common.Interfaces;
 
 namespace CriticalMiss.UI.Models
 {
@@ -12,6 +8,6 @@ namespace CriticalMiss.UI.Models
         public int Height { get; set; }
         public int BoardId { get; set; }
         public int GameId { get; set; }
-        public int PixelCount { get; set; }
+        public int Pixel { get; set; }
     }
 }
