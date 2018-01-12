@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CriticalMiss.WebService.Data.Models;
 using CriticalMiss.Library.Models;
+using CriticalMiss.Data;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
+using CriticalMiss.Data.Models;
 
 namespace CriticalMiss.WebService.Data.Controllers
 {
@@ -14,28 +17,38 @@ namespace CriticalMiss.WebService.Data.Controllers
     [Route("api/Game")]
     public class GameController : Controller
     {
-        
+
         private static List<TabletopGame> _games = new List<TabletopGame>();
 
         private CriticalMissDbContext _context;
 
         public GameController(CriticalMissDbContext context)
         {
-            _context = context;      
+            _context = context;
         }
 
-        [HttpGet]
-        public IEnumerable Get()
-        {
-            return _context.tabletopgames;
-            //return Ok(_games);
-        }
+        //[HttpGet]
+        //public IEnumerable Get()
+        //{
+        //    var getgames= _context.games.AsEnumerable();
+        //    return getgames;
+        //}
 
-        [HttpGet]
-        public IActionResult Get(int Id)
+        //[HttpGet]
+        //[HttpGet("Id}", Name = "Get")]
+        //public IActionResult Get(int Id)
+        //{
+        //    var getgamesid = _context.games.Select(m => m.GameId == Id).AsEnumerable();
+        //    return OK(getgamesid);
+        //}
+
+        [HttpGet("{id}")]
+        public IActionResult GetStudent([FromRoute] int id)
         {
-            //var getgames = _games.Select(g => g.GameId == Id).ToList();
-            //return View(getgames);
+
+            Games getgamesid = _context.games.Find(id);
+
+            return Ok(getgamesid);
         }
     }
 }
