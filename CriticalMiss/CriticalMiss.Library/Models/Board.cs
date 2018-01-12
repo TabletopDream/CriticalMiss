@@ -12,7 +12,6 @@ namespace CriticalMiss.Library.Models
         public int BoardId { get; set; }
         public int GameId { get; set; }
         public int Pixel { get; set; }
-        public List<IBoardItem> Items { get; set; }
         public int LocalId { get; set; }
 
         public Board(int width, int height, int id)
@@ -20,14 +19,6 @@ namespace CriticalMiss.Library.Models
             Width = width;
             Height = height;
             LocalId = id;
-            Items = new List<IBoardItem>();
-        }
-
-        public void CreateItem()
-        {
-            var c = Items.Count;
-
-            Items.Add(new BoardItem(c));
         }
     }
 }
