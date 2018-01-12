@@ -9,5 +9,7 @@ namespace CriticalMiss.Common.Interfaces
         string Name { get; set; }
         
         int Id { get; set; }
+
+        List<IBoard> Boards { get; set; }
     }
 }
