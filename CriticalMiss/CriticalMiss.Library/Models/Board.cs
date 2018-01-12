@@ -12,5 +12,6 @@ namespace CriticalMiss.Library.Models
         public int BoardId { get; set; }
         public int GameId { get; set; }
         public int Pixel { get; set; }
+        public List<IBoardItem> Items { get; set; }
     }
 }
