@@ -17,6 +17,16 @@ namespace CriticalMiss.Library.Models
         public int YPos { get; set; }
         public IImageAsset ImageAsset { get; set; }
 
+        public BoardItem()
+        {
+            Name = "token" + Id.ToString();
+            IsToken = true;
+            Width = 1;
+            Height = 1;
+            XPos = 0;
+            YPos = 0;
+        }
+
         public void MoveItem(int x, int y)
         {
             XPos += x;
