@@ -16,6 +16,7 @@ namespace CriticalMiss.Library.Models
         public int XPos { get; set; }
         public int YPos { get; set; }
         public IImageAsset ImageAsset { get; set; }
+        public int LocalId { get; set; }
 
         public BoardItem()
         {
