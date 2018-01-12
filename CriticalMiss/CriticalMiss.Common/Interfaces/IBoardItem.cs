@@ -4,7 +4,24 @@ using System.Text;
 
 namespace CriticalMiss.Common.Interfaces
 {
-    public class IBoardItem
+    public interface IBoardItem
     {
+        int Id { get; set; }
+
+        int BoardId { get; set; }
+
+        string Name { get; set; }
+
+        bool IsToken { get; set; }
+
+        int Width { get; set; }
+
+        int Height { get; set; }
+
+        int XPos { get; set; }
+
+        int YPos { get; set; }
+
+        IImageAsset ImageAsset { get; set; }
     }
 }

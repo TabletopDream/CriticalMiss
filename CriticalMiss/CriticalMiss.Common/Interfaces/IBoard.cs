@@ -10,5 +10,6 @@ namespace CriticalMiss.Common.Interfaces
         int Height { get; set; }
         int BoardId { get; set; }
         int GameId { get; set; }
+        int Pixel { get; set; }
     }
 }
