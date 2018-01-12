@@ -6,9 +6,9 @@ namespace CriticalMiss.Common.Interfaces
 {
     public interface IBoardItem
     {
-        int BoardItemId { get; set; }
+        int Id { get; set; }
 
-        int GameBoardId { get; set; }
+        int BoardId { get; set; }
 
         string Name { get; set; }
 
