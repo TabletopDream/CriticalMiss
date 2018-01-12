@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CriticalMiss.Common.Interfaces;
+﻿using CriticalMiss.Common.Interfaces;
 
 namespace CriticalMiss.UI.Models
 {

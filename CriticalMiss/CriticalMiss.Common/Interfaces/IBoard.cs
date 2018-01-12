@@ -11,5 +11,7 @@ namespace CriticalMiss.Common.Interfaces
         int BoardId { get; set; }
         int GameId { get; set; }
         int Pixel { get; set; }
+        int LocalId { get; set; }
+        int ItemCount { get; set; }
     }
 }

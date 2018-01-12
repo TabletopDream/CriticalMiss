@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.WebService.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.WebService.Library", "CriticalMiss.WebService.Library\CriticalMiss.WebService.Library.csproj", "{A1EDADE0-3EFA-482F-B4F7-9186C0FB96D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriticalMiss.Common", "CriticalMiss.Common\CriticalMiss.Common.csproj", "{CB0335CA-E1F0-4C36-B57E-06398398DBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CriticalMiss.Common", "CriticalMiss.Common\CriticalMiss.Common.csproj", "{CB0335CA-E1F0-4C36-B57E-06398398DBAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

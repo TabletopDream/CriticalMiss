@@ -8,6 +8,8 @@ namespace CriticalMiss.Common.Interfaces
     {
         int Id { get; set; }
 
+        int LocalId { get; set; }
+
         int BoardId { get; set; }
 
         string Name { get; set; }
