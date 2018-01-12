@@ -14,5 +14,12 @@ namespace CriticalMiss.Library.Models
         public int Pixel { get; set; }
         public List<IBoardItem> Items { get; set; }
         public int LocalId { get; set; }
+
+        public void CreateItem()
+        {
+            var c = Items.Count;
+
+            Items.Add(new BoardItem(c));
+        }
     }
 }

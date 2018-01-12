@@ -18,14 +18,15 @@ namespace CriticalMiss.Library.Models
         public IImageAsset ImageAsset { get; set; }
         public int LocalId { get; set; }
 
-        public BoardItem()
+        public BoardItem(int id)
         {
-            Name = "token" + Id.ToString();
+            Name = "token" + LocalId.ToString();
             IsToken = true;
             Width = 1;
             Height = 1;
             XPos = 0;
             YPos = 0;
+            LocalId = id;
         }
 
         public void MoveItem(int x, int y)
