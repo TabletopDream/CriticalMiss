@@ -6,8 +6,8 @@ namespace CriticalMiss.Common.Interfaces
 {
     public interface IGame
     {
-        string Name { get; set; }
+        string GameName { get; set; }
         
-        int Id { get; set; }
+        int GameId { get; set; }
     }
 }

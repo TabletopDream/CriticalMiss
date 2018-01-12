@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CriticalMiss.WebService.Data.Models;
-using CriticalMiss.Library.Models;
 using CriticalMiss.Data;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using CriticalMiss.Data.Models;
+using CriticalMiss.Common.Interfaces;
 
 namespace CriticalMiss.WebService.Data.Controllers
 {
@@ -18,7 +18,7 @@ namespace CriticalMiss.WebService.Data.Controllers
     public class GameController : Controller
     {
 
-        private static List<TabletopGame> _games = new List<TabletopGame>();
+        private static List<Games> _games = new List<Games>();
 
         private CriticalMissDbContext _context;
 
@@ -42,13 +42,26 @@ namespace CriticalMiss.WebService.Data.Controllers
         //    return OK(getgamesid);
         //}
 
-        [HttpGet("{id}")]
-        public IActionResult GetStudent([FromRoute] int id)
+        [HttpGet("{id}", Name ="Get")]
+        public IActionResult GetGames([FromRoute] int id)
         {
+            //var getgamesbyid = _context.games.Where(a => a.GameId == id).Select(a => new {
+            //    Name = a.GameName,
 
-            Games getgamesid = _context.games.Find(id);
+            //});
+            //return Ok(getgamesbyid);
 
-            return Ok(getgamesid);
+            var gamesList = _context.games.Where(a => a.GameId == id);
+            return Ok(gamesList);
+        }
+
+        [HttpPost]
+        public IActionResult CreateGame([FromBody] Games game)
+        {
+         
+            _context.games.Add(game);
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CriticalMiss.WebService.Data.Interfaces;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CriticalMiss.WebService.Data.Models
 {
-    public class TableTopGames : ITableTopGames
+    public class TableTopGames //: ITableTopGames
     {
         public int GameId { get; set; }
 

@@ -12,6 +12,6 @@ namespace CriticalMiss.UI.Models
         public int Height { get; set; }
         public int BoardId { get; set; }
         public int GameId { get; set; }
-        public int PixelCount { get; set; }
+        public int Pixel { get; set; }
     }
 }
