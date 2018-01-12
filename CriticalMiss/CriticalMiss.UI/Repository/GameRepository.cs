@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.Common.Interfaces;
 using System.Threading.Tasks;
 
 namespace CriticalMiss.UI.Repository
 {
-    public class TabletopGameRepository : ITabletopGameRepository
+    public class GameRepository : IGameRepository
     {
         Task<IGame> IRepository<IGame>.AddAsync (IGame entity)
         {

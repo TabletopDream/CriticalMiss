@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CriticalMiss.Library.Repository;
 using CriticalMiss.Library.Repository.Interfaces;
 using CriticalMiss.UI.Extensions;
+using CriticalMiss.UI.Repository;
+using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CriticalMiss.UI.Repository.Interfaces
 {
-    public interface ITabletopGameRepository : IRepository<IGame>
+    public interface IGameRepository : IRepository<IGame>
     {
         //IEnumerable<ITableTopGames> GetGameByUsername(string username);
     }
