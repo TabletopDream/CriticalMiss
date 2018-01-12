@@ -13,12 +13,18 @@ namespace CriticalMiss.Library.Models
         public int GameId { get; set; }
         public int Pixel { get; set; }
         public int LocalId { get; set; }
+        public int ItemCount { get; set; }
 
         public Board(int width, int height, int id)
         {
             Width = width;
             Height = height;
             LocalId = id;
+        }
+
+        public void ItemCounter() // determines if amount of pieces on the board is less than the max before another is allowed to be added
+        {
+
         }
     }
 }
