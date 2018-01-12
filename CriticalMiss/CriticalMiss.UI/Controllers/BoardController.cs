@@ -15,7 +15,7 @@ namespace CriticalMiss.UI.Controllers
         {
             Board b = new Board();
             b.Width = 10;
-            b.PixelCount = 70;
+            //b.PixelCount = 70;
             return View();
         }
 

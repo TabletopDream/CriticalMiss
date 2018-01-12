@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriticalMiss.Library.Repository;
-using CriticalMiss.Library.Repository.Interfaces;
 using CriticalMiss.UI.Extensions;
 using CriticalMiss.UI.Repository;
 using CriticalMiss.UI.Repository.Interfaces;

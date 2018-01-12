@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriticalMiss.Library.Repository.Interfaces;
 using CriticalMiss.UI.Models;
+using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
