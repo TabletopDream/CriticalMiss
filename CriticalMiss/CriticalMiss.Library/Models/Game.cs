@@ -7,12 +7,12 @@ namespace CriticalMiss.Library.Models
 {
     public class Game : IGame
     {
-        public string Name { get; set; }
-        public int Id { get; set; }
+        public string GameName { get; set; }
+        public int GameId { get; set; }
 
         public Game(string name)
         {
-            Name = name;
+            GameName = name;
         }
 
         
