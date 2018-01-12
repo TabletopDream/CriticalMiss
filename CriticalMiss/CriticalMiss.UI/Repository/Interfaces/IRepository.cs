@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CriticalMiss.Library.Repository.Interfaces
+namespace CriticalMiss.UI.Repository.Interfaces
 {
     public interface IRepository<T>
     {

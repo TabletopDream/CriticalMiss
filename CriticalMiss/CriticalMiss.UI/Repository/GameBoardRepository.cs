@@ -1,17 +1,13 @@
 ﻿using CriticalMiss.Common.Interfaces;
-using CriticalMiss.Library.Repository.Interfaces;
+using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP.Interfaces;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CriticalMiss.Library.Repository
+namespace CriticalMiss.UI.Repository
 {
     public class GameBoardRepository : IGameBoardRepository
     {

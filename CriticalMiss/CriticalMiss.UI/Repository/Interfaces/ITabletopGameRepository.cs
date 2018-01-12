@@ -1,12 +1,11 @@
-﻿using CriticalMiss.Library.Interfaces;
-using CriticalMiss.Library.Models;
+﻿using CriticalMiss.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CriticalMiss.Library.Repository.Interfaces
+namespace CriticalMiss.UI.Repository.Interfaces
 {
-    public interface ITabletopGameRepository : IRepository<ITableTopGames>
+    public interface ITabletopGameRepository : IRepository<IGame>
     {
         //IEnumerable<ITableTopGames> GetGameByUsername(string username);
     }

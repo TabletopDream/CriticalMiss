@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriticalMiss.Data;
 using CriticalMiss.Library.Repository.Interfaces;
 using CriticalMiss.UI.Models;
 using Microsoft.AspNetCore.Http;
@@ -13,14 +12,10 @@ namespace CriticalMiss.UI.Controllers.API
     [Route("api/boards")]
     public class GameBoardController : Controller
     {
-        private CriticalMissDbContext _context;
-
         private IGameBoardRepository _gameBoardRepo;
 
-        public GameBoardController(CriticalMissDbContext context,
-                                   IGameBoardRepository boardRepo)
+        public GameBoardController(IGameBoardRepository boardRepo)
         {
-            _context = context;
             _gameBoardRepo = boardRepo;
         }
 
@@ -51,9 +46,9 @@ namespace CriticalMiss.UI.Controllers.API
         {
             try
             {
-                var gameBoard = _gameBoardRepo.GetById(id);
+                //var gameBoard = _gameBoardRepo.GetById(id);
 
-                return Ok(gameBoard);
+                return Ok(null);
             }
             catch (InvalidOperationException ex)
             {
