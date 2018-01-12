@@ -17,6 +17,11 @@ namespace CriticalMiss.Library.Models
             Boards = new List<IBoard>();
         }
 
+        public void CreateBoard(int w, int h)
+        {
+            var c = Boards.Count;
 
+            Boards.Add(new Board(w, h, c));
+        }
     }
 }
