@@ -20,6 +20,7 @@ namespace CriticalMiss.Library.Models
             Width = width;
             Height = height;
             LocalId = id;
+            Items = new List<IBoardItem>();
         }
 
         public void CreateItem()
