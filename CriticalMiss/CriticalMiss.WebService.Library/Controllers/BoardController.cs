@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CriticalMiss.WebService.Library.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Board")]
+    [Route("api/[controller]")]
     public class BoardController : Controller
     {
         // GET: api/Board
