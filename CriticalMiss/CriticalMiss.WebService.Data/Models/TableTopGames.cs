@@ -18,5 +18,7 @@ namespace CriticalMiss.WebService.Data.Models
 
 
         public string Password { get; set; }
+
+
     }
 }

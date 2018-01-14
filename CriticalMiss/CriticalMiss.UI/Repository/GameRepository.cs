@@ -1,13 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CriticalMiss.Common.Interfaces;
 using CriticalMiss.UI.Repository.Interfaces;
-using CriticalMiss.Common.Interfaces;
+using CriticalMiss.UI.Services.HTTP.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace CriticalMiss.UI.Repository
 {
     public class GameRepository : IGameRepository
     {
+        private IDatabaseHttpClientProvider _dbProvider;
+
+        public GameRepository(IDatabaseHttpClientProvider dbprovider)
+        {
+            _dbProvider = dbprovider;
+        }
+
         Task<IGame> IRepository<IGame>.AddAsync (IGame entity)
         {
             throw new NotImplementedException();
@@ -18,16 +28,41 @@ namespace CriticalMiss.UI.Repository
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync ()
+        async Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync ()
         {
-            throw new NotImplementedException();
+            var httpClient = _dbProvider.DatabaseConnection;
+
+            var response =await httpClient.GetAsync("");
+            if (response != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string contentbody = await content.ReadAsStringAsync();
+                    var gamelist = JsonConvert.DeserializeObject<List<IGame>>(contentbody);
+
+                    return gamelist;
+                }
+            }
+            return null;
         }
 
-        Task<IGame> IRepository<IGame>.GetByIdAsync (int id)
+        async Task<IGame> IRepository<IGame>.GetByIdAsync (int id)
         {
-            throw new NotImplementedException();
-        }
+            var httpclient = _dbProvider.DatabaseConnection;
+            var response = await httpclient.GetAsync("" + id);
 
+            if (response.Content!=null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string contentbody = await content.ReadAsStringAsync();
+                    var board = JsonConvert.DeserializeObject<IGame>(contentbody);
+
+                    return board;
+                }
+            }
+            return null;
+        }
         Task<IGame> IRepository<IGame>.UpdateAsync (IGame entity)
         {
             throw new NotImplementedException();

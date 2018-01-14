@@ -15,12 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
+    <Folder Include="Models\Interfaces\" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
-    <Folder Include="Services\Interfaces\" />
+    <ProjectReference Include="..\CriticalMiss.WebService.Data\CriticalMiss.WebService.Data.csproj" />
+    <ProjectReference Include="..\CriticalMiss.WebService.Library\CriticalMiss.WebService.Library.csproj" />
   </ItemGroup>
 
 </Project>

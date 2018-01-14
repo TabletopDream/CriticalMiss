@@ -7,6 +7,6 @@ namespace CriticalMiss.UI.Repository.Interfaces
 {
     public interface IGameRepository : IRepository<IGame>
     {
-        //IEnumerable<ITableTopGames> GetGameByUsername(string username);
+       
     }
 }
