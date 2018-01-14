@@ -22,11 +22,12 @@ namespace CriticalMiss.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(User u)
         {
-            lib.User User = new lib.User();
-            if(RegisteredUser(u.UserName, u.Password))
-            {
-                return RedirectToAction(nameof(Details));
-            }
+            // lib.User User = new lib.User();
+            // if(RegisteredUser(u.UserName, u.Password))
+            // {
+            //     return RedirectToAction(nameof(Details));
+            // }
+            // return View();
             return View();
         }
 
