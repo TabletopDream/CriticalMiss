@@ -57,7 +57,7 @@ node('master') {
     stage('deploy') {
         try {
             bat 'dotnet build ./CriticalMiss/CriticalMiss.sln /p:DeployOnBuild=true /p:PublishProfile=publish'
-            bat '"C:\\Program Files (x86)\\IIS\Microsoft Web Deploy V3\\msdeploy.exe" ' +
+            bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
                 '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\Package\\" ' +
                 '-dest:iisApp="Default Web Site/CriticalMiss",' +
                 'computerName=https://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8172/msdeploy.axd,' +
