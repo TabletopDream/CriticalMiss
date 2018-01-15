@@ -34,8 +34,6 @@ namespace CriticalMiss.UI.API.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateNewGame(IFormCollection game)
         {
-            var svc = new HttpClient();
-
             return null;
         }
 

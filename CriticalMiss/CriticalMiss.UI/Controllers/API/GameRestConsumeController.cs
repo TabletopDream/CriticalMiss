@@ -25,14 +25,16 @@ namespace CriticalMiss.UI.Controllers.API
         // GET: GameRestConsume
         public async Task<ActionResult> GetAllGame()
         {
-        
-            return View();
+
+            var getgames=await _gamerepository.GetAllAsync();
+            return View(getgames);
         }
 
         // GET: GameRestConsume/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> GetGameById(int id)
         {
-            return View();
+            var getgamebyid = await _gamerepository.GetByIdAsync(id);
+            return View(getgamebyid);
         }
 
         // GET: GameRestConsume/Create

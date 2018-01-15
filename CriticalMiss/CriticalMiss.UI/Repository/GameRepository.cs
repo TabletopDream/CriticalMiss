@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace CriticalMiss.UI.Repository
 {
@@ -18,9 +19,15 @@ namespace CriticalMiss.UI.Repository
             _dbProvider = dbprovider;
         }
 
-        Task<IGame> IRepository<IGame>.AddAsync (IGame entity)
-        {
-            throw new NotImplementedException();
+        async Task<IGame> IRepository<IGame>.AddAsync(IGame entity)
+        {            
+            var httpclient = _dbProvider.DatabaseConnection;
+
+            string content =JsonConvert.SerializeObject(entity);
+            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = httpclient.PostAsync("api/", contentdata).Result;
+
+            return entity;
         }
 
         Task<IGame> IRepository<IGame>.DeleteAsync (IGame entity)
