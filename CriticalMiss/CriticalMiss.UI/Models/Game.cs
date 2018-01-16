@@ -1,24 +1,15 @@
-﻿
+﻿using CriticalMiss.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CriticalMiss.WebService.Data.Models
+namespace CriticalMiss.UI.Models
 {
-    public class TableTopGames //: ITableTopGames
+    public class Game : IGame
     {
-        public int GameId { get; set; }
-
-
-        // public string UserName { get; set; }
-
-
         public string GameName { get; set; }
-
-
+        public int GameId { get; set; }
         public string Password { get; set; }
-
-
     }
 }

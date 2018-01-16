@@ -14,7 +14,7 @@ using CriticalMiss.Common.Interfaces;
 namespace CriticalMiss.WebService.Data.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Game")]
+    [Route("api/games")]
     public class GameController : Controller
     {
 
@@ -30,7 +30,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         //[HttpGet]
         //public IEnumerable Get()
         //{
-        //    var getgames= _context.games.AsEnumerable();
+        //    var getgames = _context.games.AsEnumerable();
         //    return getgames;
         //}
 
@@ -42,7 +42,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         //    return OK(getgamesid);
         //}
 
-        [HttpGet("{id}", Name ="Get")]
+        [HttpGet("{id}", Name = "Get")]
         public IActionResult GetGames([FromRoute] int id)
         {
             //var getgamesbyid = _context.games.Where(a => a.GameId == id).Select(a => new {
@@ -58,9 +58,28 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpPost]
         public IActionResult CreateGame([FromBody] Games game)
         {
-         
             _context.games.Add(game);
             _context.SaveChanges();
+            return Ok();
+        }
+        [HttpDelete("{GameName}")]
+        public IActionResult DeleteGame([FromRoute] string GameName, Games game)
+        {
+            var delgames = _context.games.SingleOrDefault(x => x.GameId == game.GameId);
+            _context.games.Remove(delgames);
+            _context.SaveChanges();
+            return Ok();
+        }
+        [HttpPut("{GameName}")]
+        public IActionResult UpdateGame([FromRoute] string GameName, [FromBody] Games game)
+        {
+
+            var upgames = _context.games.SingleOrDefault(x => x.GameId == game.GameId);
+            upgames.GameId = game.GameId;
+            upgames.GameName = game.GameName;
+
+            _context.SaveChanges();
+
             return Ok();
         }
     }

@@ -15,12 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
+    <Folder Include="Models\Interfaces\" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
-    <Folder Include="Services\Interfaces\" />
+    <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
   </ItemGroup>
 
 </Project>
