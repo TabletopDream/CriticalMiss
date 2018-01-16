@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CriticalMiss.Common.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriticalMiss.Data
 {
     [Table("GameBoardItem", Schema = "CM")]
-    public class GameBoardItemDBO
+    public class GameBoardItemDBO :IBoardItem
     {
         [Key]
         [Column("ID")]
@@ -30,15 +31,22 @@ namespace CriticalMiss.Data
         public bool IsToken { get; set; }
 
         [Column("XPosition")]
-        public int XPosition { get; set; }
+        public int XPos{ get; set; }
 
         [Column("YPosition")]
-        public int YPosition { get; set; }
+        public int YPos { get; set; }
 
         [Column("PixelWidth")]
-        public int PixelWidth { get; set; }
+        public int Width { get; set; }
 
         [Column("PixelHeight")]
-        public int PixelHeight { get; set; }
+
+        public int Height { get; set; }
+
+        public int Id { get; set; }
+
+        public int LocalId { get;set; }
+
+        IImageAsset IBoardItem.ImageAsset { get; set; }
     }
 }

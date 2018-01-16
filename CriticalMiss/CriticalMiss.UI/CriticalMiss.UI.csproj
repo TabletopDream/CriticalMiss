@@ -20,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CriticalMiss.WebService.Data\CriticalMiss.WebService.Data.csproj" />
-    <ProjectReference Include="..\CriticalMiss.WebService.Library\CriticalMiss.WebService.Library.csproj" />
+    <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CriticalMiss.Common.Interfaces;
 using CriticalMiss.Data.Models;
+using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,9 +39,11 @@ namespace CriticalMiss.UI.Controllers.API
         }
 
         // GET: GameRestConsume/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create([FromBody] Game game)
         {
-            return View();
+            var createdGame = await _gamerepository.AddAsync(game);
+
+            return null;
         }
 
         // POST: GameRestConsume/Create

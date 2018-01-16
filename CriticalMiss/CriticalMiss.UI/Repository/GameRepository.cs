@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using CriticalMiss.UI.Models;
 
 namespace CriticalMiss.UI.Repository
 {
@@ -17,23 +18,7 @@ namespace CriticalMiss.UI.Repository
         public GameRepository(IDatabaseHttpClientProvider dbprovider)
         {
             _dbProvider = dbprovider;
-        }
-
-        async Task<IGame> IRepository<IGame>.AddAsync(IGame entity)
-        {            
-            var httpclient = _dbProvider.DatabaseConnection;
-
-            string content =JsonConvert.SerializeObject(entity);
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = httpclient.PostAsync("api/", contentdata).Result;
-
-            return entity;
-        }
-
-        Task<IGame> IRepository<IGame>.DeleteAsync (IGame entity)
-        {
-            throw new NotImplementedException();
-        }
+        }      
 
         async Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync ()
         {
@@ -70,9 +55,49 @@ namespace CriticalMiss.UI.Repository
             }
             return null;
         }
-        Task<IGame> IRepository<IGame>.UpdateAsync (IGame entity)
+        async Task<IGame> IRepository<IGame>.AddAsync(IGame entity)
         {
-            throw new NotImplementedException();
+            var httpclient = _dbProvider.DatabaseConnection;
+
+            string content = JsonConvert.SerializeObject(entity);
+            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await httpclient.PostAsync("api/games/", contentdata);
+
+            if (response.Content != null)
+            {
+                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
+        async Task<IGame> IRepository<IGame>.UpdateAsync (IGame entity)
+        {
+            var httpclient = _dbProvider.DatabaseConnection;
+            string content = JsonConvert.SerializeObject(entity);
+
+            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await httpclient.PutAsync("api/games/" + entity.GameName, contentdata);
+            if (response.Content!=null)
+            {
+                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+
+        async Task<IGame> IRepository<IGame>.DeleteAsync(IGame entity)
+        {
+
+            var httpclient = _dbProvider.DatabaseConnection;
+            string content = JsonConvert.SerializeObject(entity);
+
+            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+
+            var response = await httpclient.DeleteAsync("api/games/" + entity.GameName);
+            if (response.Content!=null)
+            {
+                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+            }
+            return null;
         }
     }
 }
