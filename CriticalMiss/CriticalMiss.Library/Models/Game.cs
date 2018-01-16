@@ -15,6 +15,6 @@ namespace CriticalMiss.Library.Models
             GameName = name;
         }
 
-        
+
     }
 }
