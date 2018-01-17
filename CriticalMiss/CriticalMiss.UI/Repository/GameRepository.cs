@@ -10,6 +10,7 @@ using System.Text;
 using CriticalMiss.UI.Models;
 using System.Net;
 using CriticalMiss.UI.Exceptions;
+using CriticalMiss.UI.Models.Interfaces;
 
 namespace CriticalMiss.UI.Repository
 {
@@ -22,7 +23,70 @@ namespace CriticalMiss.UI.Repository
             _libProvider = libProvider;
         }
 
-        async Task<IEnumerable<IGame>> IGameRepository.GetAllAsync ()
+        async Task<IUIGame> IRepository<IUIGame>.AddAsync (IUIGame entity, params object[] keys)
+        {
+            var httpclient = _libProvider.LibraryConnection;
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                  Encoding.UTF8,
+                                                  "application/json");
+            var response = await httpclient.PostAsync("api/games", stringContent);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
+
+                    var game = JsonConvert.DeserializeObject<Game>(contentBody);
+
+                    return game;
+                }
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
+        }
+
+        async Task IRepository<IUIGame>.DeleteAsync (IUIGame entity, params object[] keys)
+        {
+            if (keys.Length != 1)
+            {
+                throw new ArgumentException("Delete keys not correct length.");
+            }
+
+            var httpclient = _libProvider.LibraryConnection;
+            var gameName = keys[0] as string;
+            var response = await httpclient.DeleteAsync("api/games/" + gameName);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
+        }
+
+        async Task<IEnumerable<IUIGame>> IRepository<IUIGame>.GetAllAsync (params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
 
@@ -45,10 +109,16 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task<IGame> IGameRepository.GetByNameAsync(string gameName)
+        async Task<IUIGame> IRepository<IUIGame>.GetAsync (params object[] keys)
         {
+            if (keys.Length != 1)
+            {
+                throw new ArgumentException("Passed param keys invalid!");
+            }
+
+            var gameName = keys[0] as string;
             var httpClient = _libProvider.LibraryConnection;
-            var response = await httpClient.GetAsync("api/games");
+            var response = await httpClient.GetAsync("api/games/" + gameName);
 
             if (response.IsSuccessStatusCode && response.Content != null)
             {
@@ -76,43 +146,11 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task<IGame> IGameRepository.AddAsync(IGame entity)
-        {
-            var httpclient = _libProvider.LibraryConnection;
-            
-            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
-                                                  Encoding.UTF8,
-                                                  "application/json");
-            var response = await httpclient.PostAsync("api/games/", stringContent);
-
-            if (response.IsSuccessStatusCode && response.Content != null)
-            {
-                using (HttpContent content = response.Content)
-                {
-                    var contentBody = await content.ReadAsStringAsync();
-
-                    var game = JsonConvert.DeserializeObject<Game>(contentBody);
-
-                    return game;
-                }
-            }
-            else if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                throw new HttpResourceNotFoundException()
-                {
-                    HttpResponse = response
-                };
-            }
-
-            throw new HttpServiceException()
-            {
-                HttpResponse = response
-            };
-        }
-        async Task<IGame> IGameRepository.UpdateAsync (string gameName, IGame entity)
+        async Task<IUIGame> IRepository<IUIGame>.UpdateAsync (IUIGame entity, params object[] keys)
         {
             var httpclient = _libProvider.LibraryConnection;
 
+            var gameName = keys[0] as string;
             var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
                                                   Encoding.UTF8,
                                                   "application/json");
@@ -131,31 +169,6 @@ namespace CriticalMiss.UI.Repository
             }
 
             if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                throw new HttpResourceNotFoundException()
-                {
-                    HttpResponse = response
-                };
-            }
-
-            throw new HttpServiceException()
-            {
-                HttpResponse = response
-            };
-        }
-
-        async Task IGameRepository.DeleteAsync(string gameName)
-        {
-
-            var httpclient = _libProvider.LibraryConnection;
-
-            var response = await httpclient.DeleteAsync("api/games/" + gameName);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return;
-            }
-            else if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new HttpResourceNotFoundException()
                 {
