@@ -22,7 +22,7 @@ namespace CriticalMiss.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBoards(string gameName)
         {
-            var boards = await _boardRepository.GetAllForBoardAsync(gameName);
+            var boards = await _boardRepository.GetBoardsForGameAsync(gameName);
 
             if (boards != null)
             {
@@ -50,7 +50,7 @@ namespace CriticalMiss.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var createdBoard = await _boardRepository.AddBoardRelativeAsync(gameName, gameBoard);
+                var createdBoard = await _boardRepository.AddAsync(gameName, gameBoard);
 
                 if (createdBoard != null)
                 {
@@ -87,7 +87,7 @@ namespace CriticalMiss.UI.Controllers
             {
                 if (await _boardRepository.BoardExistsAsync(gameName, boardId))
                 {
-                    var updatedBoard = await _boardRepository.UpdateBoardAsync(gameName, boardId, gameBoard);
+                    var updatedBoard = await _boardRepository.UpdateAsync(gameName, boardId, gameBoard);
 
                     if (updatedBoard != null)
                     {
@@ -134,7 +134,7 @@ namespace CriticalMiss.UI.Controllers
         {
             if (await _boardRepository.BoardExistsAsync(gameName, boardId))
             {
-                await _boardRepository.DeleteRelativeAsync(gameName, boardId);
+                await _boardRepository.DeleteAsync(gameName, boardId);
             }
 
             return NotFound(new

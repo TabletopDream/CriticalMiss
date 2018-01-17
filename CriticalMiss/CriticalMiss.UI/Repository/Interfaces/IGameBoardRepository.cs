@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CriticalMiss.UI.Repository.Interfaces
 {
-    public interface IGameBoardRepository : IRepository<IBoard>
+    public interface IGameBoardRepository
     {
-        Task<IEnumerable<IBoard>> GetAllForBoardAsync (string gameName);
+        Task<IEnumerable<IBoard>> GetBoardsForGameAsync (string gameName);
         Task<IBoard> GetByRelativeIdAsync (string gameName, int boardId);
-        Task<IBoard> AddBoardRelativeAsync (string gameName, IBoard gameBoard);
-        Task<IBoard> UpdateBoardAsync (string gameName, int boardId, IBoard gameBoard);
         Task<bool> BoardExistsAsync (string gameName, int boardId);
-        Task DeleteRelativeAsync (string gameName, int boardId);
+        Task<IBoard> AddAsync (string gameName, IBoard entity);
+        Task<IBoard> UpdateAsync (string gameName, int boardId, IBoard entity);
+        Task DeleteAsync (string gameName, int boardId);
     }
 }

@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CriticalMiss.Common.Interfaces;
-using CriticalMiss.Data.Models;
 using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -34,8 +33,9 @@ namespace CriticalMiss.UI.Controllers.API
         // GET: GameRestConsume/Details/5
         public async Task<ActionResult> GetGameById(int id)
         {
-            var getgamebyid = await _gamerepository.GetByIdAsync(id);
-            return View(getgamebyid);
+            //var getgamebyid = await _gamerepository.GetByIdAsync(id);
+            //return View(getgamebyid);
+            return null;
         }
 
         // GET: GameRestConsume/Create

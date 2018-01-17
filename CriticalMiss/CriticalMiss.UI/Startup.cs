@@ -6,6 +6,7 @@ using CriticalMiss.UI.Extensions;
 using CriticalMiss.UI.Repository;
 using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP;
+using CriticalMiss.UI.Services.HTTP.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace CriticalMiss.UI
 
             // Repositories
             services.AddTransient<IGameBoardRepository, GameBoardRepository>();
-            //services.AddTransient<IGameBoardRepository, GameBoardRepository>();
+            services.AddSingleton<ILibraryHttpClientProvider, LibraryHttpClientProvider>();
 
             // JSON Model Injections
 
