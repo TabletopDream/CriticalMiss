@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CriticalMiss.Common.Interfaces;
-using CriticalMiss.Data.Models;
 using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;

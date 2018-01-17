@@ -10,6 +10,6 @@ namespace CriticalMiss.Common.Interfaces
         
         int GameId { get; set; }
 
-        string Password { get; set; }
+       // string Password { get; set; }
     }
 }
