@@ -34,6 +34,7 @@ namespace CriticalMiss.Data
         public int ItemCount { get; set; }
 
         public virtual ICollection<GameBoardItemDBO> BoardItems { get; set; }
+        public string BoardName { get ; set; }
         //public GameDBO Game { get; set; }
 
 

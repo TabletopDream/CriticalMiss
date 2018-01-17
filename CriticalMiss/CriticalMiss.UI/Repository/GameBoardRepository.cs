@@ -24,7 +24,7 @@ namespace CriticalMiss.UI.Repository
         {
             var httpClient = _dbProvider.DatabaseConnection;
 
-            var response = await httpClient.GetAsync("/api/boards");
+            var response = await httpClient.GetAsync("/api/boards/");
 
             if (response.Content != null)
             {
