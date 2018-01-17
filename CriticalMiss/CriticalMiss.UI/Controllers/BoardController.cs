@@ -3,95 +3,149 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CriticalMiss.UI.Models;
+using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CriticalMiss.UI.Controllers
 {
+    [Route("api/games/{gameName}/boards")]
     public class BoardController : Controller
     {
-        // GET: Board
-        public ActionResult Index()
+        private IGameBoardRepository _boardRepository;
+
+        public BoardController(IGameBoardRepository boardRepo)
         {
-            Board b = new Board();
-            b.Width = 10;
-            b.Pixel = 70;
-            return View();
+            _boardRepository = boardRepo;
         }
 
-        // GET: Board/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetAllBoards(string gameName)
         {
-            return View();
+            var boards = await _boardRepository.GetAllForBoardAsync(gameName);
+
+            if (boards != null)
+            {
+                return Ok(boards);
+            }
+
+            return NotFound();
         }
 
-        // GET: Board/Create
-        public ActionResult Create()
+        [HttpGet("{boardId}")]
+        public async Task<IActionResult> GetBoard(string gameName, int boardId)
         {
-            return View();
+            var board = await _boardRepository.GetByRelativeIdAsync(gameName, boardId);
+
+            if (board != null)
+            {
+                return Ok(board);
+            }
+
+            return NotFound();
         }
 
-        // POST: Board/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> CreateBoard([FromRoute] string gameName, [FromBody] Board gameBoard)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                var createdBoard = await _boardRepository.AddBoardRelativeAsync(gameName, gameBoard);
 
-                return RedirectToAction(nameof(Index));
+                if (createdBoard != null)
+                {
+                    return Ok(createdBoard);
+                }
+
+                return StatusCode(500, new
+                {
+                    Message = "Error encountered creating board!",
+                    Data = gameBoard
+                });
             }
-            catch
+
+            var modelErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+            return BadRequest(new
             {
-                return View();
-            }
+                Message = "Board model not valid!",
+                Data = new
+                {
+                    GameName = gameName,
+                    GameBoard = gameBoard
+                },
+                Errors = modelErrors
+            });
         }
 
-        // GET: Board/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPut("{boardId}")]
+        public async Task<IActionResult> UpdateBoard([FromRoute] string gameName,
+                                                     [FromRoute] int boardId,
+                                                     [FromBody] Board gameBoard)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                if (await _boardRepository.BoardExistsAsync(gameName, boardId))
+                {
+                    var updatedBoard = await _boardRepository.UpdateBoardAsync(gameName, boardId, gameBoard);
+
+                    if (updatedBoard != null)
+                    {
+                        return Ok(updatedBoard);
+                    }
+
+                    return StatusCode(500, new
+                    {
+                        Message = "Error encountered creating board!",
+                        Data = new
+                        {
+                            GameName = gameName,
+                            BoardId = boardId,
+                            GameBoard = gameBoard
+                        }
+                    });
+                }
+
+                return NotFound(new
+                {
+                    Message = "Specified board does not exist!",
+                    Data = new
+                    {
+                        GameName = gameName,
+                        BoardId = boardId,
+                        GameBoard = gameBoard
+                    }
+                });
+            }
+
+            var modelErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+            return BadRequest(new
+            {
+                Message = "Board model not valid!",
+                Data = gameBoard,
+                Errors = modelErrors
+            });
         }
 
-        // POST: Board/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpDelete("{boardId}")]
+        public async Task<IActionResult> DeleteBoard([FromRoute] string gameName,
+                                                     [FromRoute] int boardId)
         {
-            try
+            if (await _boardRepository.BoardExistsAsync(gameName, boardId))
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                await _boardRepository.DeleteRelativeAsync(gameName, boardId);
             }
-            catch
+
+            return NotFound(new
             {
-                return View();
-            }
-        }
-
-        // GET: Board/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Board/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Message = "Board to delete already does not exist!",
+                Data = new
+                {
+                    GameName = gameName,
+                    BoardId = boardId
+                }
+            });
         }
     }
 }
