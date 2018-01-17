@@ -9,6 +9,7 @@ using CriticalMiss.Library.Models;
 using CriticalMiss.WebService.Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CriticalMiss.WebService.Library.Controllers
 {
@@ -25,19 +26,18 @@ namespace CriticalMiss.WebService.Library.Controllers
 
         // GET: api/Game/5
         [HttpGet("{gameName}", Name = "Get")]
-        public IGame Get(string name)
+        public async Task<IActionResult> Get(string name)
         {
-            Game game = new Game(name);
-
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = client.Client.GetAsync("api/games/{name}");
+            var response = await client.Client.GetAsync("api/games/{name}");
             if (response.IsSuccessStatusCode)
             {
-                game.GameId = response.Content.ReadAsIntAsync().Result;
+                var game = JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+                return Ok(game);
             }
 
-            return game;
+            return BadRequest();
         }
         
         // POST: api/Game
