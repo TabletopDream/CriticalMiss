@@ -55,10 +55,16 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
         
         // PUT: api/Game/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id}", Name ="Put")]
+        public async Task PutAsync([FromBody]string gamename)
         {
+            HttpBaseInformation client = new HttpBaseInformation();
 
+            var response = await client.Client.PutAsJsonAsync("api/games/{gameName}", gamename);
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
         }
         
         // DELETE: api/ApiWithActions/5
