@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CriticalMiss.Common.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Text;
 namespace CriticalMiss.Data.Models
 {
     [Table("Games", Schema ="CM")]
-    public class Games
+    public class Games : IGame
     {
         [Key]
         [Column("GameId")]
@@ -25,7 +26,10 @@ namespace CriticalMiss.Data.Models
         [Column("Password")]
         [Required]
         public string Password { get; set; }
-
-
+        
+        public bool ShouldSerializePassword()
+        {
+            return false;
+        }
     }
 }

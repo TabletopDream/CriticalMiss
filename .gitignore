@@ -307,3 +307,4 @@ __pycache__/
 
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode
 /CriticalMiss/CriticalMiss.UI/_connections.json
+/CriticalMiss/CriticalMiss.WebService.Data/_connections.json

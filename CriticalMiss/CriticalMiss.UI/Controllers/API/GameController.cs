@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using CriticalMiss.Data.Models;
+using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CriticalMiss.UI.API.Controllers
 {
@@ -11,9 +15,12 @@ namespace CriticalMiss.UI.API.Controllers
     [Route("api/games")]
     public class GameController : Controller
     {
+        //private IGameRepository _gamerepository;
+
         [HttpGet]
         public IActionResult GetAllGames()
         {
+            
             return null;
         }
 

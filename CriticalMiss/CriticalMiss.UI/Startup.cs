@@ -29,6 +29,7 @@ namespace CriticalMiss.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
             //services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
             //{
             //    var conn = Configuration.GetConnectionString("CriticalMissDB");
