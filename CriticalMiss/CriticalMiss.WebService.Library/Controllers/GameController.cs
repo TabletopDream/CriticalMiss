@@ -60,8 +60,12 @@ namespace CriticalMiss.WebService.Library.Controllers
         public async Task PutAsync([FromBody]string gamename)
         {
             HttpBaseInformation client = new HttpBaseInformation();
+            Game game = new Game(gamename, true);
 
-            var response = await client.Client.PutAsJsonAsync("api/games/{gameName}", gamename);
+
+            var content = JsonConvert.SerializeObject(game);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await client.Client.PutAsync("api/games/{gameName}", stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return;
