@@ -1,4 +1,5 @@
 ﻿using CriticalMiss.Common.Interfaces;
+using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP.Interfaces;
 using Newtonsoft.Json;
@@ -23,7 +24,22 @@ namespace CriticalMiss.UI.Repository
             throw new NotImplementedException();
         }
 
+        Task<IBoard> IGameBoardRepository.AddBoardRelativeAsync (string gameName, IBoard gameBoard)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IGameBoardRepository.BoardExistsAsync (string gameName, int boardId)
+        {
+            throw new NotImplementedException();
+        }
+
         async Task<IBoard> IRepository<IBoard>.DeleteAsync (IBoard entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IGameBoardRepository.DeleteRelativeAsync (string gameName, int boardId)
         {
             throw new NotImplementedException();
         }
@@ -39,13 +55,32 @@ namespace CriticalMiss.UI.Repository
                 using (HttpContent content = response.Content)
                 {
                     string contentBody = await content.ReadAsStringAsync();
-                    var boardList = JsonConvert.DeserializeObject<List<IBoard>>(contentBody);
+                    var boardList = JsonConvert.DeserializeObject<List<Board>>(contentBody);
 
                     return boardList;
                 }
             }
 
             return null;
+        }
+
+        async Task<IEnumerable<IBoard>> IGameBoardRepository.GetAllForBoardAsync (string gameName)
+        {
+            var httpClient = _dbProvider.DatabaseConnection;
+
+            var response = await httpClient.GetAsync("/api/boards?game=" + gameName);
+
+            if (response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string contentBody = await content.ReadAsStringAsync();
+                    var boardList = JsonConvert.DeserializeObject<List<Board>>(contentBody);
+
+                    return boardList;
+                }
+            }
+            throw new NotImplementedException();
         }
 
         async Task<IBoard> IRepository<IBoard>.GetByIdAsync (int id)
@@ -69,22 +104,19 @@ namespace CriticalMiss.UI.Repository
             return null;
         }
 
+        async Task<IBoard> IGameBoardRepository.GetByRelativeIdAsync (string gameName, int boardId)
+        {
+            throw new NotImplementedException();
+        }
+
         async Task<IBoard> IRepository<IBoard>.UpdateAsync (IBoard entity)
         {
             throw new NotImplementedException();
         }
 
-        //public class GameBoardItemDBOComparer : IEqualityComparer<GameBoardItemDBO>
-        //{
-        //    bool IEqualityComparer<GameBoardItemDBO>.Equals (GameBoardItemDBO x, GameBoardItemDBO y)
-        //    {
-        //        return (x.ItemId == y.ItemId);
-        //    }
-
-        //    int IEqualityComparer<GameBoardItemDBO>.GetHashCode (GameBoardItemDBO obj)
-        //    {
-        //        return obj.GetHashCode();
-        //    }
-        //}
+        async Task<IBoard> IGameBoardRepository.UpdateBoardAsync (string gameName, int boardId, IBoard gameBoard)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

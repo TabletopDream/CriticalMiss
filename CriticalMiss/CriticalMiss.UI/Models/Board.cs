@@ -9,5 +9,7 @@ namespace CriticalMiss.UI.Models
         public int BoardId { get; set; }
         public int GameId { get; set; }
         public int Pixel { get; set; }
+        public int LocalId { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public int ItemCount { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     }
 }
