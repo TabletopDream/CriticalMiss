@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace CriticalMiss.WebService.Data.Controllers
 {
     [Produces("application/json")]
-    [Route("api/GameBoardApi")]
-    public class GameBoardApiController : Controller
+    [Route("api/GameItem")]
+    public class GameItemController : Controller
     {
-        private static List<Boards> _gameboard = new List<Boards>();
+        private static List<Item> _gameitem = new List<Item>();
 
         private CriticalMissDbContext _context;
 
-        public GameBoardApiController(CriticalMissDbContext context)
+        public GameItemController(CriticalMissDbContext context)
         {
             _context = context;
         }
@@ -29,30 +29,27 @@ namespace CriticalMiss.WebService.Data.Controllers
         //}
 
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult GetGamesBoard([FromRoute] int id)
+        public IActionResult GetGamesItem([FromRoute] int id)
         {
-            var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
-               Name = x.BoardName
-                });
+            var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new {
+                Name = x.Name
+            });
             return Ok(gameboardlist);
         }
 
         [HttpPost]
-        public IActionResult CreateBoardGame([FromBody] Boards gameboard)
+        public IActionResult CreateBoardGame([FromBody] Item gameitem)
         {
-            _context.GameBoard.Add(gameboard);
+            _context.item.Add(gameitem);
             _context.SaveChanges();
             return Ok();
         }
         [HttpPut("{BoardName}")]
-        public IActionResult UpdateGame([FromRoute] int id, [FromBody] Boards gameboard)
+        public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem)
         {
 
-            var upboardgames = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);
-            upboardgames.BoardName = gameboard.BoardName;
-            upboardgames.Width = gameboard.Width;
-            upboardgames.Height = gameboard.Height;
-
+            var upboardgames = _context.item.SingleOrDefault(x => x.ItemId==id);
+            upboardgames.Name = gameitem.Name;   
             _context.SaveChanges();
 
             return Ok();
@@ -60,8 +57,8 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpDelete("{BoardName}")]
         public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
         {
-            var delgames = _context.GameBoard.SingleOrDefault(x => x.BoardId == Id);
-            _context.GameBoard.Remove(delgames);
+            var delgames = _context.item.SingleOrDefault(x => x.ItemId== Id);
+            _context.item.Remove(delgames);
             _context.SaveChanges();
             return Ok();
         }

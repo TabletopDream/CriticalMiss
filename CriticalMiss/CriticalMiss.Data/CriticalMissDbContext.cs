@@ -39,7 +39,7 @@ namespace CriticalMiss.Data
         public DbSet<GameBoardItemDBO> BoardItems { get; set; }
 
         public DbSet<ImageAssetDBO> ImageAssets { get; set; }
-        
+        public DbSet<Item> item { get; set; }
         public DbSet<Games> games { get; set; }
     }
 }
