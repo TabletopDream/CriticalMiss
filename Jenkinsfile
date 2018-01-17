@@ -48,7 +48,7 @@ node('master') {
             dir('CriticalMiss') {
 				dir('CriticalMiss.UI') {
 					//bat 'dotnet publish CriticalMiss.UI.csproj --output ../../Package'
-					bat 'dotnet build CriticalMis.UI.csproj /p:DeployOnBuild=true /p:PublishProfile=publish'
+					bat 'dotnet build CriticalMiss.UI.csproj /p:DeployOnBuild=true /p:PublishProfile=publish'
 				}
                 
             }
