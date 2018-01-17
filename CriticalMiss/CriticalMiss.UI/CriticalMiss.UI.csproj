@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
 </Project>

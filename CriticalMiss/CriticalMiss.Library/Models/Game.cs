@@ -15,6 +15,12 @@ namespace CriticalMiss.Library.Models
             GameName = name;
         }
 
-        
+        public Game(string name, bool b)
+        {
+            GameName = name;
+            Board board = new Board(20, 20, 1);
+        }
+
+
     }
 }

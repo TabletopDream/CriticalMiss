@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CriticalMiss.UI.Repository.Interfaces
 {
-    public interface IGameItemRepository : IRepository<IBoardItem>
+    public interface IGameItemRepository
     {
     }
 }

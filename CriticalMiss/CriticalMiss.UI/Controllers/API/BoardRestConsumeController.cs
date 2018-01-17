@@ -19,21 +19,25 @@ namespace CriticalMiss.UI.Controllers.API
         public async Task<ActionResult> GetAllBoard()
         {
 
-            var getboards = await _gameboardrepository.GetAllAsync();
-            return View(getboards);
+            //var getboards = await _gameboardrepository.GetAllAsync();
+            //return View(getboards);
+
+            return Ok();
         }
 
         // GET: GameRestConsume/Details/5
         public async Task<ActionResult> GetBoardById(int id)
         {
-            var getboardbyid = await _gameboardrepository.GetByIdAsync(id);
-            return View(getboardbyid);
+            //var getboardbyid = await _gameboardrepository.GetByIdAsync(id);
+            //return View(getboardbyid);
+
+            return Ok();
         }
 
         // GET: GameRestConsume/Create
         public async Task<ActionResult> CreateBoard([FromBody]Board board)
         {
-            var createdBoard = await _gameboardrepository.AddAsync(board);
+            //var createdBoard = await _gameboardrepository.AddAsync(board);
 
             return null;
         }
@@ -43,8 +47,10 @@ namespace CriticalMiss.UI.Controllers.API
         {
             try
             {
-                var UpdateGames = await _gameboardrepository.UpdateAsync(board);
-                return RedirectToAction(nameof(GetAllBoard));
+                //var UpdateGames = await _gameboardrepository.UpdateAsync(board);
+                //return RedirectToAction(nameof(GetAllBoard));
+
+                return Ok();
             }
             catch
             {
@@ -55,7 +61,7 @@ namespace CriticalMiss.UI.Controllers.API
         // GET: GameRestConsume/Delete/5
         public async Task<ActionResult> DeleteGames([FromBody]Board board)
         {
-            var Deletegame = await _gameboardrepository.DeleteAsync(board);
+            //var Deletegame = await _gameboardrepository.DeleteAsync(board);
             return RedirectToAction(nameof(GetAllBoard));
 
         }

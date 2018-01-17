@@ -16,21 +16,21 @@ namespace CriticalMiss.UI.Controllers.API
         {
             _itemrepository = itemrepository;
         }
-        public async Task<ActionResult> GEtAllItem()
-        {
-            var getitem = await _itemrepository.GetAllAsync();
-            return View(getitem);
-        }
-        public async Task<ActionResult> GetItemById(int id)
-        {
-            var getitembyid = await _itemrepository.GetByIdAsync(id);
-            return View(getitembyid);
-        }
-        public async Task<ActionResult> CreateGame([FromBody] Item item)
-        {
-            var creatiteme = await _itemrepository.AddAsync(item);
+        //public async Task<ActionResult> GEtAllItem()
+        //{
+        //    var getitem = await _itemrepository.GetAllAsync();
+        //    return View(getitem);
+        //}
+        //public async Task<ActionResult> GetItemById(int id)
+        //{
+        //    var getitembyid = await _itemrepository.GetByIdAsync(id);
+        //    return View(getitembyid);
+        //}
+        //public async Task<ActionResult> CreateGame([FromBody] Item item)
+        //{
+        //    var creatiteme = await _itemrepository.AddAsync(item);
 
-            return null;
-        }
+        //    return null;
+        //}
     }
 }

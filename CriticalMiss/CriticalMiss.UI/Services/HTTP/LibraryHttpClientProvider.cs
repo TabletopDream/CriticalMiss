@@ -9,32 +9,25 @@ using System.Threading.Tasks;
 
 namespace CriticalMiss.UI.Services.HTTP
 {
-    /// <summary>
-    /// Database client provider.
-    /// 
-    /// Should change URI string to pull from IOptionsMonitor instead of IOptions:
-    /// https://andrewlock.net/reloading-strongly-typed-options-in-asp-net-core-1-1-0/
-    /// </summary>
-    public class DatabaseHttpClientProvider : IDatabaseHttpClientProvider
+    public class LibraryHttpClientProvider : ILibraryHttpClientProvider
     {
         private HttpClient _httpClient;
 
-        HttpClient IDatabaseHttpClientProvider.DatabaseConnection
+        public HttpClient LibraryConnection
         {
             get => _httpClient;
         }
 
-        public DatabaseHttpClientProvider(IOptions<HttpServicesConfiguration> options)
+        public LibraryHttpClientProvider(IOptions<HttpServicesConfiguration> config)
         {
-            _httpClient = new HttpClient
+            _httpClient = new HttpClient()
             {
-                BaseAddress = new Uri(options.Value.DbBaseUrl)
+                BaseAddress = new Uri(config.Value.LibraryBaseUrl)
             };
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         #region IDisposable Support
-
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose (bool disposing)
@@ -43,19 +36,16 @@ namespace CriticalMiss.UI.Services.HTTP
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
                     _httpClient.Dispose();
+                    _httpClient = null;
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
 
                 disposedValue = true;
             }
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~DatabaseHttpClientProvider() {
+        // ~LibraryHttpClientProvider() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }

@@ -23,9 +23,30 @@ namespace CriticalMiss.Library.Models
             LocalId = id;
         }
 
-        public void ItemCounter() // determines if amount of pieces on the board is less than the max before another is allowed to be added
+        public bool ItemCounter() // determines if amount of pieces on the board is less than the max before another is allowed to be added
         {
+            if (ItemCount < 20)
+            {
+                ItemCount++;
+                return true;
+            }
 
+            return false;
+        }
+
+        public void AddItem()
+        {
+            var count = ItemCounter();
+
+            if (count == true)
+            {
+                BoardItem Item = new BoardItem(ItemCount);
+            }
+        }
+
+        public void DeleteItem()
+        {
+            ItemCount--; 
         }
     }
 }

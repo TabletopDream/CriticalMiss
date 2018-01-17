@@ -1,10 +1,13 @@
 ﻿using CriticalMiss.Common.Interfaces;
+using CriticalMiss.UI.Exceptions;
+using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,109 +16,163 @@ namespace CriticalMiss.UI.Repository
 {
     public class GameBoardRepository : IGameBoardRepository
     {
-        private IDatabaseHttpClientProvider _dbProvider;
+        private ILibraryHttpClientProvider _libProvider;
 
-        public GameBoardRepository(IDatabaseHttpClientProvider dbProvider)
+        public GameBoardRepository(ILibraryHttpClientProvider libProvider)
         {
-            _dbProvider = dbProvider;
+            _libProvider = libProvider;
         }
 
-        async Task<IEnumerable<IBoard>> IRepository<IBoard>.GetAllAsync()
-        {
-            var httpClient = _dbProvider.DatabaseConnection;
+        async Task<IBoard> IGameBoardRepository.AddAsync (string gameName, IBoard entity)
+        { 
+            var httpClient = _libProvider.LibraryConnection;
 
-            var response = await httpClient.GetAsync("/api/boards/");
+            var uriString = string.Format("/api/games/{0}/boards", gameName);
+            var requestContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                   Encoding.UTF8,
+                                                   "application/json");
+            var response = await httpClient.PostAsync(uriString, requestContent);
 
-            if (response.Content != null)
+            if (response.IsSuccessStatusCode && response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
                     string contentBody = await content.ReadAsStringAsync();
-                    var boardList = JsonConvert.DeserializeObject<List<IBoard>>(contentBody);
+                    var createdBoard = JsonConvert.DeserializeObject<Board>(contentBody);
+
+                    return createdBoard;
+                }
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
+        }
+
+        async Task<bool> IGameBoardRepository.BoardExistsAsync (string gameName, int boardId)
+        {
+            var httpClient = _libProvider.LibraryConnection;
+
+            var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
+
+            var response = await httpClient.GetAsync(uriString);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        async Task IGameBoardRepository.DeleteAsync (string gameName, int boardId)
+        {
+            var httpClient = _libProvider.LibraryConnection;
+
+            var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
+
+            var response = await httpClient.DeleteAsync(uriString);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new HttpResourceNotFoundException()
+                    {
+                        HttpResponse = response
+                    };
+                }
+                else
+                {
+                    throw new HttpServiceException()
+                    {
+                        HttpResponse = response
+                    };
+                }
+            }
+            return;
+        }
+
+        async Task<IEnumerable<IBoard>> IGameBoardRepository.GetBoardsForGameAsync (string gameName)
+        {
+            var httpClient = _libProvider.LibraryConnection;
+
+            var uriString = string.Format("/api/games/{0}/boards", gameName);
+            var response = await httpClient.GetAsync(uriString);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string contentBody = await content.ReadAsStringAsync();
+                    var boardList = JsonConvert.DeserializeObject<List<Board>>(contentBody);
 
                     return boardList;
                 }
             }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
 
-            return null;
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        async Task<IBoard> IRepository<IBoard>.GetByIdAsync(int id)
+        async Task<IBoard> IGameBoardRepository.GetByRelativeIdAsync (string gameName, int boardId)
         {
-            var httpClient = _dbProvider.DatabaseConnection;
+            var httpClient = _libProvider.LibraryConnection;
 
-            var response = await httpClient.GetAsync("/api/boards/" + id);
+            var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
+            var response = await httpClient.GetAsync(uriString);
 
-            if (response.Content != null)
+            if (response.IsSuccessStatusCode && response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
                     string contentBody = await content.ReadAsStringAsync();
-
-                    var board = JsonConvert.DeserializeObject<IBoard>(contentBody);
+                    var board = JsonConvert.DeserializeObject<Board>(contentBody);
 
                     return board;
                 }
             }
-
-            return null;
-        }
-        async Task<IBoard> IRepository<IBoard>.AddAsync(IBoard entity)
-        {
-            var httpclient = _dbProvider.DatabaseConnection;
-
-            string content = JsonConvert.SerializeObject(entity);
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await httpclient.PostAsync("api/games/", contentdata);
-
-            if (response.Content != null)
+            else if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                return JsonConvert.DeserializeObject<IBoard>(await response.Content.ReadAsStringAsync());
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
             }
 
-            return null;
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        async Task<IBoard> IRepository<IBoard>.DeleteAsync(IBoard entity)
+        async Task<IBoard> IGameBoardRepository.UpdateAsync (string gameName, int boardId, IBoard entity)
         {
-            var httpclient = _dbProvider.DatabaseConnection;
-            string content = JsonConvert.SerializeObject(entity);
+            var httpClient = _libProvider.LibraryConnection;
+            var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
+            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                  Encoding.UTF8,
+                                                  "application/json");
 
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await httpClient.PutAsync(uriString, stringContent);
 
-            var response = await httpclient.DeleteAsync("api/games/" + entity.BoardName);
-            if (response.Content != null)
+            if (response.IsSuccessStatusCode && response.Content != null)
             {
-                return JsonConvert.DeserializeObject<IBoard>(await response.Content.ReadAsStringAsync());
-            }
-            return null;
-        }
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
 
-        async Task<IBoard> IRepository<IBoard>.UpdateAsync(IBoard entity)
-        {
-            var httpclient = _dbProvider.DatabaseConnection;
-            string content = JsonConvert.SerializeObject(entity);
+                    var updatedBoard = JsonConvert.DeserializeObject<Board>(contentBody);
 
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await httpclient.PutAsync("api/games/" + entity.BoardName, contentdata);
-            if (response.Content != null)
-            {
-                return JsonConvert.DeserializeObject<IBoard>(await response.Content.ReadAsStringAsync());
+
+                }
             }
             return null;
         }
-
-        //public class GameBoardItemDBOComparer : IEqualityComparer<GameBoardItemDBO>
-        //{
-        //    bool IEqualityComparer<GameBoardItemDBO>.Equals (GameBoardItemDBO x, GameBoardItemDBO y)
-        //    {
-        //        return (x.ItemId == y.ItemId);
-        //    }
-
-        //    int IEqualityComparer<GameBoardItemDBO>.GetHashCode (GameBoardItemDBO obj)
-        //    {
-        //        return obj.GetHashCode();
-        //    }
-        //}
     }
 }

@@ -33,8 +33,9 @@ namespace CriticalMiss.UI.Controllers.API
         // GET: GameRestConsume/Details/5
         public async Task<ActionResult> GetGameById(int id)
         {
-            var getgamebyid = await _gamerepository.GetByIdAsync(id);
-            return View(getgamebyid);
+            //var getgamebyid = await _gamerepository.GetByIdAsync(id);
+            //return View(getgamebyid);
+            return null;
         }
 
         // GET: GameRestConsume/Create
@@ -44,28 +45,28 @@ namespace CriticalMiss.UI.Controllers.API
 
             return null;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateGame([FromBody] Game game)
-        {
-            try
-            {
-                var UpdateGames = await _gamerepository.UpdateAsync(game);
-                return RedirectToAction(nameof(GetAllGame));
-            }
-            catch
-            {
-                return RedirectToAction(nameof(GetAllGame));
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> UpdateGame([FromBody] Game game)
+        //{
+        //    try
+        //    {
+        //        var UpdateGames = await _gamerepository.UpdateAsync(game);
+        //        return RedirectToAction(nameof(GetAllGame));
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction(nameof(GetAllGame));
+        //    }
+        //}
 
         // GET: GameRestConsume/Delete/5
-        public async Task<ActionResult> DeleteGames([FromBody]Game game)
-        {
-            var Deletegame = await _gamerepository.DeleteAsync(game);
-            return RedirectToAction(nameof(GetAllGame));
+        //public async Task<ActionResult> DeleteGames([FromBody]Game game)
+        //{
+        //    var Deletegame = await _gamerepository.DeleteAsync(game);
+        //    return RedirectToAction(nameof(GetAllGame));
 
-        }
+        //}
 
         // POST: GameRestConsume/Delete/5
         [HttpPost]

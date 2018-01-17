@@ -20,13 +20,13 @@ namespace CriticalMiss.Library.Models
 
         public BoardItem(int id)
         {
+            LocalId = id;
             Name = "token" + LocalId.ToString();
             IsToken = true;
             Width = 1;
             Height = 1;
             XPos = 0;
             YPos = 0;
-            LocalId = id;
         }
 
         public void MoveItem(int x, int y)
