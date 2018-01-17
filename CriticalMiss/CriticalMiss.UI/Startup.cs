@@ -24,12 +24,12 @@ namespace CriticalMiss.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
-            {
-                var conn = Configuration.GetConnectionString("CriticalMissDB");
+            //services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
+            //{
+            //    var conn = Configuration.GetConnectionString("CriticalMissDB");
 
-                optionsBuilder.UseSqlServer(conn);
-            });
+            //    optionsBuilder.UseSqlServer(conn);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
