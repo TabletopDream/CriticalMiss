@@ -46,7 +46,10 @@ node('master') {
     stage('package') {
         try {
             dir('CriticalMiss') {
-                bat 'dotnet publish CriticalMiss.sln --output ../../Package'
+				dir('CriticalMiss.UI') {
+					bat 'dotnet publish CriticalMiss.UI.csproj --output ../../Package'
+				}
+                
             }
         } catch(error) {
             throw error
@@ -56,7 +59,6 @@ node('master') {
 
     stage('deploy') {
         try {
-            bat 'dotnet build ./CriticalMiss/CriticalMiss.sln /p:DeployOnBuild=true /p:PublishProfile=publish'
             bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
                 '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\Package\\" ' +
                 '-dest:iisApp="Default Web Site/CriticalMiss",' +
