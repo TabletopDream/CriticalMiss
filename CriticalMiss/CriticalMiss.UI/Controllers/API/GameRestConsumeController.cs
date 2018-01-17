@@ -22,12 +22,12 @@ namespace CriticalMiss.UI.Controllers.API
         {
             _gamerepository = gamerepository;
         }
-        
+
         // GET: GameRestConsume
         public async Task<ActionResult> GetAllGame()
         {
 
-            var getgames=await _gamerepository.GetAllAsync();
+            var getgames = await _gamerepository.GetAllAsync();
             return View(getgames);
         }
 
@@ -39,57 +39,33 @@ namespace CriticalMiss.UI.Controllers.API
         }
 
         // GET: GameRestConsume/Create
-        public async Task<ActionResult> Create([FromBody] Game game)
+        public async Task<ActionResult> CreateGame([FromBody] Game game)
         {
             var createdGame = await _gamerepository.AddAsync(game);
 
             return null;
         }
-
-        // POST: GameRestConsume/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> UpdateGame([FromBody] Game game)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var UpdateGames = await _gamerepository.UpdateAsync(game);
                 return RedirectToAction(nameof(GetAllGame));
             }
             catch
             {
-                return View();
-            }
-        }
-
-        // GET: GameRestConsume/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: GameRestConsume/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
                 return RedirectToAction(nameof(GetAllGame));
-            }
-            catch
-            {
-                return View();
             }
         }
 
         // GET: GameRestConsume/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteGames([FromBody]Game game)
         {
-            return View();
+            var Deletegame = await _gamerepository.DeleteAsync(game);
+            return RedirectToAction(nameof(GetAllGame));
+
         }
 
         // POST: GameRestConsume/Delete/5

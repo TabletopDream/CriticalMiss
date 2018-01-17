@@ -21,7 +21,7 @@ namespace CriticalMiss.UI.Controllers.API
 
         // This functionality needs to be moved into the Games controller, as that
         // is the appropriate place for this request/return
-        [HttpGet("api/games/{gameId:int}/boards")]
+       // [HttpGet("api/games/{gameId:int}/boards")]
         //[Produces("application/json")]
         //public IActionResult GetAllBoardsForGame([FromRoute] int gameId)
         //{
