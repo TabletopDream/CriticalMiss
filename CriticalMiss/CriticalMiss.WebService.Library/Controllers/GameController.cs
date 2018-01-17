@@ -18,11 +18,11 @@ namespace CriticalMiss.WebService.Library.Controllers
     public class GameController : Controller
     {
         // GET: api/Game
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // GET: api/Game/5
         [HttpGet("{gameName}", Name = "Get")]
@@ -44,7 +44,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpPost]
         public void Post([FromBody]string name)
         {
-            Game game = new Game(name, true);
+            
         }
         
         // PUT: api/Game/5
