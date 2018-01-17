@@ -31,10 +31,15 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IActionResult GetGamesBoard([FromRoute] int id)
         {
-            var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
-               Name = x.BoardName
-                });
-            return Ok(gameboardlist);
+            //var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
+            //   Name = x.BoardName
+            //    });
+
+            //return Ok(gameboardlist);
+
+            var gameBoard = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);
+            
+            return Ok(gameBoard);
         }
 
         [HttpPost]

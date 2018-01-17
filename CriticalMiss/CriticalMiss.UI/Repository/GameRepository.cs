@@ -18,19 +18,19 @@ namespace CriticalMiss.UI.Repository
         public GameRepository(IDatabaseHttpClientProvider dbprovider)
         {
             _dbProvider = dbprovider;
-        }      
+        }
 
-        async Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync ()
+        async Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync()
         {
             var httpClient = _dbProvider.DatabaseConnection;
 
-            var response =await httpClient.GetAsync("api/Games");
+            var response = await httpClient.GetAsync("api/Games");
             if (response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
                     string contentbody = await content.ReadAsStringAsync();
-                    var gamelist = JsonConvert.DeserializeObject<List<IGame>>(contentbody);
+                    var gamelist = JsonConvert.DeserializeObject<List<Game>>(contentbody);
 
                     return gamelist;
                 }
@@ -38,17 +38,17 @@ namespace CriticalMiss.UI.Repository
             return null;
         }
 
-        async Task<IGame> IRepository<IGame>.GetByIdAsync (int id)
+        async Task<IGame> IRepository<IGame>.GetByIdAsync(int id)
         {
             var httpclient = _dbProvider.DatabaseConnection;
             var response = await httpclient.GetAsync("" + id);
 
-            if (response.Content!=null)
+            if (response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
                     string contentbody = await content.ReadAsStringAsync();
-                    var board = JsonConvert.DeserializeObject<IGame>(contentbody);
+                    var board = JsonConvert.DeserializeObject<Game>(contentbody);
 
                     return board;
                 }
@@ -70,14 +70,14 @@ namespace CriticalMiss.UI.Repository
 
             return null;
         }
-        async Task<IGame> IRepository<IGame>.UpdateAsync (IGame entity)
+        async Task<IGame> IRepository<IGame>.UpdateAsync(IGame entity)
         {
             var httpclient = _dbProvider.DatabaseConnection;
             string content = JsonConvert.SerializeObject(entity);
 
             var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await httpclient.PutAsync("api/games/" + entity.GameName, contentdata);
-            if (response.Content!=null)
+            if (response.Content != null)
             {
                 return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
             }
@@ -93,7 +93,7 @@ namespace CriticalMiss.UI.Repository
             var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
 
             var response = await httpclient.DeleteAsync("api/games/" + entity.GameName);
-            if (response.Content!=null)
+            if (response.Content != null)
             {
                 return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
             }

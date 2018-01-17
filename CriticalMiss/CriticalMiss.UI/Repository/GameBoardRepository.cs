@@ -20,7 +20,7 @@ namespace CriticalMiss.UI.Repository
             _dbProvider = dbProvider;
         }
 
-                async Task<IEnumerable<IBoard>> IRepository<IBoard>.GetAllAsync ()
+        async Task<IEnumerable<IBoard>> IRepository<IBoard>.GetAllAsync()
         {
             var httpClient = _dbProvider.DatabaseConnection;
 
@@ -40,7 +40,7 @@ namespace CriticalMiss.UI.Repository
             return null;
         }
 
-        async Task<IBoard> IRepository<IBoard>.GetByIdAsync (int id)
+        async Task<IBoard> IRepository<IBoard>.GetByIdAsync(int id)
         {
             var httpClient = _dbProvider.DatabaseConnection;
 
@@ -60,7 +60,7 @@ namespace CriticalMiss.UI.Repository
 
             return null;
         }
-        async Task<IBoard> IRepository<IBoard>.AddAsync (IBoard entity)
+        async Task<IBoard> IRepository<IBoard>.AddAsync(IBoard entity)
         {
             var httpclient = _dbProvider.DatabaseConnection;
 
@@ -76,7 +76,7 @@ namespace CriticalMiss.UI.Repository
             return null;
         }
 
-        async Task<IBoard> IRepository<IBoard>.DeleteAsync (IBoard entity)
+        async Task<IBoard> IRepository<IBoard>.DeleteAsync(IBoard entity)
         {
             var httpclient = _dbProvider.DatabaseConnection;
             string content = JsonConvert.SerializeObject(entity);
@@ -91,7 +91,7 @@ namespace CriticalMiss.UI.Repository
             return null;
         }
 
-        async Task<IBoard> IRepository<IBoard>.UpdateAsync (IBoard entity)
+        async Task<IBoard> IRepository<IBoard>.UpdateAsync(IBoard entity)
         {
             var httpclient = _dbProvider.DatabaseConnection;
             string content = JsonConvert.SerializeObject(entity);
