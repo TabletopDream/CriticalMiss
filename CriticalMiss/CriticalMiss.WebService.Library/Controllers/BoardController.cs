@@ -54,8 +54,17 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // PUT: api/Board/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task PutAsync([FromRoute]int id, [FromBody]Board board)
         {
+            HttpBaseInformation client = new HttpBaseInformation();
+
+            var content = JsonConvert.SerializeObject(board);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await client.Client.PutAsync("api/games/[gameName]/boards/" + id, stringContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
         }
         
         // DELETE: api/ApiWithActions/5
