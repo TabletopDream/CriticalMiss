@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CriticalMiss.Library.Models;
 using CriticalMiss.WebService.Library.Models;
@@ -39,8 +41,14 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // POST: api/Board
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task PostAsync([FromBody]int id)
         {
+            HttpBaseInformation client = new HttpBaseInformation();
+            Board b = new Board(20,20,id);
+
+            var content = JsonConvert.SerializeObject(b);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await client.Client.PostAsync("api/games/}", stringContent);
         }
         
         // PUT: api/Board/5
