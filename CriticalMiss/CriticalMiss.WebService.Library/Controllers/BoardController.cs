@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(b);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PostAsync("api/games/}", stringContent);
+            var response = await client.Client.PostAsync("api/games/{gameName}/board/" + id.ToString(), stringContent);
         }
         
         // PUT: api/Board/5
@@ -59,8 +60,12 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<HttpStatusCode> DeleteAsync(int id)
         {
+            HttpBaseInformation c = new HttpBaseInformation();
+
+            var response = await c.Client.DeleteAsync("api/games/{gameName}/board/" + id.ToString());
+            return response.StatusCode;
         }
     }
 }
