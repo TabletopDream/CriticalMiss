@@ -33,11 +33,13 @@ namespace CriticalMiss.Data
 
         /** DbSets Go Below Here **/
 
-        public DbSet<GameBoardDBO> GameBoards { get; set; }
+
+        public DbSet<Boards> GameBoard { get; set; }
+       // public DbSet<GameBoardDBO> GameBoards { get; set; }
         public DbSet<GameBoardItemDBO> BoardItems { get; set; }
 
         public DbSet<ImageAssetDBO> ImageAssets { get; set; }
-        
+        public DbSet<Item> item { get; set; }
         public DbSet<Games> games { get; set; }
     }
 }

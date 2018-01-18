@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace CriticalMiss.Data
+namespace CriticalMiss.Data.Models
 {
-    [Table("GameBoard", Schema = "CM")]
-    public class GameBoardDBO : IBoard
+    public class Boards : IBoard
     {
         [Key]
         [Column("ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int GameBoardId { get; set; }
+        public int BoardId { get; set; }
+
+        [Column("BoardName")]
+        public string BoardName { get; set; }
 
         [ForeignKey("Game")]
         [Column("GameId")]
@@ -25,18 +27,10 @@ namespace CriticalMiss.Data
         [Column("Height")]
         public int Height { get; set; }
 
-        public int BoardId { get; set; }
-
         public int Pixel { get; set; }
 
         public int LocalId { get; set; }
 
         public int ItemCount { get; set; }
-
-        public virtual ICollection<GameBoardItemDBO> BoardItems { get; set; }
-        public string BoardName { get ; set; }
-        //public GameDBO Game { get; set; }
-
-
     }
 }

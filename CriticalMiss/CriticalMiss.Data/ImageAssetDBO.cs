@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CriticalMiss.Common.Interfaces;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriticalMiss.Data
 {
     [Table("ImageAsset", Schema = "CM")]
-    public class ImageAssetDBO
+    public class ImageAssetDBO : IImageAsset
     {
         [Key]
         [Column("ID")]

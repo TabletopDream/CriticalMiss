@@ -32,7 +32,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.GetAsync("api/games/{name}");
+            var response = await client.Client.GetAsync("api/games/" + name);
             if (response.IsSuccessStatusCode)
             {
                 var game = JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
@@ -56,12 +56,14 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
         
         // PUT: api/Game/5
-        [HttpPut("{id}", Name ="Put")]
-        public async Task PutAsync([FromBody]string gamename)
+        [HttpPut("{gameName}",Name ="Put")]
+        public async Task PutAsync([FromRoute]string gamename, [FromBody]Game game)
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.PutAsJsonAsync("api/games/{gameName}", gamename);
+            var content = JsonConvert.SerializeObject(game);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await client.Client.PutAsync("api/games/" + gamename, stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return;
@@ -74,7 +76,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation c = new HttpBaseInformation();
 
-            var response = await c.Client.DeleteAsync("api/games/{gameName}");
+            var response = await c.Client.DeleteAsync("api/games/" + gameName);
             return response.StatusCode;
         }
     }

@@ -8,96 +8,165 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using CriticalMiss.UI.Models;
+using System.Net;
+using CriticalMiss.UI.Exceptions;
 
 namespace CriticalMiss.UI.Repository
 {
     public class GameRepository : IGameRepository
     {
-        private IDatabaseHttpClientProvider _dbProvider;
+        private ILibraryHttpClientProvider _libProvider;
 
-        public GameRepository(IDatabaseHttpClientProvider dbprovider)
+        public GameRepository(ILibraryHttpClientProvider libProvider)
         {
-            _dbProvider = dbprovider;
-        }      
+            _libProvider = libProvider;
+        }
 
-        async Task<IEnumerable<IGame>> IRepository<IGame>.GetAllAsync ()
+        async Task<IEnumerable<IGame>> IGameRepository.GetAllAsync ()
         {
-            var httpClient = _dbProvider.DatabaseConnection;
+            var httpClient = _libProvider.LibraryConnection;
 
-            var response =await httpClient.GetAsync("");
-            if (response != null)
+            var response = await httpClient.GetAsync("api/games");
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string contentBody = await content.ReadAsStringAsync();
+                    var gameList = JsonConvert.DeserializeObject<List<Game>>(contentBody);
+
+                    return gameList;
+                }
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
+        }
+
+        async Task<IGame> IGameRepository.GetByNameAsync(string gameName)
+        {
+            var httpClient = _libProvider.LibraryConnection;
+            var response = await httpClient.GetAsync("api/games");
+
+            if (response.IsSuccessStatusCode && response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
                     string contentbody = await content.ReadAsStringAsync();
-                    var gamelist = JsonConvert.DeserializeObject<List<IGame>>(contentbody);
+                    var board = JsonConvert.DeserializeObject<Game>(contentbody);
+                    string contentBody = await content.ReadAsStringAsync();
+                    var game = JsonConvert.DeserializeObject<Game>(contentBody);
 
-                    return gamelist;
+                    return game;
                 }
             }
-            return null;
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        async Task<IGame> IRepository<IGame>.GetByIdAsync (int id)
+        async Task<IGame> IGameRepository.AddAsync(IGame entity)
         {
-            var httpclient = _dbProvider.DatabaseConnection;
-            var response = await httpclient.GetAsync("" + id);
+            var httpclient = _libProvider.LibraryConnection;
+            
+            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                  Encoding.UTF8,
+                                                  "application/json");
+            var response = await httpclient.PostAsync("api/games/", stringContent);
 
-            if (response.Content!=null)
+            if (response.IsSuccessStatusCode && response.Content != null)
             {
                 using (HttpContent content = response.Content)
                 {
-                    string contentbody = await content.ReadAsStringAsync();
-                    var board = JsonConvert.DeserializeObject<IGame>(contentbody);
+                    var contentBody = await content.ReadAsStringAsync();
 
-                    return board;
+                    var game = JsonConvert.DeserializeObject<Game>(contentBody);
+
+                    return game;
                 }
             }
-            return null;
-        }
-        async Task<IGame> IRepository<IGame>.AddAsync(IGame entity)
-        {
-            var httpclient = _dbProvider.DatabaseConnection;
-
-            string content = JsonConvert.SerializeObject(entity);
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await httpclient.PostAsync("api/games/", contentdata);
-
-            if (response.Content != null)
+            else if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
             }
 
-            return null;
-        }
-        async Task<IGame> IRepository<IGame>.UpdateAsync (IGame entity)
-        {
-            var httpclient = _dbProvider.DatabaseConnection;
-            string content = JsonConvert.SerializeObject(entity);
-
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await httpclient.PutAsync("api/games/" + entity.GameName, contentdata);
-            if (response.Content!=null)
+            throw new HttpServiceException()
             {
-                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+                HttpResponse = response
+            };
+        }
+        async Task<IGame> IGameRepository.UpdateAsync (string gameName, IGame entity)
+        {
+            var httpclient = _libProvider.LibraryConnection;
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                  Encoding.UTF8,
+                                                  "application/json");
+            var response = await httpclient.PutAsync("api/games/" + gameName, stringContent);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
+
+                    var game = JsonConvert.DeserializeObject<Game>(contentBody);
+
+                    return game;
+                }
             }
-            return null;
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        async Task<IGame> IRepository<IGame>.DeleteAsync(IGame entity)
+        async Task IGameRepository.DeleteAsync(string gameName)
         {
 
-            var httpclient = _dbProvider.DatabaseConnection;
-            string content = JsonConvert.SerializeObject(entity);
+            var httpclient = _libProvider.LibraryConnection;
 
-            var contentdata = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await httpclient.DeleteAsync("api/games/" + gameName);
 
-            var response = await httpclient.DeleteAsync("api/games/" + entity.GameName);
-            if (response.Content!=null)
+            if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
+                return;
             }
-            return null;
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
     }
 }
