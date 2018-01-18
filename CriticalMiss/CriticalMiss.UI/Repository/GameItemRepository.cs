@@ -16,6 +16,9 @@ namespace CriticalMiss.UI.Repository
 {
     public class GameItemRepository : IGameItemRepository
     {
+        private static string _itemsCollectionUrlString = "api/games/{0}/boards/{1}/items";
+        private static string _itemUrlString = "api/games/{0}/boards/{1}/items/{2}";
+
         private ILibraryHttpClientProvider _libProvider;
 
         public GameItemRepository(ILibraryHttpClientProvider libProvider)
@@ -34,7 +37,7 @@ namespace CriticalMiss.UI.Repository
 
             var gameName = keys[0] as string;
             var boardId = keys[1] as int?;
-            var uriString = string.Format("api/games/{0}/boards/{1}/items", gameName, boardId);
+            var uriString = string.Format(_itemsCollectionUrlString, gameName, boardId);
             var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
                                                   Encoding.UTF8,
                                                   "application/json");
@@ -60,26 +63,140 @@ namespace CriticalMiss.UI.Repository
 
         async Task IRepository<IUIGameItem>.DeleteAsync (IUIGameItem entity, params object[] keys)
         {
+            if (keys.Length != 3)
+            {
+                throw new ArgumentException("Keys count not 3!");
+            }
+
             var httpClient = _libProvider.LibraryConnection;
 
             var gameName = keys[0] as string;
             var boardId = keys[1] as int?;
             var itemId = keys[2] as int?;
+            var uriString = string.Format(_itemUrlString, gameName, boardId, itemId);
+
+            var response = await httpClient.DeleteAsync(uriString);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        Task<IEnumerable<IUIGameItem>> IRepository<IUIGameItem>.GetAllAsync (params object[] keys)
+        async Task<IEnumerable<IUIGameItem>> IRepository<IUIGameItem>.GetAllAsync (params object[] keys)
         {
-            throw new NotImplementedException();
+            var httpClient = _libProvider.LibraryConnection;
+
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
+            var uriString = string.Format(_itemsCollectionUrlString, gameName, boardId);
+
+            var response = await httpClient.GetAsync(uriString);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
+
+                    var items = JsonConvert.DeserializeObject<List<Item>>(contentBody);
+
+                    return items;
+                }
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        Task<IUIGameItem> IRepository<IUIGameItem>.GetAsync (params object[] keys)
+        async Task<IUIGameItem> IRepository<IUIGameItem>.GetAsync (params object[] keys)
         {
-            throw new NotImplementedException();
+            var httpClient = _libProvider.LibraryConnection;
+
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
+            var itemId = keys[2] as int?;
+            var uriString = string.Format(_itemsCollectionUrlString, gameName, boardId, itemId);
+
+            var response = await httpClient.GetAsync(uriString);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
+
+                    var item = JsonConvert.DeserializeObject<Item>(contentBody);
+
+                    return item;
+                }
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
-        Task<IUIGameItem> IRepository<IUIGameItem>.UpdateAsync (IUIGameItem entity, params object[] keys)
+        async Task<IUIGameItem> IRepository<IUIGameItem>.UpdateAsync (IUIGameItem entity, params object[] keys)
         {
-            throw new NotImplementedException();
+            var httpClient = _libProvider.LibraryConnection;
+
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
+            var itemId = keys[2] as int?;
+            var uriString = string.Format(_itemUrlString, gameName, boardId, itemId);
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
+                                                  Encoding.UTF8,
+                                                  "application/json");
+
+            var response = await httpClient.PutAsync(uriString, stringContent);
+
+            if (response.IsSuccessStatusCode && response.Content != null)
+            {
+                using (HttpContent content = response.Content)
+                {
+                    var contentBody = await content.ReadAsStringAsync();
+
+                    var updatedItem = JsonConvert.DeserializeObject<Item>(contentBody);
+
+                    return updatedItem;
+                }
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
     }
 }
