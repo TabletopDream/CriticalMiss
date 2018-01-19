@@ -17,6 +17,13 @@ namespace CriticalMiss.WebService.Library.Controllers
     [Route("api/BoardItem")]
     public class BoardItemController : Controller
     {
+        private HttpBaseInformation _client;
+
+        public BoardItemController()
+        {
+            _client = new HttpBaseInformation();
+        }
+
         // GET: api/BoardItem
         [HttpGet]
         public IEnumerable<string> Get()
@@ -28,9 +35,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            HttpBaseInformation client = new HttpBaseInformation();
-
-            var response = await client.Client.GetAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            var response = await _client.Client.GetAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
             if (response.IsSuccessStatusCode)
             {
                 var game = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
@@ -44,23 +49,20 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpPost("{id}")]
         public async Task PostAsync([FromRoute]int id)
         {
-            HttpBaseInformation c = new HttpBaseInformation();
             BoardItem item = new BoardItem(id);
 
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await c.Client.PostAsync("api/games/{gameName}/boards/{boardId}/items/", stringContent);
+            var response = await _client.Client.PostAsync("api/games/{gameName}/boards/{boardId}/items/", stringContent);
         }
         
         // PUT: api/BoardItem/5
         [HttpPut("{id}")]
         public async Task PutAsync([FromRoute]int id, [FromBody]BoardItem item)
         {
-            HttpBaseInformation c = new HttpBaseInformation();
-
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await c.Client.PutAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString(), stringContent);
+            var response = await _client.Client.PutAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString(), stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return;
@@ -71,9 +73,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpDelete("{id}")]
         public async Task<HttpStatusCode> DeleteAsync(int id)
         {
-            HttpBaseInformation c = new HttpBaseInformation();
-
-            var response = await c.Client.DeleteAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            var response = await _client.Client.DeleteAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
             return response.StatusCode;
         }
     }
