@@ -1,11 +1,10 @@
 ﻿using CriticalMiss.Common.Interfaces;
 using CriticalMiss.UI.Exceptions;
 using CriticalMiss.UI.Models;
-using CriticalMiss.UI.Models;
+using CriticalMiss.UI.Models.Interfaces;
 using CriticalMiss.UI.Repository.Interfaces;
 using CriticalMiss.UI.Services.HTTP.Interfaces;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -23,10 +22,10 @@ namespace CriticalMiss.UI.Repository
             _libProvider = libProvider;
         }
 
-        async Task<IBoard> IGameBoardRepository.AddAsync (string gameName, IBoard entity)
-        { 
+        async Task<IUIGameBoard> IRepository<IUIGameBoard>.AddAsync (IUIGameBoard entity, params object[] keys)
+        {
             var httpClient = _libProvider.LibraryConnection;
-
+            var gameName = keys[0] as string;
             var uriString = string.Format("/api/games/{0}/boards", gameName);
             var requestContent = new StringContent(JsonConvert.SerializeObject(entity),
                                                    Encoding.UTF8,
@@ -50,21 +49,11 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task<bool> IGameBoardRepository.BoardExistsAsync (string gameName, int boardId)
+        async Task IRepository<IUIGameBoard>.DeleteAsync (IUIGameBoard entity, params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
-
-            var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
-
-            var response = await httpClient.GetAsync(uriString);
-
-            return response.IsSuccessStatusCode;
-        }
-
-        async Task IGameBoardRepository.DeleteAsync (string gameName, int boardId)
-        {
-            var httpClient = _libProvider.LibraryConnection;
-
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
             var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
 
             var response = await httpClient.DeleteAsync(uriString);
@@ -89,10 +78,10 @@ namespace CriticalMiss.UI.Repository
             return;
         }
 
-        async Task<IEnumerable<IBoard>> IGameBoardRepository.GetBoardsForGameAsync (string gameName)
+        async Task<IEnumerable<IUIGameBoard>> IRepository<IUIGameBoard>.GetAllAsync (params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
-
+            var gameName = keys[0] as string;
             var uriString = string.Format("/api/games/{0}/boards", gameName);
             var response = await httpClient.GetAsync(uriString);
 
@@ -120,10 +109,11 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task<IBoard> IGameBoardRepository.GetByRelativeIdAsync (string gameName, int boardId)
+        async Task<IUIGameBoard> IRepository<IUIGameBoard>.GetAsync (params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
-
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
             var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
             var response = await httpClient.GetAsync(uriString);
 
@@ -151,9 +141,11 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task<IBoard> IGameBoardRepository.UpdateAsync (string gameName, int boardId, IBoard entity)
+        async Task<IUIGameBoard> IRepository<IUIGameBoard>.UpdateAsync (IUIGameBoard entity, params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
+            var gameName = keys[0] as string;
+            var boardId = keys[1] as int?;
             var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
             var stringContent = new StringContent(JsonConvert.SerializeObject(entity),
                                                   Encoding.UTF8,
@@ -174,5 +166,16 @@ namespace CriticalMiss.UI.Repository
             }
             return null;
         }
+
+        //async Task<bool> IGameBoardRepository.BoardExistsAsync (string gameName, int boardId)
+        //{
+        //    var httpClient = _libProvider.LibraryConnection;
+
+        //    var uriString = string.Format("/api/games/{0}/boards/{1}", gameName, boardId);
+
+        //    var response = await httpClient.GetAsync(uriString);
+
+        //    return response.IsSuccessStatusCode;
+        //}
     }
 }
