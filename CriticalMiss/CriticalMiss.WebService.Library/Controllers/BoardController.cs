@@ -42,9 +42,10 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // POST: api/Board
         [HttpPost]
-        public async Task PostAsync([FromBody]int id)
+        public async Task PostAsync([FromBody]string gameName)
         {
             HttpBaseInformation client = new HttpBaseInformation();
+            var id = 1;
             Board b = new Board(20,20,id);
 
             var content = JsonConvert.SerializeObject(b);

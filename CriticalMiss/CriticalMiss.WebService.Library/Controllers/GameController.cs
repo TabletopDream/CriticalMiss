@@ -44,7 +44,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // POST: api/Game
         [HttpPost("{gameName}", Name = "Post")]
-        public async Task PostAsync([FromBody]string name)
+        public async Task<IActionResult> PostAsync([FromBody]string name)
         {
             HttpBaseInformation client = new HttpBaseInformation();
             Game game = new Game(name, true);
@@ -52,7 +52,18 @@ namespace CriticalMiss.WebService.Library.Controllers
             var content = JsonConvert.SerializeObject(game);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await client.Client.PostAsync("api/games/}", stringContent);
-            
+            if(!response.IsSuccessStatusCode)
+            {
+                return BadRequest(game);
+            }
+
+            var res = await client.Client.PostAsync("api/games/" + name + "/boards/", stringContent);
+            if(res.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
         
         // PUT: api/Game/5
