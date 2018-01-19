@@ -70,24 +70,31 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
         
         // PUT: api/BoardItem/5
-        [HttpPut("{id}")]
-        public async Task PutAsync([FromRoute]int id, [FromBody]BoardItem item) //make sure it uses pluck before serializing
+        [HttpPut("{boardId}")]
+        public async Task<IActionResult> PutAsync([FromRoute]int boardId, [FromBody]BoardItem item) //make sure it uses pluck before serializing
         {
+            item.PluckImageId();
+
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PutAsync("api/items/" + id.ToString(), stringContent);
+            var response = await _client.Client.PutAsync("api/items/" + boardId.ToString(), stringContent);
             if (response.IsSuccessStatusCode)
             {
-                return;
+                return Ok(item);
             }
+            return BadRequest();
         }
         
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public async Task<HttpStatusCode> DeleteAsync(int id)
+        [HttpDelete("{boardId}")]
+        public async Task<IActionResult> DeleteAsync(int boardId)
         {
-            var response = await _client.Client.DeleteAsync("api/items/" + id.ToString());
-            return response.StatusCode;
+            var response = await _client.Client.DeleteAsync("api/items/" + boardId.ToString());
+            if(response.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
