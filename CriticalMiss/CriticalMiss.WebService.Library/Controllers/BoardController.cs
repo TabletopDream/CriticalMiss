@@ -60,7 +60,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(board);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PutAsync("api/games/[gameName]/boards/" + id, stringContent);
+            var response = await client.Client.PutAsync("api/games/{gameName}/boards/" + id.ToString(), stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return;

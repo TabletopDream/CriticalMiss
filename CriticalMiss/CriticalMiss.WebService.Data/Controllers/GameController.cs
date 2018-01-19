@@ -27,12 +27,12 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IEnumerable GetAllGames()
-        {
-            var getgames = _context.games.AsEnumerable();
-            return getgames;
-        }
+        //[HttpGet]
+        //public IEnumerable GetAllGames()
+        //{
+        //    var getgames = _context.games.AsEnumerable();
+        //    return getgames;
+        //}
 
         //[HttpGet]
         //[HttpGet("Id}", Name = "Get")]
