@@ -24,7 +24,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGamesBoard()
         {
-            var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
+            var gameboardlist = _context.Boards.Select(a => a.BoardName);
             return Ok(gameboardlist);
         }
 

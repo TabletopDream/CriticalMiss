@@ -5,29 +5,26 @@ using System.Collections.Generic;
 
 namespace CriticalMiss.Data.Migrations
 {
-    public partial class MadechangesintotheUserTable : Migration
+    public partial class AfterResolvedconflictwithmultipleclass : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "UserName",
-                schema: "CM",
-                table: "Games");
+            migrationBuilder.EnsureSchema(
+                name: "CM");
 
             migrationBuilder.CreateTable(
-                name: "GameBoard",
+                name: "Games",
                 schema: "CM",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    GameId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    GameId = table.Column<int>(nullable: false),
-                    Height = table.Column<int>(nullable: false),
-                    Width = table.Column<int>(nullable: false)
+                    GameName = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameBoard", x => x.ID);
+                    table.PrimaryKey("PK_Games", x => x.GameId);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,33 +44,54 @@ namespace CriticalMiss.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameBoardItem",
+                name: "Boards",
                 schema: "CM",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    GameBoardId = table.Column<int>(nullable: false),
+                    BoardName = table.Column<string>(nullable: true),
+                    GameId = table.Column<int>(nullable: false),
+                    Height = table.Column<int>(nullable: false),
+                    ItemCount = table.Column<int>(nullable: false),
+                    LocalId = table.Column<int>(nullable: false),
+                    Pixel = table.Column<int>(nullable: false),
+                    Width = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Boards", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Boards_Games_GameId",
+                        column: x => x.GameId,
+                        principalSchema: "CM",
+                        principalTable: "Games",
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                schema: "CM",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BoardId = table.Column<int>(nullable: false),
+                    PixelHeight = table.Column<int>(nullable: false),
                     ImageAssetId = table.Column<int>(nullable: false),
                     IsToken = table.Column<bool>(nullable: false),
+                    LocalId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    PixelHeight = table.Column<int>(nullable: false),
                     PixelWidth = table.Column<int>(nullable: false),
                     XPosition = table.Column<int>(nullable: false),
                     YPosition = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameBoardItem", x => x.ID);
+                    table.PrimaryKey("PK_Items", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_GameBoardItem_GameBoard_GameBoardId",
-                        column: x => x.GameBoardId,
-                        principalSchema: "CM",
-                        principalTable: "GameBoard",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GameBoardItem_ImageAsset_ImageAssetId",
+                        name: "FK_Items_ImageAsset_ImageAssetId",
                         column: x => x.ImageAssetId,
                         principalSchema: "CM",
                         principalTable: "ImageAsset",
@@ -82,38 +100,35 @@ namespace CriticalMiss.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameBoardItem_GameBoardId",
+                name: "IX_Boards_GameId",
                 schema: "CM",
-                table: "GameBoardItem",
-                column: "GameBoardId");
+                table: "Boards",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameBoardItem_ImageAssetId",
+                name: "IX_Items_ImageAssetId",
                 schema: "CM",
-                table: "GameBoardItem",
+                table: "Items",
                 column: "ImageAssetId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GameBoardItem",
+                name: "Boards",
                 schema: "CM");
 
             migrationBuilder.DropTable(
-                name: "GameBoard",
+                name: "Items",
+                schema: "CM");
+
+            migrationBuilder.DropTable(
+                name: "Games",
                 schema: "CM");
 
             migrationBuilder.DropTable(
                 name: "ImageAsset",
                 schema: "CM");
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserName",
-                schema: "CM",
-                table: "Games",
-                nullable: false,
-                defaultValue: "");
         }
     }
 }

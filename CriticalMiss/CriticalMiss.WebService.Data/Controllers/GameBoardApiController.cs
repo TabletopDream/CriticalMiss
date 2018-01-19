@@ -21,10 +21,10 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
-        [HttpGet("{id}", Name = "Get")]
+       // [HttpGet("{id}", Name = "Get")]
         public IActionResult GetGamesBoard()
         {
-            var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
+            var gameboardlist = _context.Boards.Select(a => a.BoardName);
             return Ok(gameboardlist);
         }
 
@@ -36,14 +36,14 @@ namespace CriticalMiss.WebService.Data.Controllers
             //    });
 
             //return Ok(gameboardlist);
-            var gameBoard = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);
+            var gameBoard = _context.Boards.SingleOrDefault(x => x.BoardId == id);
             return Ok(gameBoard);
         }
 
         [HttpPost]
         public IActionResult CreateBoardGame([FromBody] Boards gameboard)
         {
-            _context.GameBoard.Add(gameboard);
+            _context.Boards.Add(gameboard);
             _context.SaveChanges();
             return Ok();
         }
@@ -51,7 +51,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         public IActionResult UpdateGame([FromRoute] int id, [FromBody] Boards gameboard)
         {
 
-            var upboardgames = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);
+            var upboardgames = _context.Boards.SingleOrDefault(x => x.BoardId == id);
             upboardgames.BoardName = gameboard.BoardName;
             upboardgames.Width = gameboard.Width;
             upboardgames.Height = gameboard.Height;
@@ -63,8 +63,8 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpDelete("{id}", Name = "{BoardName_Delete}")]
         public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
         {
-            var delgames = _context.GameBoard.SingleOrDefault(x => x.BoardId == Id);
-            _context.GameBoard.Remove(delgames);
+            var delgames = _context.Boards.SingleOrDefault(x => x.BoardId == Id);
+            _context.Boards.Remove(delgames);
             _context.SaveChanges();
             return Ok();
         }
