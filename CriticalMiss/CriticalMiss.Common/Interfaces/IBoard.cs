@@ -11,6 +11,5 @@ namespace CriticalMiss.Common.Interfaces
         int Height { get; set; }
         int Pixel { get; set; }
         int LocalId { get; set; }
-        int ItemCount { get; set; }
     }
 }
