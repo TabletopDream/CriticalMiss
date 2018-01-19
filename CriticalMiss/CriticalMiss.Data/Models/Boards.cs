@@ -27,10 +27,13 @@ namespace CriticalMiss.Data.Models
         [Column("Height")]
         public int Height { get; set; }
 
+        [Column("Pixel")]
         public int Pixel { get; set; }
 
+        [Column("LocalId")]
         public int LocalId { get; set; }
 
+        [Column("ItemCount")]
         public int ItemCount { get; set; }
     }
 }

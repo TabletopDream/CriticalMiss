@@ -28,14 +28,14 @@ namespace CriticalMiss.WebService.Data.Controllers
         //    return Ok(gameboardlist);
         //}
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult GetGamesItem([FromRoute] int id)
-        {
-            var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new {
-                Name = x.Name
-            });
-            return Ok(gameboardlist);
-        }
+        //[HttpGet("{id}", Name = "Get")]
+        //public IActionResult GetGamesItem([FromRoute] int id)
+        //{
+        //    var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new {
+        //        Name = x.Name
+        //    });
+        //    return Ok(gameboardlist);
+        //}
 
         [HttpPost]
         public IActionResult CreateBoardGame([FromBody] Item gameitem)
