@@ -21,24 +21,24 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult GetGamesBoard()
-        //{
-        //    var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
-        //    return Ok(gameboardlist);
-        //}
+        [HttpGet("{id}", Name = "Get")]
+        public IActionResult GetGamesBoard()
+        {
+            var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
+            return Ok(gameboardlist);
+        }
 
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult GetGamesBoard([FromRoute] int id)
-        //{
-        //    //var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
-        //    //   Name = x.BoardName
-        //    //    });
+        [HttpGet("{id}", Name = "Get_Board")]
+        public IActionResult GetGamesBoard([FromRoute] int id)
+        {
+            //var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
+            //   Name = x.BoardName
+            //    });
 
-        //    //return Ok(gameboardlist);
-        //    var gameBoard = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);          
-        //    return Ok(gameBoard);
-        //}
+            //return Ok(gameboardlist);
+            var gameBoard = _context.GameBoard.SingleOrDefault(x => x.BoardId == id);
+            return Ok(gameBoard);
+        }
 
         [HttpPost]
         public IActionResult CreateBoardGame([FromBody] Boards gameboard)
@@ -47,7 +47,7 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("{BoardName}")]
+        [HttpPut("{id}", Name = "{BoardName_Update}")]
         public IActionResult UpdateGame([FromRoute] int id, [FromBody] Boards gameboard)
         {
 
@@ -60,7 +60,7 @@ namespace CriticalMiss.WebService.Data.Controllers
 
             return Ok();
         }
-        [HttpDelete("{BoardName}")]
+        [HttpDelete("{id}", Name = "{BoardName_Delete}")]
         public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
         {
             var delgames = _context.GameBoard.SingleOrDefault(x => x.BoardId == Id);

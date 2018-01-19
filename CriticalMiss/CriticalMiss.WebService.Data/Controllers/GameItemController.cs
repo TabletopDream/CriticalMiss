@@ -21,21 +21,22 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult GetGamesBoard()
-        //{
-        //    var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
-        //    return Ok(gameboardlist);
-        //}
+        [HttpGet("{id}")]
+        public IActionResult GetGamesBoard()
+        {
+            var gameboardlist = _context.GameBoard.Select(a => a.BoardName);
+            return Ok(gameboardlist);
+        }
 
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult GetGamesItem([FromRoute] int id)
-        //{
-        //    var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new {
-        //        Name = x.Name
-        //    });
-        //    return Ok(gameboardlist);
-        //}
+        [HttpGet("{id}")]
+        public IActionResult GetGamesItem([FromRoute] int id)
+        {
+            var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new
+            {
+                Name = x.Name
+            });
+            return Ok(gameboardlist);
+        }
 
         [HttpPost]
         public IActionResult CreateBoardGame([FromBody] Item gameitem)
@@ -44,7 +45,7 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("{BoardName}")]
+        [HttpPut("{id}", Name ="{ItemName_Update}")]
         public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem)
         {
 
@@ -54,7 +55,7 @@ namespace CriticalMiss.WebService.Data.Controllers
 
             return Ok();
         }
-        [HttpDelete("{BoardName}")]
+        [HttpDelete("{id}", Name = "{ItemName_Delete}")]
         public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
         {
             var delgames = _context.item.SingleOrDefault(x => x.ItemId== Id);
