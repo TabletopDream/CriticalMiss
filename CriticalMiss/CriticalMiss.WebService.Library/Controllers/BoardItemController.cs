@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CriticalMiss.Library.Models;
 using CriticalMiss.WebService.Library.Models;
@@ -37,17 +39,32 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             return BadRequest();
         }
-        
+
         // POST: api/BoardItem
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("{id}")]
+        public async Task PostAsync([FromRoute]int id)
         {
+            HttpBaseInformation c = new HttpBaseInformation();
+            BoardItem item = new BoardItem(id);
+
+            var content = JsonConvert.SerializeObject(item);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await c.Client.PostAsync("api/games/{gameName}/boards/{boardId}/items/", stringContent);
         }
         
         // PUT: api/BoardItem/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task PutAsync([FromRoute]int id, [FromBody]BoardItem item)
         {
+            HttpBaseInformation c = new HttpBaseInformation();
+
+            var content = JsonConvert.SerializeObject(item);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await c.Client.PutAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString(), stringContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
         }
         
         // DELETE: api/ApiWithActions/5
