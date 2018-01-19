@@ -130,7 +130,7 @@ namespace CriticalMiss.UI.Repository
             var gameName = keys[0] as string;
             var boardId = keys[1] as int?;
             var itemId = keys[2] as int?;
-            var uriString = string.Format(_itemsCollectionUrlString, gameName, boardId, itemId);
+            var uriString = string.Format(_itemUrlString, gameName, boardId, itemId);
 
             var response = await httpClient.GetAsync(uriString);
 
