@@ -7,6 +7,7 @@ using System.Text;
 
 namespace CriticalMiss.Data.Models
 {
+    [Table("Items", Schema = "CM")]
     public class Item : IBoardItem
     {
         [Key]
@@ -17,11 +18,9 @@ namespace CriticalMiss.Data.Models
         [Column("Name")]
         public string Name { get; set; }
 
-        [ForeignKey("GameBoard")]
-        [Column("GameBoardId")]
+        [ForeignKey("Boards")]
+        [Column("BoardId")]
         public int GameBoardId { get; set; }
-
-        public GameBoardDBO GameBoard { get; set; }
 
         [ForeignKey("ImageAsset")]
         [Column("ImageAssetId")]

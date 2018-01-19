@@ -11,8 +11,8 @@ using System;
 namespace CriticalMiss.Data.Migrations
 {
     [DbContext(typeof(CriticalMissDbContext))]
-    [Migration("20180119011333_Migrate for Initial")]
-    partial class MigrateforInitial
+    [Migration("20180119151354_After Resolved conflict with multiple class")]
+    partial class AfterResolvedconflictwithmultipleclass
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,78 +20,6 @@ namespace CriticalMiss.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CriticalMiss.Data.GameBoardDBO", b =>
-                {
-                    b.Property<int>("GameBoardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID");
-
-                    b.Property<int>("BoardId");
-
-                    b.Property<string>("BoardName");
-
-                    b.Property<int>("GameId")
-                        .HasColumnName("GameId");
-
-                    b.Property<int>("Height")
-                        .HasColumnName("Height");
-
-                    b.Property<int>("ItemCount");
-
-                    b.Property<int>("LocalId");
-
-                    b.Property<int>("Pixel");
-
-                    b.Property<int>("Width")
-                        .HasColumnName("Width");
-
-                    b.HasKey("GameBoardId");
-
-                    b.ToTable("GameBoard","CM");
-                });
-
-            modelBuilder.Entity("CriticalMiss.Data.GameBoardItemDBO", b =>
-                {
-                    b.Property<int>("ItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID");
-
-                    b.Property<int>("GameBoardId")
-                        .HasColumnName("GameBoardId");
-
-                    b.Property<int>("Height")
-                        .HasColumnName("PixelHeight");
-
-                    b.Property<int>("ImageAssetId")
-                        .HasColumnName("ImageAssetId");
-
-                    b.Property<bool>("IsToken")
-                        .HasColumnName("IsToken");
-
-                    b.Property<int>("LocalId")
-                        .HasColumnName("LocalId");
-
-                    b.Property<string>("Name")
-                        .HasColumnName("Name");
-
-                    b.Property<int>("Width")
-                        .HasColumnName("PixelWidth");
-
-                    b.Property<int>("XPos")
-                        .HasColumnName("XPosition");
-
-                    b.Property<int>("YPos")
-                        .HasColumnName("YPosition");
-
-                    b.HasKey("ItemId");
-
-                    b.HasIndex("GameBoardId");
-
-                    b.HasIndex("ImageAssetId");
-
-                    b.ToTable("GameBoardItem","CM");
-                });
 
             modelBuilder.Entity("CriticalMiss.Data.ImageAssetDBO", b =>
                 {
@@ -143,7 +71,9 @@ namespace CriticalMiss.Data.Migrations
 
                     b.HasKey("BoardId");
 
-                    b.ToTable("GameBoard");
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Boards","CM");
                 });
 
             modelBuilder.Entity("CriticalMiss.Data.Models.Games", b =>
@@ -172,7 +102,7 @@ namespace CriticalMiss.Data.Migrations
                         .HasColumnName("ID");
 
                     b.Property<int>("GameBoardId")
-                        .HasColumnName("GameBoardId");
+                        .HasColumnName("BoardId");
 
                     b.Property<int>("Height")
                         .HasColumnName("PixelHeight");
@@ -200,33 +130,21 @@ namespace CriticalMiss.Data.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.HasIndex("GameBoardId");
-
                     b.HasIndex("ImageAssetId");
 
-                    b.ToTable("item");
+                    b.ToTable("Items","CM");
                 });
 
-            modelBuilder.Entity("CriticalMiss.Data.GameBoardItemDBO", b =>
+            modelBuilder.Entity("CriticalMiss.Data.Models.Boards", b =>
                 {
-                    b.HasOne("CriticalMiss.Data.GameBoardDBO", "GameBoard")
-                        .WithMany("BoardItems")
-                        .HasForeignKey("GameBoardId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CriticalMiss.Data.ImageAssetDBO", "ImageAsset")
+                    b.HasOne("CriticalMiss.Data.Models.Games", "Game")
                         .WithMany()
-                        .HasForeignKey("ImageAssetId")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CriticalMiss.Data.Models.Item", b =>
                 {
-                    b.HasOne("CriticalMiss.Data.GameBoardDBO", "GameBoard")
-                        .WithMany()
-                        .HasForeignKey("GameBoardId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CriticalMiss.Data.ImageAssetDBO", "ImageAsset")
                         .WithMany()
                         .HasForeignKey("ImageAssetId")

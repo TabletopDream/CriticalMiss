@@ -27,12 +27,12 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //public IEnumerable GetAllGames()
-        //{
-        //    var getgames = _context.games.AsEnumerable();
-        //    return getgames;
-        //}
+        [HttpGet]
+        public IEnumerable GetAllGames()
+        {
+            var getgames = _context.games.AsEnumerable();
+            return getgames;
+        }
 
         //[HttpGet]
         //[HttpGet("Id}", Name = "Get")]
@@ -42,7 +42,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         //    return OK(getgamesid);
         //}
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IActionResult GetGames([FromRoute] int id)
         {
             //var getgamesbyid = _context.games.Where(a => a.GameId == id).Select(a => new {
@@ -62,20 +62,20 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        [HttpDelete("{GameName}")]
-        public IActionResult DeleteGame([FromRoute] string GameName, Games game)
+        [HttpDelete("{id}", Name ="{GameName_Delete}")]
+        public IActionResult DeleteGame([FromRoute] int id, Games game)
         {
-            var delgames = _context.games.SingleOrDefault(x => x.GameId == game.GameId);
+            var delgames = _context.games.SingleOrDefault(x => x.GameId == id);
             _context.games.Remove(delgames);
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("{GameName}")]
-        public IActionResult UpdateGame([FromRoute] string GameName, [FromBody] Games game)
+        [HttpPut("{id}",Name ="{GameName_Update}")]
+        public IActionResult UpdateGame([FromRoute] int id, [FromBody] Games game)
         {
 
-            var upgames = _context.games.SingleOrDefault(x => x.GameId == game.GameId);
-            upgames.GameId = game.GameId;
+            var upgames = _context.games.SingleOrDefault(x => x.GameId==id);
+            //upgames.GameId = game.GameId;
             upgames.GameName = game.GameName;
 
             _context.SaveChanges();
