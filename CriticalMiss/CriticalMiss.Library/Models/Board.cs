@@ -15,7 +15,6 @@ namespace CriticalMiss.Library.Models
         public int LocalId { get; set; }
         public int ItemCount { get; set; }
         public string BoardName { get; set; }
-        public string GameName { get ; set; }
 
         public Board(int width, int height, int id)
         {
