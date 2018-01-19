@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CriticalMiss.Library.Util
+namespace CriticalMiss.Common.Util
 {
     public class InterfaceConverter<T> : JsonConverter
     {
