@@ -22,7 +22,7 @@ namespace CriticalMiss.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBoards(string gameName)
         {
-            var boards = await _boardRepository.GetBoardsForGameAsync(gameName);
+            var boards = await _boardRepository.GetAllAsync(gameName);
 
             if (boards != null)
             {
@@ -35,7 +35,7 @@ namespace CriticalMiss.UI.Controllers
         [HttpGet("{boardId}")]
         public async Task<IActionResult> GetBoard(string gameName, int boardId)
         {
-            var board = await _boardRepository.GetByRelativeIdAsync(gameName, boardId);
+            var board = await _boardRepository.GetAsync(gameName, boardId);
 
             if (board != null)
             {
@@ -50,7 +50,7 @@ namespace CriticalMiss.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var createdBoard = await _boardRepository.AddAsync(gameName, gameBoard);
+                var createdBoard = await _boardRepository.AddAsync(gameBoard, gameName);
 
                 if (createdBoard != null)
                 {
@@ -85,30 +85,16 @@ namespace CriticalMiss.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _boardRepository.BoardExistsAsync(gameName, boardId))
+                var updatedBoard = await _boardRepository.UpdateAsync(gameBoard, gameName, boardId);
+
+                if (updatedBoard != null)
                 {
-                    var updatedBoard = await _boardRepository.UpdateAsync(gameName, boardId, gameBoard);
-
-                    if (updatedBoard != null)
-                    {
-                        return Ok(updatedBoard);
-                    }
-
-                    return StatusCode(500, new
-                    {
-                        Message = "Error encountered creating board!",
-                        Data = new
-                        {
-                            GameName = gameName,
-                            BoardId = boardId,
-                            GameBoard = gameBoard
-                        }
-                    });
+                    return Ok(updatedBoard);
                 }
 
-                return NotFound(new
+                return StatusCode(500, new
                 {
-                    Message = "Specified board does not exist!",
+                    Message = "Error encountered creating board!",
                     Data = new
                     {
                         GameName = gameName,
@@ -132,10 +118,7 @@ namespace CriticalMiss.UI.Controllers
         public async Task<IActionResult> DeleteBoard([FromRoute] string gameName,
                                                      [FromRoute] int boardId)
         {
-            if (await _boardRepository.BoardExistsAsync(gameName, boardId))
-            {
-                await _boardRepository.DeleteAsync(gameName, boardId);
-            }
+            await _boardRepository.DeleteAsync(gameName, boardId);
 
             return NotFound(new
             {

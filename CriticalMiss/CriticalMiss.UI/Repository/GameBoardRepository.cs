@@ -78,6 +78,11 @@ namespace CriticalMiss.UI.Repository
             return;
         }
 
+        Task IRepository<IUIGameBoard>.DeleteAsync (params object[] keys)
+        {
+            throw new System.NotImplementedException();
+        }
+
         async Task<IEnumerable<IUIGameBoard>> IRepository<IUIGameBoard>.GetAllAsync (params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
