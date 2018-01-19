@@ -1,7 +1,6 @@
 ﻿using CriticalMiss.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using CriticalMiss.Common.Util;
+using Newtonsoft.Json;
 
 namespace CriticalMiss.Library.Models
 {
@@ -15,8 +14,16 @@ namespace CriticalMiss.Library.Models
         public double Height { get; set; }
         public int XPos { get; set; }
         public int YPos { get; set; }
-        public IImageAsset ImageAsset { get; set; }
         public int LocalId { get; set; }
+        public int ImageAssetId { get; set; }
+
+        [JsonConverter(typeof(InterfaceConverter<ImageAsset>))]
+        public IImageAsset ImageAsset { get; set; }
+
+        public BoardItem()
+        {
+
+        }
 
         public BoardItem(int id)
         {
@@ -39,6 +46,11 @@ namespace CriticalMiss.Library.Models
         {
             Width = w;
             Height = h;
+        }
+
+        public void PluckImageId()
+        {
+            ImageAssetId = ImageAsset.ImageAssetId;
         }
     }
 }
