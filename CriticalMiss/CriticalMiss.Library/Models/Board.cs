@@ -10,7 +10,7 @@ namespace CriticalMiss.Library.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public int BoardId { get; set; }
-        public int GameId { get; set; }
+        public string GameName { get; set; }
         public int Pixel { get; set; }
         public int LocalId { get; set; }
         public int ItemCount { get; set; }
