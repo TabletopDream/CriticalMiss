@@ -18,6 +18,7 @@ namespace CriticalMiss.Library.Models
         public int XPos { get; set; }
         public int YPos { get; set; }
         public int LocalId { get; set; }
+        public int ImageAssetId { get; set; }
 
         [JsonConverter(typeof(InterfaceConverter<ImageAsset>))]
         public IImageAsset ImageAsset { get; set; }
@@ -43,6 +44,11 @@ namespace CriticalMiss.Library.Models
         {
             Width = w;
             Height = h;
+        }
+
+        public void PluckImageId()
+        {
+            ImageAssetId = ImageAsset.ImageAssetId;
         }
     }
 }
