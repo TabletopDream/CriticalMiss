@@ -40,11 +40,9 @@ namespace CriticalMiss.Data
         public int Width { get; set; }
 
         [Column("PixelHeight")]
-
         public int Height { get; set; }
 
-        public int Id { get; set; }
-
+        [Column("LocalId")]
         public int LocalId { get;set; }
 
         IImageAsset IBoardItem.ImageAsset { get; set; }
