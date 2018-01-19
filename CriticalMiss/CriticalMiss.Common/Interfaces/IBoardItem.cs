@@ -12,9 +12,9 @@ namespace CriticalMiss.Common.Interfaces
 
         bool IsToken { get; set; }
 
-        decimal Width { get; set; }
+        double Width { get; set; }
 
-        decimal Height { get; set; }
+        double Height { get; set; }
 
         int XPos { get; set; }
 
