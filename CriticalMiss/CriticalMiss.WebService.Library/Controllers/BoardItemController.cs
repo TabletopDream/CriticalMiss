@@ -26,9 +26,16 @@ namespace CriticalMiss.WebService.Library.Controllers
 
         // GET: api/BoardItem
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAsync([FromRoute]string gameName, [FromRoute]int boardId)
         {
-            return new string[] { "value1", "value2" };
+            var response = await _client.Client.GetAsync("api/items?gameName=" + gameName + "&boardId=" + boardId); 
+            if (response.IsSuccessStatusCode)
+            {
+                var items = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+                return Ok(items);
+            }
+
+            return BadRequest();
         }
 
         // GET: api/BoardItem/5
