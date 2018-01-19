@@ -39,33 +39,39 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
 
         // GET: api/BoardItem/5
-        [HttpGet("{id}", Name = "GetItem")]
-        public async Task<IActionResult> GetAsync(int id)
-        {
-            var response = await _client.Client.GetAsync("api/items/" + id.ToString());
-            if (response.IsSuccessStatusCode)
-            {
-                var game = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
-                return Ok(game);
-            }
+        //[HttpGet("{id}", Name = "GetItem")]
+        //public async Task<IActionResult> GetAsync(int id)
+        //{
+        //    var response = await _client.Client.GetAsync("api/items/" + id.ToString());
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var game = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
+        //        return Ok(game);
+        //    }
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
 
         // POST: api/BoardItem
-        [HttpPost("{id}")]
-        public async Task PostAsync([FromRoute]int id)
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromRoute]int id, [FromBody]BoardItem item) //Make sure you use pluck before serializing
         {
-            BoardItem item = new BoardItem(id);
+            item.PluckImageId();
 
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await _client.Client.PostAsync("api/items/", stringContent);
+
+            if(response.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
         
         // PUT: api/BoardItem/5
         [HttpPut("{id}")]
-        public async Task PutAsync([FromRoute]int id, [FromBody]BoardItem item)
+        public async Task PutAsync([FromRoute]int id, [FromBody]BoardItem item) //make sure it uses pluck before serializing
         {
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
