@@ -12,14 +12,14 @@ namespace CriticalMiss.Common.Interfaces
 
         bool IsToken { get; set; }
 
-        int Width { get; set; }
+        double Width { get; set; }
 
-        int Height { get; set; }
+        double Height { get; set; }
 
         int XPos { get; set; }
 
         int YPos { get; set; }
 
-        //IImageAsset ImageAsset { get; set; }
+        IImageAsset ImageAsset { get; set; }
     }
 }

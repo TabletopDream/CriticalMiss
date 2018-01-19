@@ -11,8 +11,8 @@ namespace CriticalMiss.Library.Models
         public int BoardId { get; set; }
         public string Name { get; set; }
         public bool IsToken { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
         public int XPos { get; set; }
         public int YPos { get; set; }
         public IImageAsset ImageAsset { get; set; }

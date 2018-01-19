@@ -38,10 +38,10 @@ namespace CriticalMiss.Data.Models
         public int YPos { get; set; }
 
         [Column("PixelWidth")]
-        public int Width { get; set; }
+        public double Width { get; set; }
 
         [Column("PixelHeight")]
-        public int Height { get; set; }
+        public double Height { get; set; }
 
         [Column("LocalId")]
         public int LocalId { get; set; }
