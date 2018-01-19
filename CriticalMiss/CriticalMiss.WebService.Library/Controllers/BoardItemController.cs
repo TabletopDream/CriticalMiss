@@ -31,8 +31,12 @@ namespace CriticalMiss.WebService.Library.Controllers
             var response = await _client.Client.GetAsync("api/items?gameName=" + gameName + "&boardId=" + boardId); 
             if (response.IsSuccessStatusCode)
             {
-                var items = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+                var items = JsonConvert.DeserializeObject<List<BoardItem>>(await response.Content.ReadAsStringAsync());
                 return Ok(items);
+            }
+            else if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
             }
 
             return BadRequest();
@@ -54,7 +58,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
         // POST: api/BoardItem
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromRoute]int id, [FromBody]BoardItem item) //Make sure you use pluck before serializing
+        public async Task<IActionResult> PostAsync([FromRoute]int boardId, [FromBody]BoardItem item) //Make sure you use pluck before serializing
         {
             item.PluckImageId();
 
@@ -64,20 +68,20 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             if(response.IsSuccessStatusCode)
             {
-                return Ok();
+                return Ok(item);
             }
             return BadRequest();
         }
         
         // PUT: api/BoardItem/5
-        [HttpPut("{boardId}")]
-        public async Task<IActionResult> PutAsync([FromRoute]int boardId, [FromBody]BoardItem item) //make sure it uses pluck before serializing
+        [HttpPut("{itemId}")]
+        public async Task<IActionResult> PutAsync([FromRoute]int itemId, [FromRoute]int boardId, [FromRoute]string gameName, [FromBody]BoardItem item) //make sure it uses pluck before serializing
         {
             item.PluckImageId();
 
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PutAsync("api/items/" + boardId.ToString(), stringContent);
+            var response = await _client.Client.PutAsync("api/items/" + itemId.ToString(), stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(item);
@@ -86,10 +90,10 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
         
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{boardId}")]
-        public async Task<IActionResult> DeleteAsync(int boardId)
+        [HttpDelete("{itemId}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute]int itemId, [FromRoute]int boardId, [FromRoute]string gameName)
         {
-            var response = await _client.Client.DeleteAsync("api/items/" + boardId.ToString());
+            var response = await _client.Client.DeleteAsync("api/items?itemId=" + itemId.ToString() + "&boardId=" + boardId.ToString() + "&gameName=" + gameName);
             if(response.IsSuccessStatusCode)
             {
                 return Ok();

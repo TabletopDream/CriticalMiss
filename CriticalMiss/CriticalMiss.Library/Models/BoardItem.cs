@@ -23,6 +23,11 @@ namespace CriticalMiss.Library.Models
         [JsonConverter(typeof(InterfaceConverter<ImageAsset>))]
         public IImageAsset ImageAsset { get; set; }
 
+        public BoardItem()
+        {
+
+        }
+
         public BoardItem(int id)
         {
             LocalId = id;
