@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace CriticalMiss.WebService.Library.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Game/{gameName}/Board")]
+    [Route("api/Games/{gameName}/Boards")]
     public class BoardController : Controller
     {
         // GET: api/Board
@@ -30,7 +30,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.GetAsync("api/games/{name}/boards/{boardId}");
+            var response = await client.Client.GetAsync("api/boards/{boardId}");
             if (response.IsSuccessStatusCode)
             {
                 var board = JsonConvert.DeserializeObject<Board>(await response.Content.ReadAsStringAsync());
@@ -49,7 +49,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(b);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PostAsync("api/games/{gameName}/board/" + id.ToString(), stringContent);
+            var response = await client.Client.PostAsync("api/boards/" + id.ToString(), stringContent);
         }
         
         // PUT: api/Board/5
@@ -60,7 +60,8 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(board);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PutAsync("api/games/{gameName}/boards/" + id.ToString(), stringContent);
+            var response = await client.Client.PutAsync("api/boards/" + id, stringContent);
+
             if (response.IsSuccessStatusCode)
             {
                 return;
@@ -73,7 +74,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation c = new HttpBaseInformation();
 
-            var response = await c.Client.DeleteAsync("api/games/{gameName}/board/" + id.ToString());
+            var response = await c.Client.DeleteAsync("api/boards/" + id.ToString());
             return response.StatusCode;
         }
     }

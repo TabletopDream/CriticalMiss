@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 namespace CriticalMiss.WebService.Library.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Game")]
+    [Route("api/Games")]
     public class GameController : Controller
     {
         // GET: api/Game

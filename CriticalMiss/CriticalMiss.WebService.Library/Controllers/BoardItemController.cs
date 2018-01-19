@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace CriticalMiss.WebService.Library.Controllers
 {
     [Produces("application/json")]
-    [Route("api/BoardItem")]
+    [Route("api/Games/{gameName}/Boards/{BoardId}/BoardItems")]
     public class BoardItemController : Controller
     {
         private HttpBaseInformation _client;
@@ -35,7 +35,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var response = await _client.Client.GetAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            var response = await _client.Client.GetAsync("api/items/" + id.ToString());
             if (response.IsSuccessStatusCode)
             {
                 var game = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
@@ -53,7 +53,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PostAsync("api/games/{gameName}/boards/{boardId}/items/", stringContent);
+            var response = await _client.Client.PostAsync("api/items/", stringContent);
         }
         
         // PUT: api/BoardItem/5
@@ -62,7 +62,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PutAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString(), stringContent);
+            var response = await _client.Client.PutAsync("api/items/" + id.ToString(), stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return;
@@ -73,7 +73,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpDelete("{id}")]
         public async Task<HttpStatusCode> DeleteAsync(int id)
         {
-            var response = await _client.Client.DeleteAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            var response = await _client.Client.DeleteAsync("api/items/" + id.ToString());
             return response.StatusCode;
         }
     }
