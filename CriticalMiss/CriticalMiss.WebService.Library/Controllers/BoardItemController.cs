@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CriticalMiss.Library.Models;
 using CriticalMiss.WebService.Library.Models;
@@ -51,8 +52,12 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<HttpStatusCode> DeleteAsync(int id)
         {
+            HttpBaseInformation c = new HttpBaseInformation();
+
+            var response = await c.Client.DeleteAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            return response.StatusCode;
         }
     }
 }
