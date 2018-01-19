@@ -1,9 +1,6 @@
 ﻿using CriticalMiss.Common.Interfaces;
-using CriticalMiss.Library.Util;
+using CriticalMiss.Common.Util;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CriticalMiss.Library.Models
 {
