@@ -42,6 +42,8 @@ namespace CriticalMiss.UI
 
             // Repositories
             services.AddTransient<IGameBoardRepository, GameBoardRepository>();
+            services.AddTransient<IGameRepository, GameRepository>();
+            services.AddTransient<IGameItemRepository, GameItemRepository>();
             services.AddSingleton<ILibraryHttpClientProvider, LibraryHttpClientProvider>();
 
             // JSON Model Injections
