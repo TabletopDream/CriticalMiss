@@ -20,6 +20,6 @@ namespace CriticalMiss.Common.Interfaces
 
         int YPos { get; set; }
 
-        IImageAsset ImageAsset { get; set; }
+        //IImageAsset ImageAsset { get; set; }
     }
 }

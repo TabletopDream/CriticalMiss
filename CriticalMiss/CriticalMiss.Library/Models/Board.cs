@@ -21,6 +21,8 @@ namespace CriticalMiss.Library.Models
             Width = width;
             Height = height;
             LocalId = id;
+            ItemCount = 0;
+            Pixel = 70;
         }
 
         public bool ItemCounter() // determines if amount of pieces on the board is less than the max before another is allowed to be added

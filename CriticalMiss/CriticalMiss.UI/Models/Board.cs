@@ -1,8 +1,9 @@
 ﻿using CriticalMiss.Common.Interfaces;
+using CriticalMiss.UI.Models.Interfaces;
 
 namespace CriticalMiss.UI.Models
 {
-    public class Board : IBoard
+    public class Board : IUIGameBoard
     {
         public int Width { get; set; }
         public int Height { get; set; }
