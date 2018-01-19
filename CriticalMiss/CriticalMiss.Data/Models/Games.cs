@@ -26,7 +26,10 @@ namespace CriticalMiss.Data.Models
         [Column("Password")]
         [Required]
         public string Password { get; set; }
-        
+
+        public ICollection<Boards> Boards { get; set; }
+
+        public bool ShouldSerializeBoards() => false;
         public bool ShouldSerializePassword()
         {
             return false;

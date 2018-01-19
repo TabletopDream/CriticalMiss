@@ -28,7 +28,13 @@ namespace CriticalMiss.Data
 
         protected override void OnModelCreating (ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<Boards>(entity =>
+            {
+                entity.HasOne(b => b.Game)
+                      .WithMany(g => g.Boards)
+                      .HasForeignKey(b => b.GameName)
+                      .HasPrincipalKey(g => g.GameName);
+            });
         }
 
         /** DbSets Go Below Here **/

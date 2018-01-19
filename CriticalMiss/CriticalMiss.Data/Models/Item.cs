@@ -46,6 +46,6 @@ namespace CriticalMiss.Data.Models
         [Column("LocalId")]
         public int LocalId { get; set; }
 
-        IImageAsset IBoardItem.ImageAsset { get; set; }
+       IImageAsset IBoardItem.ImageAsset { get; set; }
     }
 }

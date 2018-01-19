@@ -18,10 +18,7 @@ namespace CriticalMiss.Data.Models
         [Column("BoardName")]
         public string BoardName { get; set; }
 
-        [ForeignKey("Game")]
-        [Column("GameId")]
-        public int GameId { get; set; }
-
+        public string GameName { get; set; }
         public Games Game { get; set; }
 
         [Column("Width")]
