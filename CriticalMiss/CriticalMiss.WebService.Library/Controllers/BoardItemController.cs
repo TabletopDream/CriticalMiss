@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace CriticalMiss.WebService.Library.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Games/{gameName}/Boards/{BoardId}/BoardItems")]
+    [Route("api/Games/{gameName}/Boards/{BoardId}/Items")]
     public class BoardItemController : Controller
     {
         private HttpBaseInformation _client;
@@ -32,7 +32,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         }
 
         // GET: api/BoardItem/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetItem")]
         public async Task<IActionResult> GetAsync(int id)
         {
             var response = await _client.Client.GetAsync("api/items/" + id.ToString());

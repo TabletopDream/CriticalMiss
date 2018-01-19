@@ -18,22 +18,39 @@ namespace CriticalMiss.WebService.Library.Controllers
     public class BoardController : Controller
     {
         // GET: api/Board
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        // GET: api/Board/5
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<IActionResult> GetAsync(int boardId)
+        [HttpGet]
+        public async Task<IActionResult> Get([FromRoute] string gameName)
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.GetAsync("api/boards/{boardId}");
+            var response = await client.Client.GetAsync("api/boards?gameName=" + gameName); //Allows returning of all boards from certain game: gameName
             if (response.IsSuccessStatusCode)
             {
-                var board = JsonConvert.DeserializeObject<Board>(await response.Content.ReadAsStringAsync());
+                var boards = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+                return Ok(boards);
+            }
+
+            return BadRequest();
+        }
+
+        // GET: api/Board/5
+        [HttpGet("{boardId}")]
+        public async Task<IActionResult> GetAsync([FromRoute]string gameName, [FromRoute]int boardId)
+        {
+            HttpBaseInformation client = new HttpBaseInformation();
+
+            var response = await client.Client.GetAsync("api/boards?gameName=" + gameName + "&boardId=" + boardId);
+            if (response.IsSuccessStatusCode)
+            {
+                var board = JsonConvert.DeserializeObject<List<Board>>(await response.Content.ReadAsStringAsync());
+                if(board.Count == 0)
+                {
+                    return NotFound();
+                }
+                else if(board.Count > 1)
+                {
+                    throw new InvalidOperationException();
+                }
                 return Ok(board);
             }
 
@@ -42,41 +59,50 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // POST: api/Board
         [HttpPost]
-        public async Task PostAsync([FromBody]string gameName)
-        {
-            HttpBaseInformation client = new HttpBaseInformation();
-            var id = 1;
-            Board b = new Board(20,20,id);
-
-            var content = JsonConvert.SerializeObject(b);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PostAsync("api/boards/" + id.ToString(), stringContent);
-        }
-        
-        // PUT: api/Board/5
-        [HttpPut("{id}")]
-        public async Task PutAsync([FromRoute]int id, [FromBody]Board board)
+        public async Task<IActionResult> PostAsync([FromBody]Board board)
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
             var content = JsonConvert.SerializeObject(board);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await client.Client.PutAsync("api/boards/" + id, stringContent);
+            var response = await client.Client.PostAsync("api/boards/", stringContent);
+
+            if(response.IsSuccessStatusCode)
+            {
+                return Ok(board);
+            }
+            return BadRequest();
+        }
+        
+        // PUT: api/Board/5
+        [HttpPut("{boardId}")]
+        public async Task<IActionResult> PutAsync([FromRoute]int boardId, [FromBody]Board board)
+        {
+            HttpBaseInformation client = new HttpBaseInformation();
+
+            var content = JsonConvert.SerializeObject(board);
+            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await client.Client.PutAsync("api/boards/" + boardId.ToString(), stringContent);
 
             if (response.IsSuccessStatusCode)
             {
-                return;
+                return Ok(board);
             }
+            return BadRequest();
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<HttpStatusCode> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             HttpBaseInformation c = new HttpBaseInformation();
 
             var response = await c.Client.DeleteAsync("api/boards/" + id.ToString());
-            return response.StatusCode;
+            if(response.IsSuccessStatusCode)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
