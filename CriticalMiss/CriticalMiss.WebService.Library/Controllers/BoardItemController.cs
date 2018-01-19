@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriticalMiss.Library.Models;
+using CriticalMiss.WebService.Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CriticalMiss.WebService.Library.Controllers
 {
@@ -20,9 +23,18 @@ namespace CriticalMiss.WebService.Library.Controllers
 
         // GET: api/BoardItem/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
-            return "value";
+            HttpBaseInformation client = new HttpBaseInformation();
+
+            var response = await client.Client.GetAsync("api/games/{gameName}/boards/{boardId}/items/" + id.ToString());
+            if (response.IsSuccessStatusCode)
+            {
+                var game = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
+                return Ok(game);
+            }
+
+            return BadRequest();
         }
         
         // POST: api/BoardItem
