@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CriticalMiss.UI.Exceptions;
 using CriticalMiss.UI.Models;
 using CriticalMiss.UI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -13,36 +14,57 @@ namespace CriticalMiss.UI.Controllers
     public class BoardController : Controller
     {
         private IGameBoardRepository _boardRepository;
+        private IGameItemRepository _itemRepository;
 
-        public BoardController(IGameBoardRepository boardRepo)
+        public BoardController(IGameBoardRepository boardRepo,
+                               IGameItemRepository itemRepo)
         {
             _boardRepository = boardRepo;
+            _itemRepository = itemRepo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllBoards(string gameName)
         {
-            var boards = await _boardRepository.GetAllAsync(gameName);
 
-            if (boards != null)
+            try
             {
+                var boards = await _boardRepository.GetAllAsync(gameName);
+
                 return Ok(boards);
             }
-
-            return NotFound();
+            catch (HttpResourceNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    Message = "Game name does not exist!",
+                    Exception = ex.Message
+                });
+            }
         }
 
         [HttpGet("{boardId}")]
         public async Task<IActionResult> GetBoard(string gameName, int boardId)
         {
-            var board = await _boardRepository.GetAsync(gameName, boardId);
-
-            if (board != null)
+            try
             {
-                return Ok(board);
-            }
+                var boardRequest = _boardRepository.GetAsync(gameName, boardId);
+                var itemsRequest = _itemRepository.GetAllAsync(gameName, boardId);
 
-            return NotFound();
+                return Ok(new BoardCollectionModel()
+                {
+                    Board = await boardRequest,
+                    BoardItems = await itemsRequest
+                });
+            }
+            catch (HttpResourceNotFoundException ex)
+            {
+                return NotFound(new
+                {
+                    Message = "Game/board not found!",
+                    Exception = ex.Message
+                });
+            }
         }
 
         [HttpPost]
@@ -71,8 +93,8 @@ namespace CriticalMiss.UI.Controllers
                 Message = "Board model not valid!",
                 Data = new
                 {
-                    GameName = gameName,
-                    GameBoard = gameBoard
+                    Body = gameBoard,
+                    Request.Path
                 },
                 Errors = modelErrors
             });
@@ -97,9 +119,8 @@ namespace CriticalMiss.UI.Controllers
                     Message = "Error encountered creating board!",
                     Data = new
                     {
-                        GameName = gameName,
-                        BoardId = boardId,
-                        GameBoard = gameBoard
+                        Body = gameBoard,
+                        Request.Path
                     }
                 });
             }
@@ -109,7 +130,11 @@ namespace CriticalMiss.UI.Controllers
             return BadRequest(new
             {
                 Message = "Board model not valid!",
-                Data = gameBoard,
+                Data = new
+                {
+                    Body = gameBoard,
+                    Request.Path
+                },
                 Errors = modelErrors
             });
         }
@@ -125,8 +150,7 @@ namespace CriticalMiss.UI.Controllers
                 Message = "Board to delete already does not exist!",
                 Data = new
                 {
-                    GameName = gameName,
-                    BoardId = boardId
+                    Request.Path
                 }
             });
         }

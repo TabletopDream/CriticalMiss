@@ -1,5 +1,7 @@
 ﻿using CriticalMiss.Common.Interfaces;
+using CriticalMiss.Common.Util;
 using CriticalMiss.UI.Models.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ namespace CriticalMiss.UI.Models
         public double Height { get; set; }
         public int XPos { get; set ; }
         public int YPos { get ; set; }
+
+        [JsonConverter(typeof(InterfaceConverter<ImageAsset>))]
         public IImageAsset ImageAsset { get ; set; }
     }
 }

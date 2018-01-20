@@ -57,7 +57,7 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task IRepository<IUIGame>.DeleteAsync (IUIGame entity, params object[] keys)
+        async Task IRepository<IUIGame>.DeleteAsync (params object[] keys)
         {
             if (keys.Length != 1)
             {
@@ -84,11 +84,6 @@ namespace CriticalMiss.UI.Repository
             {
                 HttpResponse = response
             };
-        }
-
-        Task IRepository<IUIGame>.DeleteAsync (params object[] keys)
-        {
-            throw new NotImplementedException();
         }
 
         async Task<IEnumerable<IUIGame>> IRepository<IUIGame>.GetAllAsync (params object[] keys)

@@ -9,18 +9,6 @@ namespace CriticalMiss.Library.Models
     {
         public string GameName { get; set; }
         public int GameId { get; set; }
-
-        public Game(string name)
-        {
-            GameName = name;
-        }
-
-        public Game(string name, bool b)
-        {
-            GameName = name;
-            Board board = new Board(20, 20, 1);
-        }
-
-
+        public string Password { get; set; }
     }
 }

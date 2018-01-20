@@ -61,7 +61,7 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task IRepository<IUIGameItem>.DeleteAsync (IUIGameItem entity, params object[] keys)
+        async Task IRepository<IUIGameItem>.DeleteAsync (params object[] keys)
         {
             if (keys.Length != 3)
             {
@@ -86,11 +86,6 @@ namespace CriticalMiss.UI.Repository
             {
                 HttpResponse = response
             };
-        }
-
-        Task IRepository<IUIGameItem>.DeleteAsync (params object[] keys)
-        {
-            throw new NotImplementedException();
         }
 
         async Task<IEnumerable<IUIGameItem>> IRepository<IUIGameItem>.GetAllAsync (params object[] keys)
@@ -135,7 +130,7 @@ namespace CriticalMiss.UI.Repository
             var gameName = keys[0] as string;
             var boardId = keys[1] as int?;
             var itemId = keys[2] as int?;
-            var uriString = string.Format(_itemsCollectionUrlString, gameName, boardId, itemId);
+            var uriString = string.Format(_itemUrlString, gameName, boardId, itemId);
 
             var response = await httpClient.GetAsync(uriString);
 

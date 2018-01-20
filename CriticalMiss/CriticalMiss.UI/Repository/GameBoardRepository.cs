@@ -49,7 +49,7 @@ namespace CriticalMiss.UI.Repository
             };
         }
 
-        async Task IRepository<IUIGameBoard>.DeleteAsync (IUIGameBoard entity, params object[] keys)
+        async Task IRepository<IUIGameBoard>.DeleteAsync (params object[] keys)
         {
             var httpClient = _libProvider.LibraryConnection;
             var gameName = keys[0] as string;
@@ -76,11 +76,6 @@ namespace CriticalMiss.UI.Repository
                 }
             }
             return;
-        }
-
-        Task IRepository<IUIGameBoard>.DeleteAsync (params object[] keys)
-        {
-            throw new System.NotImplementedException();
         }
 
         async Task<IEnumerable<IUIGameBoard>> IRepository<IUIGameBoard>.GetAllAsync (params object[] keys)
@@ -166,10 +161,21 @@ namespace CriticalMiss.UI.Repository
 
                     var updatedBoard = JsonConvert.DeserializeObject<Board>(contentBody);
 
-
+                    return updatedBoard;
                 }
             }
-            return null;
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new HttpResourceNotFoundException()
+                {
+                    HttpResponse = response
+                };
+            }
+
+            throw new HttpServiceException()
+            {
+                HttpResponse = response
+            };
         }
 
         //async Task<bool> IGameBoardRepository.BoardExistsAsync (string gameName, int boardId)
