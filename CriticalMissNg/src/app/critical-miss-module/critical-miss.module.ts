@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TestComponentComponent } from './test-component/test-component.component';
+//import { TestComponentComponent } from './test-component/test-component.component';
 import { CriticalMissHttpModule } from '../critical-miss-http/critical-miss-http.module';
 
 @NgModule({
@@ -8,6 +8,6 @@ import { CriticalMissHttpModule } from '../critical-miss-http/critical-miss-http
     CommonModule,
     CriticalMissHttpModule
   ],
-  declarations: [TestComponentComponent]
+  //declarations: [TestComponentComponent]
 })
 export class CriticalMissModule { }
