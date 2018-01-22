@@ -27,6 +27,11 @@ const appRootRoutes: Routes = [
   //   component: GamesDisplayComponent
   // },
   {
+    path: '',
+    redirectTo: '/games',
+    pathMatch: 'full'
+  },
+  {
     path: 'games/:gameName/boards/:boardId',
     component: BoardDisplayComponent
   },
