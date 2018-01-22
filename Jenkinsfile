@@ -62,9 +62,6 @@ node('master') {
 				}
                 
             }
-            dir('CriticalMissNg') {
-                bat '7zip dist -c'
-            }
         } catch(error) {
             throw error
             //slacksend message: color:'danger'
@@ -81,7 +78,7 @@ node('master') {
                 '-allowUntrusted -enableRule:AppOffline'
 
             bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
-                '-verb:sync -source:contentPath="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\Package\\" ' +
+                '-verb:sync -source:contentPath="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMissNg\\dist" ' +
                 '-dest:contentPath="Default Web Site/CriticalMissNg",' +
                 'computerName=https://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8172/msdeploy.axd,' +
                 'username=Administrator,password="z5rmV!IARSFQReROgoPAU%%ur3oeb%%RM!",authType="Basic" ' +
