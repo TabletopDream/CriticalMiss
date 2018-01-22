@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="row">
+    <button type="button" class="btn btn-info" (click)="createGame()"></button>
+  </div>
+  <div class="row">
+    <app-game-list [gamesList]="gamesList" (gameJoin)="joinGame($event)"></app-game-list>
+  </div>
+</div>

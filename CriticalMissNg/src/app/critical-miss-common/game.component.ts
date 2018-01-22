@@ -8,8 +8,6 @@ import { Response } from '@angular/http/src/static_response';
     templateUrl: './getGame.html',
     styleUrls: ['./game.component.css']
 })
-
-
 export class GameComponent implements OnInit {
     rowdata: any[];
     isNewRecord: boolean;
