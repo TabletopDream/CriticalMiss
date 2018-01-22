@@ -1,0 +1,64 @@
+<br>
+<h2 align="center"> Critical-Miss Table-Top Game Board </h2>
+
+<div align="center">
+    <h2>Game List</h2>
+    <!--The Html Template for Read-Only Rows-->
+    <br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    GameName
+                </th>
+                <th>
+                    Click To Join Game
+                </th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            <tr *ngFor="let gm of gamemodels">
+                <td>{{ gm.gamename }}</td>
+                <td align="center">
+                    <button name="button" type="button">---Join Game---</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<ng-template #editTemplate>
+    <td>
+        <input type="text" [(ngModel)]="gamemodel.gameid"/>
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="gamemodel.gamename" />
+    </td>
+    <td>
+        <input type="button" value="Save" (click)="saveGame()" />
+    </td>
+    <td>
+        <input type="button" value="Cancel" (click)="cancel()" />
+    </td>
+
+</ng-template>
+
+<input type="button" value="AddNewGame" (click)="addGame()" />
+<div align="center">
+    <ng-template #readOnlyTemplate let-gm>
+        <thead>
+            <tr>
+                <td>GameName</td>
+                <td>Password</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let gm of gamemodels;let i=idx">
+                <ng-template [ngTemplateOutlet]="loadTemplate(gm)"></ng-template>
+            </tr>
+
+        </tbody>
+    </ng-template>
+</div>
+<div>{{statusMessage}}</div>
