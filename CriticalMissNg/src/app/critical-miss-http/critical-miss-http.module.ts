@@ -14,12 +14,12 @@ import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
   declarations: [
   ],
   providers: [
-    CmHttpUrlBuilderService
-  ],
-  exports: [
+    CmHttpUrlBuilderService,
     CmGamesHttpService,
     CmBoardsHttpService,
     CmItemsHttpService,
+  ],
+  exports: [
     HttpClientModule
   ]
 })
