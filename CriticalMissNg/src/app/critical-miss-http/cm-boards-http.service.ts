@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Board } from '../critical-miss-common/board';
+import { Board } from '../critical-miss-common';
 import { HttpClient } from '@angular/common/http';
 import { BoardRenderModel } from './board-render-model';
 import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
