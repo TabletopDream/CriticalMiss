@@ -17,7 +17,7 @@ import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
     CmHttpUrlBuilderService,
     CmGamesHttpService,
     CmBoardsHttpService,
-    CmItemsHttpService
+    CmItemsHttpService,
   ],
   exports: [
     HttpClientModule

@@ -8,6 +8,7 @@ import { GameComponent } from './critical-miss-common/game.component';
 import { CmGamesHttpService } from './critical-miss-http/cm-games-http.service';
 import { CommonModule } from '@angular/common';
 import { CriticalMissModule } from './critical-miss-module/critical-miss.module';
+import { SvgComponentModule } from './svg-component-module/svg-component.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { CriticalMissModule } from './critical-miss-module/critical-miss.module'
     BrowserModule,
     HttpModule,
     FormsModule,
-    CriticalMissModule
+    CriticalMissModule,
+    SvgComponentModule
   ],
   providers: [CmGamesHttpService],
   

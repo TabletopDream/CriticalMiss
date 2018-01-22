@@ -9,10 +9,9 @@ import { BoardItem } from '../../critical-miss-common';
 })
 export class SvgBoardItemComponent implements OnInit, OnDestroy, OnChanges {
   @Input() boardItem: BoardItem;
-  @Output() boardItemUpdate = new EventEmitter<BoardItem>();
-
   @Input() pixelCount: number;
-
+  
+  @Output() boardItemUpdate = new EventEmitter<BoardItem>();
   @Output() onSelectChange = new EventEmitter<number>();
 
   public position: {
@@ -43,11 +42,13 @@ export class SvgBoardItemComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.boardItem) {
+    if (changes.boardItem && changes.boardItem.currentValue) {
       this.boardItem = changes.boardItem.currentValue as BoardItem;
 
-      this.position.xPos = this.boardItem.xPos;
-      this.position.yPos = this.boardItem.yPos;
+      this.position = this.position || {
+        xPos: this.boardItem.xPos,
+        yPos: this.boardItem.yPos
+      };
     }
   }
 
