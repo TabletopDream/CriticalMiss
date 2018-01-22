@@ -11,9 +11,10 @@ using System;
 namespace CriticalMiss.Data.Migrations
 {
     [DbContext(typeof(CriticalMissDbContext))]
-    partial class CriticalMissDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180119173111_After Gamename")]
+    partial class AfterGamename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,7 +144,7 @@ namespace CriticalMiss.Data.Migrations
 
             modelBuilder.Entity("CriticalMiss.Data.Models.Item", b =>
                 {
-                    b.HasOne("CriticalMiss.Data.ImageAssetDBO", "ImageAssetNavigable")
+                    b.HasOne("CriticalMiss.Data.ImageAssetDBO", "ImageAsset")
                         .WithMany()
                         .HasForeignKey("ImageAssetId")
                         .OnDelete(DeleteBehavior.Cascade);

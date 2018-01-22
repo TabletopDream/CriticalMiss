@@ -6,6 +6,7 @@ using CriticalMiss.Data;
 using CriticalMiss.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CriticalMiss.WebService.Data.Controllers
 {
@@ -21,21 +22,33 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
-        [HttpGet("{id}")]
-        public IActionResult GetGamesBoard()
+        [HttpGet]
+        public IActionResult GetGamesItem()
         {
-            var gameboardlist = _context.Boards.Select(a => a.BoardName);
-            return Ok(gameboardlist);
+            var gameboardlist = _context.item.ToList();
+            if (gameboardlist != null)
+            {
+                return Ok(gameboardlist);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult GetGamesItem([FromRoute] int id)
         {
-            var gameboardlist = _context.item.Where(x => x.ItemId == id).Select(x => new
+            var gameboardlist = _context.item.Include(i => i.ImageAssetNavigable)
+                                             .Where(x => x.ItemId == id);
+            if (gameboardlist!=null)
             {
-                Name = x.Name
-            });
-            return Ok(gameboardlist);
+                return Ok(gameboardlist);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
@@ -45,23 +58,40 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("{id}", Name ="{ItemName_Update}")]
+        [HttpPut("{id}", Name = "{ItemName_Update}")]
         public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem)
         {
 
-            var upboardgames = _context.item.SingleOrDefault(x => x.ItemId==id);
-            upboardgames.Name = gameitem.Name;   
-            _context.SaveChanges();
+            var upboardgames = _context.item.SingleOrDefault(x => x.ItemId == id);
+            if (upboardgames != null)
+            {
+                upboardgames.Name = gameitem.Name;
 
-            return Ok();
+                _context.Update(upboardgames);
+                _context.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
         [HttpDelete("{id}", Name = "{ItemName_Delete}")]
         public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
         {
-            var delgames = _context.item.SingleOrDefault(x => x.ItemId== Id);
-            _context.item.Remove(delgames);
-            _context.SaveChanges();
-            return Ok();
+            var delgames = _context.item.SingleOrDefault(x => x.ItemId == Id);
+            if (delgames!=null)
+            {
+                _context.item.Remove(delgames);
+                _context.SaveChanges();
+                return Ok();
+
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

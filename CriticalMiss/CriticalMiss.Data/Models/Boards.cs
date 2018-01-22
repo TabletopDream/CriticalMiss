@@ -19,6 +19,7 @@ namespace CriticalMiss.Data.Models
         public string BoardName { get; set; }
 
         public string GameName { get; set; }
+
         public Games Game { get; set; }
 
         [Column("Width")]

@@ -1,4 +1,5 @@
 ﻿using CriticalMiss.Common.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,11 +23,11 @@ namespace CriticalMiss.Data.Models
         [Column("BoardId")]
         public int GameBoardId { get; set; }
 
-        [ForeignKey("ImageAsset")]
+        [ForeignKey("ImageAssetNavigable")]
         [Column("ImageAssetId")]
         public int ImageAssetId { get; set; }
 
-        public ImageAssetDBO ImageAsset { get; set; }
+        public ImageAssetDBO ImageAssetNavigable { get; set; }
 
         [Column("IsToken")]
         public bool IsToken { get; set; }
@@ -45,7 +46,16 @@ namespace CriticalMiss.Data.Models
 
         [Column("LocalId")]
         public int LocalId { get; set; }
+        
+        [NotMapped]
+        [BindNever]
+        public IImageAsset ImageAsset
+        {
+            get => ImageAssetNavigable;
+            set => ImageAssetNavigable = (value as ImageAssetDBO);
+        }
 
-       IImageAsset IBoardItem.ImageAsset { get; set; }
+        public bool ShouldSerializeImageAssetNavigable() => false;
+        public bool ShouldSerializeImageAssetId() => false;
     }
 }

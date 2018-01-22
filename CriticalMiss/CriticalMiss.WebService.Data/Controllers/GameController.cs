@@ -28,10 +28,17 @@ namespace CriticalMiss.WebService.Data.Controllers
         }
 
         [HttpGet]
-        public IEnumerable GetAllGames()
+        public IActionResult GetAllGames()
         {
-            var getgames = _context.games.AsEnumerable();
-            return getgames;
+            var getgames = _context.games.ToList();
+            if (getgames!=null)
+            {
+                return Ok(getgames);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         //[HttpGet]
@@ -47,40 +54,60 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             //var getgamesbyid = _context.games.Where(a => a.GameId == id).Select(a => new {
             //    Name = a.GameName,
-
             //});
             //return Ok(getgamesbyid);
 
             var gamesList = _context.games.Where(a => a.GameId == id);
-            return Ok(gamesList);
+            if (gamesList!=null)
+            {
+                return Ok(gamesList);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public IActionResult CreateGame([FromBody] Games game)
         {
-            _context.games.Add(game);
+            var creategames=_context.games.Add(game);
             _context.SaveChanges();
             return Ok();
         }
-        [HttpDelete("{id}", Name ="{GameName_Delete}")]
+        [HttpDelete("{id}", Name = "{GameName_Delete}")]
         public IActionResult DeleteGame([FromRoute] int id, Games game)
         {
             var delgames = _context.games.SingleOrDefault(x => x.GameId == id);
-            _context.games.Remove(delgames);
-            _context.SaveChanges();
-            return Ok();
+            if (delgames!=null)
+            {
+                _context.games.Remove(delgames);
+                _context.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
-        [HttpPut("{id}",Name ="{GameName_Update}")]
+        [HttpPut("{id}", Name = "{GameName_Update}")]
         public IActionResult UpdateGame([FromRoute] int id, [FromBody] Games game)
         {
 
-            var upgames = _context.games.SingleOrDefault(x => x.GameId==id);
-            //upgames.GameId = game.GameId;
-            upgames.GameName = game.GameName;
+            var upgames = _context.games.SingleOrDefault(x => x.GameId == id);
+            if (upgames == null)
+            {
+                upgames.GameName = game.GameName;
+                _context.Update(upgames);
+                _context.SaveChanges();
 
-            _context.SaveChanges();
-
-            return Ok();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }

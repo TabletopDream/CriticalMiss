@@ -11,9 +11,10 @@ using System;
 namespace CriticalMiss.Data.Migrations
 {
     [DbContext(typeof(CriticalMissDbContext))]
-    partial class CriticalMissDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180119193438_Rename image asset FK for serialization purposes")]
+    partial class RenameimageassetFKforserializationpurposes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

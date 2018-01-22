@@ -15,8 +15,6 @@ namespace CriticalMiss.UI.Repository.Interfaces
 
         Task<TEntity> UpdateAsync (TEntity entity, params object[] keys);
 
-        Task DeleteAsync (TEntity entity, params object[] keys);
-
         Task DeleteAsync (params object[] keys);
     }
 }
