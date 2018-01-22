@@ -1,45 +1,40 @@
-import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Game } from '../critical-miss-common/game';
-import { Observable } from "rxjs/Observable";
-import 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { Game } from '../critical-miss-common';
+import { HttpClient } from '@angular/common/http';
+import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
 
 @Injectable()
 export class CmGamesHttpService {
-  _getGameApi = "http://localhost:49345/api/games";
-
-  constructor(private http: Http) { }
-
-  GetGames(){
-    return this.http.get(this._getGameApi).toPromise();
-  }
-
   
-  // GetGames(): Observable<Response> {
+  constructor(private httpClient: HttpClient, private urlBuilder: CmHttpUrlBuilderService) { }
 
-  //   let header = new Headers({ 'Content-Type': 'application/json' });
-  //   let options = new RequestOptions({ headers: header });
+  public getGames(): Promise<Array<Game>> {
+    var connString = this.urlBuilder.getGamesCollectionUrl();
 
-  //   return this.http.get(this._getGameApi);
-
-  // }
-  addGames(gm: Game){
-    let header = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: header });
-    return this
-      .http
-      .post(this._getGameApi, JSON.stringify(gm), options)
-  }
-  updateGame(id: number, gm: Game): Observable<Response> {
-    let header = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: header });
-    return this
-      .http
-      .put(this._getGameApi + `/` + id, JSON.stringify(gm), options)
+    return this.httpClient.get(connString).toPromise() as Promise<Array<Game>>;
   }
 
-  deleteGame(id:number){
-    return this.http.delete(this._getGameApi+'/'+id);
+  public getBoard(gameName: string): Promise<Game> {
+    var connString = this.urlBuilder.getGameUrl(gameName);
+
+    return this.httpClient.get(connString).toPromise() as Promise<Game>;
   }
 
+  public createGame(gameModel: Game): Promise<Game> {
+    var connString = this.urlBuilder.getGamesCollectionUrl();
+
+    return this.httpClient.post(connString, gameModel).toPromise() as Promise<Game>;
+  }
+
+  public updateGame(gameName: string, gameModel: Game): Promise<Game> {
+    var connString = this.urlBuilder.getGameUrl(gameName);
+
+    return this.httpClient.put(connString, gameModel).toPromise() as Promise<Game>;
+  }
+
+  public deleteGame(gameName: string): Promise<any> {
+    var connString = this.urlBuilder.getGameUrl(gameName);
+
+    return this.httpClient.delete(connString).toPromise();
+  }
 }

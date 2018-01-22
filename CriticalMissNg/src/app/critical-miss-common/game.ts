@@ -1,5 +1,4 @@
 export interface Game {
-      gameid:number;
-      gamename: string;
-      password: string;          
+    gameName: string;
+    password?: string;
 }

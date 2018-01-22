@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//import { TestComponentComponent } from '../test-component/test-component.component';
 import { CriticalMissHttpModule } from '../critical-miss-http/critical-miss-http.module';
 import { GameComponent } from '../critical-miss-common/game.component';
 import { HttpModule } from '@angular/http/src/http_module';

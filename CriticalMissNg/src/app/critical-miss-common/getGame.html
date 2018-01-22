@@ -18,7 +18,7 @@
         </thead>
         <tbody align="center">
             <tr *ngFor="let gm of gamemodels">
-                <td>{{ gm.gamename }}</td>
+                <td>{{ gm.gameName }}</td>
                 <td align="center">
                     <button name="button" type="button">---Join Game---</button>
                 </td>
@@ -29,10 +29,7 @@
 <br>
 <ng-template #editTemplate>
     <td>
-        <input type="text" [(ngModel)]="gamemodel.gameid"/>
-    </td>
-    <td>
-        <input type="text" [(ngModel)]="gamemodel.gamename" />
+        <input type="text" [(ngModel)]="gamemodel.gameName" />
     </td>
     <td>
         <input type="button" value="Save" (click)="saveGame()" />

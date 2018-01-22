@@ -6,7 +6,7 @@ import { Response } from '@angular/http/src/static_response';
 @Component({
     selector: 'getgame',
     templateUrl: './getGame.html',
-    styleUrls: ['./game.component.css']
+   styleUrls: ['./game.component.css']
 })
 
 
@@ -29,18 +29,18 @@ export class GameComponent implements OnInit {
     }
     getgames() {
         this.gameservice
-            .GetGames().then(res => {
-                this.gamemodel = res.json();
+            .getGames().then((res: Array<Game>) => {
+                this.gamemodels = res;
             });
     }
     addGame(Game) {
-        this.gamemodel = new Game(0, '', '');
+        this.gamemodel = new Game('', '');
         this.gamemodels.push(this.gamemodel);
         this.isNewRecord = true;
     }
 
     loadTemplate(gm: Game) {
-        if (this.gamemodel && this.gamemodel.gameid == gm.gameid) {
+        if (this.gamemodel && this.gamemodel.gameName == gm.gameName) {
             return this.editTemplate;
         }
         else {
@@ -50,18 +50,17 @@ export class GameComponent implements OnInit {
     saveGame() {
         if (this.isNewRecord) {
             //add NewGame
-            this.gameservice.addGames(this.gamemodel).subscribe((resp: Response) => {
-                this.gamemodel = resp.json(),
-                    this.statusMessage = 'Game Added Successfully',
-                    this.getgames();
+            this.gameservice.createGame(this.gamemodel).then((gm: Game) => {
+                this.gamemodel = gm;
+                this.getgames();
             });
             this.isNewRecord = false;
             this.gamemodel = null;
         }
         else {
-            this.gameservice.updateGame(this.gamemodel.gameid, this.gamemodel).subscribe((resp: Response) => {
-                this.statusMessage = "Game UPdated Succesfully..",
-                    this.getgames();
+            this.gameservice.updateGame(this.gamemodel.gameName, this.gamemodel).then((gm: Game) => {
+            this.statusMessage="Game updated Succesfully..";                
+                this.getgames();
             });
             this.gamemodel=null;        
         }
@@ -70,7 +69,7 @@ export class GameComponent implements OnInit {
         this.gamemodel=null;
     }
     deleteGame(gm:Game){
-        this.gameservice.deleteGame(gm.gameid).subscribe((res:Response)=>{
+        this.gameservice.deleteGame(gm.gameName).then((gm:Game)=>{
             this.statusMessage="Game deleated Succesfully..";
             this.getgames();
         });

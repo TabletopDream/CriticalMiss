@@ -4,6 +4,7 @@ import { CmGamesHttpService } from './cm-games-http.service';
 import { CmBoardsHttpService } from './cm-boards-http.service';
 import { CmItemsHttpService } from './cm-items-http.service';
 import { HttpClientModule } from '@angular/common/http'
+import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
 
 @NgModule({
   imports: [
@@ -11,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule
   ],
   declarations: [
+  ],
+  providers: [
+    CmHttpUrlBuilderService
   ],
   exports: [
     CmGamesHttpService,

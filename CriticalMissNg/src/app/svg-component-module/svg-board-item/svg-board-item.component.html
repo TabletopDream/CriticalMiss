@@ -1,0 +1,10 @@
+<svg:g (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
+    <!-- <svg:image [attr.href]="boardItem.imageAsset.assetURI"
+               [attr.x]="position.xPos"
+               [attr.y]="position.yPos"
+               [attr.width]="boardItem.width * pixelCount"
+               [attr.height]="boardItem.height * pixelCount" /> -->
+    <svg:circle [attr.cx]="position.xPos"
+                [attr.cy]="position.yPos"
+                [attr.r]="boardItem.width * pixelCount" />
+</svg:g>
