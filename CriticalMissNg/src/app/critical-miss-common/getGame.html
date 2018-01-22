@@ -1,0 +1,90 @@
+<h2 align="center">Critical-Miss Table-Top Game Board</h2>
+<br>
+<!-- <input type="button" value="AddNewGame" (click)="addGame()" />
+<div align="center">
+    <!-- <ng-template #readOnlyTemplate let-gm> -->
+    <!-- <table>
+        <thead>
+            <tr>
+                <td>GameName</td>
+                <td>Password</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let gm of gamemodels;let i=idx">
+                <ng-template [ngTemplateOutlet]="loadTemplate(gm)"></ng-template>
+            </tr>
+        </tbody> -->
+        <!-- </ng-template> -->
+    <!-- </table>
+</div>
+<div>{{statusMessage}}</div> -->
+
+<!-- <ng-template #readOnlyTemplate let-gm>
+    
+    <thead>
+        <Tr>
+        <th>GameName</th>
+        <th>ClickToJoin</th>
+    </Tr>
+    </thead>
+    <tbody>
+        <Tr *ngFor="let gm of gamemodels">
+            <td>{{gm.gameName}}</td>
+            <td> <input type="button" value="JoinGame"</td>
+        </Tr>
+    </tbody>
+   
+</ng-template>
+<br> -->
+<!-- <ng-template #editTemplate>
+    <td>
+        <input type="text" [(ngModel)]="gamemodel.gameName" />
+    </td>
+    <td>
+        <input type="button" value="Save" (click)="saveGame()" />
+    </td>
+    <td>
+        <input type="button" value="Cancel" (click)="cancel()" />
+    </td>
+
+</ng-template> -->
+
+<!-- <input type="button" value="AddNewGame" (click)="addGame()" />
+<div align="center"> -->
+    <!-- <ng-template #readOnlyTemplate let-gm> -->
+    <!-- <table>
+        <thead>
+            <tr>
+                <td>GameName</td>
+                <td>Password</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let gm of gamemodels;let i=idx">
+                <ng-template [ngTemplateOutlet]="loadTemplate(gm)" [ngOutletContext]="{ $implicit: gm, idx: i }"></ng-template>
+            </tr>
+
+        </tbody> -->
+        <!-- </ng-template> -->
+    <!-- </table>
+</div>
+<div>{{statusMessage}}</div> -->
+
+<table border="1">
+    <thead>
+    <Tr>
+        <Td>
+            GameName
+        </Td>
+    </Tr>
+</thead>
+<tbody>
+        <Tr *ngFor="let gm of gamemodels">
+                <td>{{gm.gameName}}</td>
+                <td> <button type="button">Join Game</button></td>
+            </Tr>
+</tbody>
+</table>

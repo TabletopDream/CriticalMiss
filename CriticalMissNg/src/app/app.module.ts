@@ -5,6 +5,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { SvgComponentModule } from './svg-component-module';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { GameComponent } from './critical-miss-common/game.component';
+import { CmGamesHttpService } from './critical-miss-http/cm-games-http.service';
+import { CommonModule } from '@angular/common';
 
 import { RouterModule, Routes } from '@angular/router';
 import { CriticalMissModule, BoardDisplayComponent } from './critical-miss-module';
@@ -42,10 +48,18 @@ const appRootRoutes: Routes = [
     ),
     NgbModule.forRoot(),
     BrowserModule,
+<<<<<<< HEAD
     SvgComponentModule,
     CriticalMissModule
+=======
+    HttpModule,
+    FormsModule,
+    CriticalMissModule,
+    SvgComponentModule
+>>>>>>> 9d8a2efa8760567d1c2da46b0c0dc5ef0daf8de3
   ],
-  providers: [],
+  providers: [CmGamesHttpService],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

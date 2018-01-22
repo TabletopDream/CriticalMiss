@@ -4,19 +4,25 @@ import { CriticalMissHttpModule } from '../critical-miss-http/critical-miss-http
 import { BoardDisplayComponent } from './board-display/board-display.component';
 import { SvgComponentModule } from '../svg-component-module';
 import { RouterModule } from '@angular/router';
+import { GameComponent } from '../critical-miss-common/game.component';
+import { CmGamesHttpService } from '../critical-miss-http/cm-games-http.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     CriticalMissHttpModule,
     SvgComponentModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
   ],
   declarations: [
-    BoardDisplayComponent
+    BoardDisplayComponent,
+    GameComponent
   ],
   exports: [
-    BoardDisplayComponent
-  ]
+    BoardDisplayComponent,
+    GameComponent
+  ],
 })
 export class CriticalMissModule { }

@@ -5,9 +5,7 @@ import { CmHttpUrlBuilderService } from './cm-http-url-builder.service';
 
 @Injectable()
 export class CmGamesHttpService {
-
-  private apiCollectionURL: string = 'http://localhost:3000/api/games';
-
+  
   constructor(private httpClient: HttpClient, private urlBuilder: CmHttpUrlBuilderService) { }
 
   public getGames(): Promise<Array<Game>> {
