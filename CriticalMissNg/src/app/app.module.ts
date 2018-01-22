@@ -48,15 +48,9 @@ const appRootRoutes: Routes = [
     ),
     NgbModule.forRoot(),
     BrowserModule,
-<<<<<<< HEAD
     SvgComponentModule,
-    CriticalMissModule
-=======
-    HttpModule,
-    FormsModule,
     CriticalMissModule,
-    SvgComponentModule
->>>>>>> 9d8a2efa8760567d1c2da46b0c0dc5ef0daf8de3
+    FormsModule
   ],
   providers: [CmGamesHttpService],
   
