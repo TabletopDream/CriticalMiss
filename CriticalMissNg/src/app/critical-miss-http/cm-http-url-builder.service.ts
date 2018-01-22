@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CmHttpUrlBuilderService {
 
-  private baseUrl: string = 'http://localhost:49345/api';
+  private baseUrl: string = 'http://localhost:3000/api';
 
   constructor() { }
 

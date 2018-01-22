@@ -6,15 +6,19 @@ import { AppComponent } from './app.component';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { GameComponent } from './critical-miss-common/game.component';
 import { CmGamesHttpService } from './critical-miss-http/cm-games-http.service';
-import { CommonModule } from '@angular/common/src/common_module';
+import { CommonModule } from '@angular/common';
+import { CriticalMissModule } from './critical-miss-module/critical-miss.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent, GameComponent
+    AppComponent
   ],
   imports: [
-    BrowserModule,HttpModule, FormsModule
+    BrowserModule,
+    HttpModule,
+    FormsModule,
+    CriticalMissModule
   ],
   providers: [CmGamesHttpService],
   

@@ -33,11 +33,11 @@ export class GameComponent implements OnInit {
                 this.gamemodels = res;
             });
     }
-    addGame(Game) {
-        this.gamemodel = new Game('', '');
-        this.gamemodels.push(this.gamemodel);
-        this.isNewRecord = true;
-    }
+    // addGame() {
+    //     this.gamemodel = new ('', '');
+    //     this.gamemodels.push(this.gamemodel);
+    //     this.isNewRecord = true;
+    // }
 
     loadTemplate(gm: Game) {
         if (this.gamemodel && this.gamemodel.gameName == gm.gameName) {
