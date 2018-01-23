@@ -30,6 +30,7 @@ namespace CriticalMiss.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
             //var builder = services.AddMvcCore();
             
             //services.AddDbContext<CriticalMissDbContext>(optionsBuilder =>
@@ -74,6 +75,10 @@ namespace CriticalMiss.UI
             //app.UseStaticFiles();
 
             app.UseMvc();
+            app.UseCors(builder =>
+                builder.WithOrigins("http://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8082")
+                .AllowAnyHeader()
+    );
         }
     }
 }
