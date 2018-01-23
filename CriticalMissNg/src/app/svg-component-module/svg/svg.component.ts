@@ -33,6 +33,11 @@ export class SvgComponent implements OnInit {
         return val.localId === updatedBoard.localId;
       });
       this.boardItems[index] = updatedBoard;
+    }, (fail) => {
+      var index = this.boardItems.findIndex((val) => {
+        return val.localId === boardItem.localId;
+      });
+      this.boardItems[index] = {...this.boardItems[index]};
     });
   }
 

@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CmGamesHttpService } from '../../critical-miss-http';
 import { Game } from '../../critical-miss-common';
 import { CreateGameModalComponent } from '../create-game-modal/create-game-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-display',
@@ -11,10 +12,11 @@ import { CreateGameModalComponent } from '../create-game-modal/create-game-modal
 })
 export class GameDisplayComponent implements OnInit {
 
-  private gamesList: Array<Game>;
+  public gamesList: Array<Game>;
 
   constructor(private gameService: CmGamesHttpService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private router: Router) {
 
   }
 
@@ -25,7 +27,7 @@ export class GameDisplayComponent implements OnInit {
   }
 
   joinGame(game: Game) {
-    alert(game.gameName);
+    this.router.navigate(['/games', game.gameName, 'boards', 1]);
   }
 
   createGame() {
