@@ -97,7 +97,8 @@ namespace CriticalMiss.WebService.Data.Controllers
                 return NotFound();
             }
 
-            var item = _context.item.SingleOrDefault(i => i.GameBoardId == boardList.BoardId && i.LocalId == id);
+            var item = _context.item.Include(i => i.ImageAssetNavigable)
+                                    .SingleOrDefault(i => i.GameBoardId == boardList.BoardId && i.LocalId == id);
 
             if (item != null)
             {
