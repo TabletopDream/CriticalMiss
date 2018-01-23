@@ -14,8 +14,8 @@ node('master') {
                 bat 'msbuild /t:clean,build CriticalMiss.sln'
             }
             dir('CriticalMissNg') {
-                npm install
-                npm build
+                bat 'npm install'
+                bat 'npm run build'
             }
         } catch(error) {
             throw error
