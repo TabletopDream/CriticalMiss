@@ -4,6 +4,7 @@ using System.Linq;
 using CriticalMiss.Data;
 using CriticalMiss.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CriticalMiss.WebService.Data.Controllers
 {
@@ -28,7 +29,8 @@ namespace CriticalMiss.WebService.Data.Controllers
             {
                 return NotFound();
             }
-            var gameItems = _context.item.Where(i => i.GameBoardId == targetBoard.BoardId).ToList();
+            var gameItems = _context.item.Include(i => i.ImageAsset)
+                                         .Where(i => i.GameBoardId == targetBoard.BoardId).ToList();
 
 
             if (gameItems != null)
