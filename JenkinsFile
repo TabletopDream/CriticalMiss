@@ -57,9 +57,16 @@ node('master') {
         try {
             dir('CriticalMiss') {
 				dir('CriticalMiss.UI') {
-					bat 'dotnet publish CriticalMiss.UI.csproj --output ../../Package'
+					bat 'dotnet publish CriticalMiss.UI.csproj --output ../../UIPackage'
 					bat 'dotnet build CriticalMiss.UI.csproj /p:DeployOnBuild=true /p:PublishProfile=publish'
 				}
+                dir('CriticalMiss.WebService.Library') {
+                    bat 'dotnet publish CriticalMiss.WebService.Library.csproj --output ../../LibPackage'
+                }
+                dir('CriticalMiss.WebService.Data') {
+                    bat 'dotnet publish CriticalMiss.WebService.Data.csproj --output ../../DataPackage'
+                }
+
                 
             }
         } catch(error) {
@@ -71,8 +78,22 @@ node('master') {
     stage('deploy') {
         try {
             bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
-                '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\Package\\" ' +
-                '-dest:iisApp="Default Web Site/CriticalMiss",' +
+                '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\UIPackage\\" ' +
+                '-dest:iisApp="Default Web Site/CriticalMissUI",' +
+                'computerName=https://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8172/msdeploy.axd,' +
+                'username=Administrator,password="z5rmV!IARSFQReROgoPAU%%ur3oeb%%RM!",authType="Basic" ' +
+                '-allowUntrusted -enableRule:AppOffline'
+
+            bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
+                '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\LibPackage\\" ' +
+                '-dest:iisApp="Default Web Site/CriticalMissLib",' +
+                'computerName=https://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8172/msdeploy.axd,' +
+                'username=Administrator,password="z5rmV!IARSFQReROgoPAU%%ur3oeb%%RM!",authType="Basic" ' +
+                '-allowUntrusted -enableRule:AppOffline'
+
+            bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" ' +
+                '-verb:sync -source:iisApp="C:\\Program Files (x86)\\Jenkins\\workspace\\CriticalMiss\\DataPackage\\" ' +
+                '-dest:iisApp="Default Web Site/CriticalMissData",' +
                 'computerName=https://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8172/msdeploy.axd,' +
                 'username=Administrator,password="z5rmV!IARSFQReROgoPAU%%ur3oeb%%RM!",authType="Basic" ' +
                 '-allowUntrusted -enableRule:AppOffline'
