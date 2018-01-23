@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "GetGames";
+}
+
+<h2>GetGames</h2>
+
+@model IEnumerable<CriticalMiss.Data.Models.Games>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <table>
+            <tr>
+                <td>
+                    Game Name
+                </td>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(v=>item.GameName)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+}
+
+
