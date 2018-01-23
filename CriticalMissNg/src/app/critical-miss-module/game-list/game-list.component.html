@@ -1,0 +1,18 @@
+<table class="table table-bordered table-striped game-list-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Game Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let game of gamesList; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{game.gameName}}</td>
+            <td>
+                <button class="btn btn-info" type="button" (click)="joinGame(game)">Join Game</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

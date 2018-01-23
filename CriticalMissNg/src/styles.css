@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+
+.cm-navbar {
+    border-bottom: 1px solid black !important;
+    margin: 0 0 0 0 !important;
+    margin-right: 0px !important;
+    padding-left: 10px;
+    padding-right: 0px;
+}
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+  }
