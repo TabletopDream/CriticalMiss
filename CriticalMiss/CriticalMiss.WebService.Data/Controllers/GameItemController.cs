@@ -23,12 +23,19 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult GetGamesItem()
+        public IActionResult GetGamesItem([FromQuery]int boardId, [FromQuery]string gameName)
         {
-            var gameboardlist = _context.item.ToList();
-            if (gameboardlist != null)
+            var targetBoard = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
+            if (targetBoard == null)
             {
-                return Ok(gameboardlist);
+                return NotFound();
+            }
+            var gameItems = _context.item.Where(i => i.GameBoardId == targetBoard.BoardId).ToList();
+
+
+            if (gameItems != null)
+            {
+                return Ok(gameItems);
             }
             else
             {
@@ -36,20 +43,20 @@ namespace CriticalMiss.WebService.Data.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetGamesItem([FromRoute] int id)
-        {
-            var gameboardlist = _context.item.Include(i => i.ImageAssetNavigable)
-                                             .Where(x => x.ItemId == id);
-            if (gameboardlist!=null)
-            {
-                return Ok(gameboardlist);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+        //[HttpGet("{id}")]
+        //public IActionResult GetGamesItem([FromRoute] int id)
+        //{
+        //    var gameboardlist = _context.item.Include(i => i.ImageAssetNavigable)
+        //                                     .Where(x => x.ItemId == id);
+        //    if (gameboardlist!=null)
+        //    {
+        //        return Ok(gameboardlist);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         [HttpPost]
         public IActionResult CreateBoardGame([FromBody] Item gameitem)
@@ -58,16 +65,27 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
         [HttpPut("{id}", Name = "{ItemName_Update}")]
-        public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem)
+        public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem, [FromQuery]string gameName, [FromQuery]int boardId)
         {
-
-            var upboardgames = _context.item.SingleOrDefault(x => x.ItemId == id);
-            if (upboardgames != null)
+            var boardList = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
+            if (boardList == null)
             {
-                upboardgames.Name = gameitem.Name;
+                return NotFound();
+            }
 
-                _context.Update(upboardgames);
+            var item = _context.item.SingleOrDefault(i => i.GameBoardId == boardList.BoardId && i.LocalId == id);
+
+            if (item != null)
+            {
+                item.Name = gameitem.Name;
+                item.Height = gameitem.Height;
+                item.Width = gameitem.Width;
+                item.XPos = gameitem.XPos;
+                item.YPos = gameitem.YPos;
+
+                _context.Update(item);
                 _context.SaveChanges();
                 return Ok();
             }
