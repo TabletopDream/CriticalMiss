@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CriticalMiss.WebService.Data.Controllers
 {
     [Produces("application/json")]
-    [Route("api/GameBoardApi")]
+    [Route("api/boards")]
     public class GameBoardApiController : Controller
     {
         private static List<Boards> _gameboard = new List<Boards>();
