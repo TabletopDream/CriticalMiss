@@ -58,13 +58,13 @@ namespace CriticalMiss.WebService.Library.Controllers
 
         // POST: api/BoardItem
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromRoute]int boardId, [FromBody]BoardItem item) //Make sure you use pluck before serializing
+        public async Task<IActionResult> PostAsync([FromRoute]string gameName, [FromRoute]int boardId, [FromBody]BoardItem item) //Make sure you use pluck before serializing
         {
             item.PluckImageId();
-
+            item.BoardId = boardId;
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PostAsync("api/items/", stringContent);
+            var response = await _client.Client.PostAsync("api/items?gameName=" + gameName + "&boardId=" + boardId, stringContent);
 
             if(response.IsSuccessStatusCode)
             {

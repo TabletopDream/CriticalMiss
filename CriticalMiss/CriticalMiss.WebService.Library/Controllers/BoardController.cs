@@ -39,7 +39,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.GetAsync("api/boards/boardId?gameName=" + gameName);
+            var response = await client.Client.GetAsync("api/boards/" + boardId + "?gameName=" + gameName);
             if (response.IsSuccessStatusCode)
             {
                 var board = JsonConvert.DeserializeObject<List<Board>>(await response.Content.ReadAsStringAsync());
@@ -59,10 +59,11 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // POST: api/Board
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]Board board)
+        public async Task<IActionResult> PostAsync([FromRoute]string gameName ,[FromBody]Board board)
         {
             HttpBaseInformation client = new HttpBaseInformation();
-
+            board.LocalId = 1; //temporary work around until multiple board support
+            board.GameName = gameName;
             var content = JsonConvert.SerializeObject(board);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await client.Client.PostAsync("api/boards/", stringContent);
@@ -76,9 +77,10 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // PUT: api/Board/5
         [HttpPut("{boardId}")]
-        public async Task<IActionResult> PutAsync([FromRoute]int boardId, [FromBody]Board board)
+        public async Task<IActionResult> PutAsync([FromRoute]string gameName, [FromRoute]int boardId, [FromBody]Board board)
         {
             HttpBaseInformation client = new HttpBaseInformation();
+            board.GameName = gameName;
 
             var content = JsonConvert.SerializeObject(board);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
