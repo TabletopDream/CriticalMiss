@@ -30,6 +30,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         [HttpGet]
         public IActionResult GetAllGames()
         {
+
             var getgames = _context.games.ToList();
             if (getgames!=null)
             {
