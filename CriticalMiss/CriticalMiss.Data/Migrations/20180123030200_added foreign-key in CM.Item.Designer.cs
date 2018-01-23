@@ -11,9 +11,10 @@ using System;
 namespace CriticalMiss.Data.Migrations
 {
     [DbContext(typeof(CriticalMissDbContext))]
-    partial class CriticalMissDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180123030200_added foreign-key in CM.Item")]
+    partial class addedforeignkeyinCMItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
