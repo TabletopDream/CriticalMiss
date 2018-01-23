@@ -29,7 +29,7 @@ namespace CriticalMiss.WebService.Data.Controllers
             {
                 return NotFound();
             }
-            var gameItems = _context.item.Include(i => i.ImageAsset)
+            var gameItems = _context.item.Include(i => i.ImageAssetNavigable)
                                          .Where(i => i.GameBoardId == targetBoard.BoardId).ToList();
 
 
