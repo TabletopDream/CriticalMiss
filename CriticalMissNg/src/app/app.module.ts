@@ -1,14 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { SvgComponentModule } from './svg-component-module';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import { GameComponent } from './critical-miss-common/game.component';
 import { CmGamesHttpService } from './critical-miss-http/cm-games-http.service';
 import { CommonModule } from '@angular/common';
 
@@ -51,7 +50,7 @@ const appRootRoutes: Routes = [
       appRootRoutes,
       { enableTracing: false }
     ),
-    //NgbModule.forRoot(),
+    NgbModule.forRoot(),
     BrowserModule,
     SvgComponentModule,
     CriticalMissModule,
