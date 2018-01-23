@@ -21,14 +21,22 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
-        // [HttpGet("{id}", Name = "Get")]
-        public IActionResult GetGamesBoard()
+        [HttpGet]
+        public IActionResult GetGamesBoard([FromQuery]string gameName)
         {
             //var gameboardlist = _context.Boards.Select(a => a.BoardName);
             var gameboardlist = _context.Boards.ToList();
+            List<Boards> boards = new List<Boards>();
+            for(int i = 0; i < gameboardlist.Count; i++)
+            {
+                if (gameboardlist[i].GameName == gameName)
+                {
+                    boards.Add(gameboardlist[i]);
+                }
+            }
             if (gameboardlist != null)
             {
-                return Ok(gameboardlist);
+                return Ok(boards);
             }
             else
             {
@@ -36,15 +44,17 @@ namespace CriticalMiss.WebService.Data.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetGamesBoard([FromRoute] int id)
+        [HttpGet("boardId")]
+        public IActionResult GetGamesBoard([FromRoute] int boardId, [FromQuery]string gameName)
         {
             //var gameboardlist = _context.GameBoard.Where(x=>x.GameId==id).Select(x => new {
             //   Name = x.BoardName
             //    });
 
             //return Ok(gameboardlist);
-            var gameBoard = _context.Boards.SingleOrDefault(x => x.BoardId == id);
+
+            var gameBoard = _context.Boards.SingleOrDefault(x => x.BoardId == boardId && x.GameName == gameName);
+            
             if (gameBoard != null)
             {
                 return Ok(gameBoard);
@@ -62,11 +72,12 @@ namespace CriticalMiss.WebService.Data.Controllers
             _context.SaveChanges();
             return Ok(gameboard);
         }
+
         [HttpPut("{id}", Name = "{BoardName_Update}")]
         public IActionResult UpdateGame([FromRoute] int id, [FromBody] Boards gameboard)
         {
 
-            var upboardgames = _context.Boards.SingleOrDefault(x => x.BoardId == id);
+            var upboardgames = _context.Boards.SingleOrDefault(x => x.BoardId == id && x.GameName == gameboard.GameName);
             if (upboardgames != null)
             {
                 upboardgames.BoardName = gameboard.BoardName;
@@ -84,9 +95,9 @@ namespace CriticalMiss.WebService.Data.Controllers
 
         }
         [HttpDelete("{id}", Name = "{BoardName_Delete}")]
-        public IActionResult DeleteBoard([FromRoute] int Id, Boards gameboard)
+        public IActionResult DeleteBoard([FromRoute] int Id, [FromQuery]string gameName)
         {
-            var delgames = _context.Boards.SingleOrDefault(x => x.BoardId == Id);
+            var delgames = _context.Boards.SingleOrDefault(x => x.BoardId == Id && x.GameName == gameName);
             if (delgames != null)
             {
                 _context.Boards.Remove(delgames);

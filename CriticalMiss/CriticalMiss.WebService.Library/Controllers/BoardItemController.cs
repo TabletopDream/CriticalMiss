@@ -81,7 +81,7 @@ namespace CriticalMiss.WebService.Library.Controllers
 
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PutAsync("api/items/" + itemId.ToString(), stringContent);
+            var response = await _client.Client.PutAsync("api/items/" + itemId.ToString() + "?gameName=" + gameName + "&boardId=" + boardId, stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return Ok(item);

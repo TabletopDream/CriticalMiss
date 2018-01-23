@@ -23,6 +23,8 @@ namespace CriticalMiss.Data.Models
         [Column("BoardId")]
         public int GameBoardId { get; set; }
 
+        public Boards Boards { get; set; }
+
         [ForeignKey("ImageAssetNavigable")]
         [Column("ImageAssetId")]
         public int ImageAssetId { get; set; }

@@ -39,7 +39,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         {
             HttpBaseInformation client = new HttpBaseInformation();
 
-            var response = await client.Client.GetAsync("api/boards?gameName=" + gameName + "&boardId=" + boardId);
+            var response = await client.Client.GetAsync("api/boards/boardId?gameName=" + gameName);
             if (response.IsSuccessStatusCode)
             {
                 var board = JsonConvert.DeserializeObject<List<Board>>(await response.Content.ReadAsStringAsync());
@@ -93,11 +93,11 @@ namespace CriticalMiss.WebService.Library.Controllers
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute]int id, [FromBody]Board board)
         {
             HttpBaseInformation c = new HttpBaseInformation();
 
-            var response = await c.Client.DeleteAsync("api/boards/" + id.ToString());
+            var response = await c.Client.DeleteAsync("api/boards/" + id.ToString() + "?gameName=" + board.GameName);
             if(response.IsSuccessStatusCode)
             {
                 return Ok();
