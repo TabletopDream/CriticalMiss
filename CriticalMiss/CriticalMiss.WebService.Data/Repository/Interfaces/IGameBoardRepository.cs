@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CriticalMiss.Library.Models;
 using CriticalMiss.WebService.Data.Models;
 using CriticalMiss.Common.Interfaces;
 namespace CriticalMiss.WebService.Data.Repository.Interfaces

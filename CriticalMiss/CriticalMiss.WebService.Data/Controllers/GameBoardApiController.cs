@@ -21,6 +21,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public IActionResult GetGamesBoard([FromQuery]string gameName)
         {

@@ -60,17 +60,22 @@ namespace CriticalMiss.WebService.Library.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromRoute]string gameName, [FromRoute]int boardId, [FromBody]BoardItem item) //Make sure you use pluck before serializing
         {
-            item.PluckImageId();
-            item.BoardId = boardId;
-            var content = JsonConvert.SerializeObject(item);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.Client.PostAsync("api/items?gameName=" + gameName + "&boardId=" + boardId, stringContent);
+            item.ImageAssetId = item.ImageAsset.ImageAssetId;
+            item.ImageAsset = null;
+            var stringContent = new StringContent(JsonConvert.SerializeObject(item),
+                                                  Encoding.UTF8,
+                                                  "application/json");
+            var connString = string.Format("api/items?gameName={0}&boardId={1}", gameName, boardId);
+            var response = await _client.Client.PostAsync(connString, stringContent);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                return Ok(item);
+                var newItem = JsonConvert.DeserializeObject<BoardItem>(await response.Content.ReadAsStringAsync());
+
+                return Ok(newItem);
             }
-            return BadRequest();
+
+            return BadRequest(response.ReasonPhrase);
         }
         
         // PUT: api/BoardItem/5
@@ -78,7 +83,7 @@ namespace CriticalMiss.WebService.Library.Controllers
         public async Task<IActionResult> PutAsync([FromRoute]int itemId, [FromRoute]int boardId, [FromRoute]string gameName, [FromBody]BoardItem item) //make sure it uses pluck before serializing
         {
             item.PluckImageId();
-
+            item.ImageAsset = null;
             var content = JsonConvert.SerializeObject(item);
             var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await _client.Client.PutAsync("api/items/" + itemId.ToString() + "?gameName=" + gameName + "&boardId=" + boardId, stringContent);

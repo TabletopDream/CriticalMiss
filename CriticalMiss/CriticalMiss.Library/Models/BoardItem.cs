@@ -6,8 +6,8 @@ namespace CriticalMiss.Library.Models
 {
     public class BoardItem : IBoardItem
     {
-        public int Id { get; set; }
-        public int BoardId { get; set; }
+        public int ImageAssetId { get; set; }
+        public int GameBoardId { get; set; }
         public string Name { get; set; }
         public bool IsToken { get; set; }
         public double Width { get; set; }
@@ -15,42 +15,15 @@ namespace CriticalMiss.Library.Models
         public int XPos { get; set; }
         public int YPos { get; set; }
         public int LocalId { get; set; }
-        public int ImageAssetId { get; set; }
 
         [JsonConverter(typeof(InterfaceConverter<ImageAsset>))]
         public IImageAsset ImageAsset { get; set; }
-
-        public BoardItem()
-        {
-
-        }
-
-        public BoardItem(int id)
-        {
-            LocalId = id;
-            Name = "token" + LocalId.ToString();
-            IsToken = true;
-            Width = 1;
-            Height = 1;
-            XPos = 0;
-            YPos = 0;
-        }
-
-        public void MoveItem(int x, int y)
-        {
-            XPos += x;
-            YPos += y;
-        }
-
-        public void AdjustSize(int w, int h)
-        {
-            Width = w;
-            Height = h;
-        }
 
         public void PluckImageId()
         {
             ImageAssetId = ImageAsset.ImageAssetId;
         }
+
+        public bool ShouldSerializeImageAsset() => ImageAsset != null;
     }
 }

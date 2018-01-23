@@ -14,6 +14,7 @@ namespace CriticalMiss.Data.Models
         [Key]
         [Column("ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [BindNever]
         public int ItemId { get; set; }
 
         [Column("Name")]
@@ -23,12 +24,14 @@ namespace CriticalMiss.Data.Models
         [Column("BoardId")]
         public int GameBoardId { get; set; }
 
+        [BindNever]
         public Boards Boards { get; set; }
 
         [ForeignKey("ImageAssetNavigable")]
         [Column("ImageAssetId")]
         public int ImageAssetId { get; set; }
 
+        [BindNever]
         public ImageAssetDBO ImageAssetNavigable { get; set; }
 
         [Column("IsToken")]
@@ -59,5 +62,6 @@ namespace CriticalMiss.Data.Models
 
         public bool ShouldSerializeImageAssetNavigable() => false;
         public bool ShouldSerializeImageAssetId() => false;
+        public bool ShouldSerializeBoards() => false;
     }
 }

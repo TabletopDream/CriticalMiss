@@ -26,8 +26,12 @@ namespace CriticalMiss.WebService.Library.Controllers
             var response = await client.Client.GetAsync("api/boards?gameName=" + gameName); //Allows returning of all boards from certain game: gameName
             if (response.IsSuccessStatusCode)
             {
-                var boards = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+                var boards = JsonConvert.DeserializeObject<List<Board>>(await response.Content.ReadAsStringAsync());
                 return Ok(boards);
+            }
+            else if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
             }
 
             return BadRequest();
@@ -42,16 +46,13 @@ namespace CriticalMiss.WebService.Library.Controllers
             var response = await client.Client.GetAsync("api/boards/" + boardId + "?gameName=" + gameName);
             if (response.IsSuccessStatusCode)
             {
-                var board = JsonConvert.DeserializeObject<List<Board>>(await response.Content.ReadAsStringAsync());
-                if(board.Count == 0)
-                {
-                    return NotFound();
-                }
-                else if(board.Count > 1)
-                {
-                    throw new InvalidOperationException();
-                }
+                var board = JsonConvert.DeserializeObject<Board>(await response.Content.ReadAsStringAsync());
+
                 return Ok(board);
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
             }
 
             return BadRequest();
@@ -71,6 +72,10 @@ namespace CriticalMiss.WebService.Library.Controllers
             if(response.IsSuccessStatusCode)
             {
                 return Ok(board);
+            }
+            else if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
             }
             return BadRequest();
         }

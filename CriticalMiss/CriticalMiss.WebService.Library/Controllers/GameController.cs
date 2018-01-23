@@ -46,6 +46,10 @@ namespace CriticalMiss.WebService.Library.Controllers
                 var game = JsonConvert.DeserializeObject<Game>(await response.Content.ReadAsStringAsync());
                 return Ok(game);
             }
+            else if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
+            }
 
             return BadRequest();
         }
@@ -70,6 +74,7 @@ namespace CriticalMiss.WebService.Library.Controllers
             var res = await client.Client.PostAsync("api/boards", stringCon);
             if(res.IsSuccessStatusCode)
             {
+                game.Password = null;
                 return Ok(game);
             }
 

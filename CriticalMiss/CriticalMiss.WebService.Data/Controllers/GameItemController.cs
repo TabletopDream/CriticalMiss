@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CriticalMiss.Data;
 using CriticalMiss.Data.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CriticalMiss.WebService.Data.Controllers
 {
     [Produces("application/json")]
-    [Route("api/GameItem")]
+    [Route("api/items")]
     public class GameItemController : Controller
     {
         private static List<Item> _gameitem = new List<Item>();
@@ -24,7 +21,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetGamesItem([FromQuery]int boardId, [FromQuery]string gameName)
+        public IActionResult GetGamesItem([FromQuery] int boardId, [FromQuery] string gameName)
         {
             var targetBoard = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
             if (targetBoard == null)
@@ -60,23 +57,37 @@ namespace CriticalMiss.WebService.Data.Controllers
         //}
 
         [HttpPost]
-        public IActionResult CreateBoardGame([FromBody] Item gameitem, [FromQuery]string gameName, [FromQuery]int boardId)
+        public IActionResult CreateBoardItem([FromQuery] string gameName, [FromQuery] int boardId, [FromBody] Item boardItem)
         {
-            var boardList = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
-            if (boardList == null)
+            var it = new Item();
+            var rand = new Random();
+            var board = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
+            if (board == null)
             {
                 return NotFound();
             }
 
-            gameitem.GameBoardId = boardList.BoardId;
+            var itemsOfBoard = _context.item.Where(i => i.GameBoardId == board.BoardId);
+            while (boardItem.LocalId == 0)
+            {
+                var tNum = rand.Next(1, int.MaxValue);
+                if (itemsOfBoard.Any(i => i.LocalId == tNum))
+                {
+                    continue;
+                }
 
-            _context.item.Add(gameitem);
+                boardItem.LocalId = tNum;
+            }
+
+            boardItem.GameBoardId = board.BoardId;
+
+            _context.item.Add(boardItem);
             _context.SaveChanges();
-            return Ok();
+            return Ok(boardItem);
         }
 
         [HttpPut("{id}", Name = "{ItemName_Update}")]
-        public IActionResult UpdateGame([FromRoute] int id, [FromBody]Item gameitem, [FromQuery]string gameName, [FromQuery]int boardId)
+        public IActionResult UpdateItem([FromRoute] int id, [FromBody]Item gameitem, [FromQuery]string gameName, [FromQuery]int boardId)
         {
             var boardList = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
             if (boardList == null)
@@ -96,7 +107,7 @@ namespace CriticalMiss.WebService.Data.Controllers
 
                 _context.Update(item);
                 _context.SaveChanges();
-                return Ok();
+                return Ok(item);
             }
             else
             {

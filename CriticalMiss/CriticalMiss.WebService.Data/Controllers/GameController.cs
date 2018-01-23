@@ -50,15 +50,15 @@ namespace CriticalMiss.WebService.Data.Controllers
         //    return OK(getgamesid);
         //}
 
-        [HttpGet("{id}")]
-        public IActionResult GetGames([FromRoute] int id)
+        [HttpGet("{gameName}")]
+        public IActionResult GetGames([FromRoute]string gameName)
         {
             //var getgamesbyid = _context.games.Where(a => a.GameId == id).Select(a => new {
             //    Name = a.GameName,
             //});
             //return Ok(getgamesbyid);
 
-            var gamesList = _context.games.Where(a => a.GameId == id);
+            var gamesList = _context.games.SingleOrDefault(a => a.GameName == gameName);
             if (gamesList!=null)
             {
                 return Ok(gamesList);

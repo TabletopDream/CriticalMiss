@@ -42,15 +42,15 @@ namespace CriticalMiss.Library.Models
             return false;
         }
 
-        public void AddItem()
-        {
-            var count = ItemCounter();
+        //public void AddItem()
+        //{
+        //    var count = ItemCounter();
 
-            if (count == true)
-            {
-                BoardItem Item = new BoardItem(ItemCount);
-            }
-        }
+        //    if (count == true)
+        //    {
+        //        BoardItem Item = new BoardItem(ItemCount);
+        //    }
+        //}
 
         public void DeleteItem()
         {
