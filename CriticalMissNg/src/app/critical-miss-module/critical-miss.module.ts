@@ -31,5 +31,8 @@ import { CreateGameModalComponent } from './create-game-modal/create-game-modal.
     BoardDisplayComponent,
     GameDisplayComponent
   ],
+  entryComponents: [
+    CreateGameModalComponent
+  ]
 })
 export class CriticalMissModule { }

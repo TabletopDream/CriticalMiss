@@ -5,11 +5,34 @@
   </button>
 </div>
 <div class="modal-body">
-  <form>
-    
+  <form id="createGameForm" (ngSubmit)="submitGame()" #gameForm="ngForm">
+    <div class="form-group">
+      <label for="gameName">Game Name</label>
+      <input type="text"
+             class="form-control" 
+             id="gameNameInput"
+             placeholder="Enter game name" 
+             [(ngModel)]="game.gameName" 
+             name="gameName"
+             #gameName="ngModel"
+             required />
+      <div [hidden]="gameName.valid || gameName.pristine" class="alert alert-danger">Game name is required</div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password"
+             class="form-control" 
+             id="passwordInput" 
+             placeholder="Password" 
+             [(ngModel)]="game.password" 
+             name="password"
+             #password="ngModel"
+             required/>
+      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Password is required</div>
+    </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="submitGame()">Submit</button>
+  <button type="submit" form="createGameForm" [disabled]="!gameForm.form.valid" class="btn btn-success" >Submit</button>
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss('Close click')">Cancel</button>
 </div>

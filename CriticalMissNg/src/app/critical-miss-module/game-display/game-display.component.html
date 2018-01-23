@@ -1,8 +1,15 @@
 <div class="container">
+  <h2>Game List</h2>
   <div class="row">
-    <button type="button" class="btn btn-info" (click)="createGame()"></button>
+    <div class="col-md-12">
+      <div class="btn-group options-bar">
+        <button type="button" class="btn btn-info" (click)="createGame()">Create New Game</button>
+      </div>
+    </div>
   </div>
   <div class="row">
-    <app-game-list [gamesList]="gamesList" (gameJoin)="joinGame($event)"></app-game-list>
+    <div class="col-md-12">
+      <app-game-list [gamesList]="gamesList" (gameJoin)="joinGame($event)"></app-game-list>
+    </div>
   </div>
 </div>

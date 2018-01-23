@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CmGamesHttpService } from '../../critical-miss-http';
 import { Game } from '../../critical-miss-common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateGameModalComponent } from '../create-game-modal/create-game-modal.component';
 
 @Component({
@@ -29,9 +29,13 @@ export class GameDisplayComponent implements OnInit {
   }
 
   createGame() {
-    const createGameModal = this.modalService.open(CreateGameModalComponent)
-                                             .result.then((game: Game) => {
-                                                
-                                             });
+    const createGameModal = this.modalService.open(CreateGameModalComponent);
+    createGameModal.result.then((game: Game) => {
+      this.gameService.createGame(game).then((newGame: Game) => {
+        this.gamesList.push(newGame);
+      });
+    }).catch((reason: any) => {
+      // Do nothing, user can cancel if they wish
+    });
   }
 }

@@ -22,6 +22,7 @@ export class CreateGameModalComponent implements OnInit {
   }
 
   submitGame() {
+    console.log(this.game);
     this.activeModal.close(this.game);
   }
 
