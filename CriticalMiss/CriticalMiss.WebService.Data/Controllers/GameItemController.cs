@@ -22,6 +22,7 @@ namespace CriticalMiss.WebService.Data.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public IActionResult GetGamesItem([FromQuery]int boardId, [FromQuery]string gameName)
         {
@@ -59,8 +60,16 @@ namespace CriticalMiss.WebService.Data.Controllers
         //}
 
         [HttpPost]
-        public IActionResult CreateBoardGame([FromBody] Item gameitem)
+        public IActionResult CreateBoardGame([FromBody] Item gameitem, [FromQuery]string gameName, [FromQuery]int boardId)
         {
+            var boardList = _context.Boards.SingleOrDefault(b => b.GameName == gameName && b.LocalId == boardId);
+            if (boardList == null)
+            {
+                return NotFound();
+            }
+
+            gameitem.GameBoardId = boardList.BoardId;
+
             _context.item.Add(gameitem);
             _context.SaveChanges();
             return Ok();
