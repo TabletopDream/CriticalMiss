@@ -30,9 +30,9 @@ node('master') {
                 bat 'msbuild /t:rebuild CriticalMiss.sln'
                 bat 'SonarQube.Scanner.MSBuild end'
             }
-            dir('CriticalMissNg') {
-                bat 'SonarQube.Scanner.exe begin /k:CriticalMissNgPipe'
-            }
+            //dir('CriticalMissNg') {
+                //bat 'SonarQube.Scanner.exe begin /k:CriticalMissNgPipe'
+            //}
         } catch(error) {
             throw error
             //slacksend message: color:'danger'
