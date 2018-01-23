@@ -23,7 +23,9 @@ namespace CriticalMiss.WebService.Data
                 {
                     builder.AddJsonFile("_connections.json");
                 })
+                .UseKestrel()
                 .UseStartup<Startup>()
+                .UseUrls("http://127.0.0.1:5002")
                 .Build();
     }
 }

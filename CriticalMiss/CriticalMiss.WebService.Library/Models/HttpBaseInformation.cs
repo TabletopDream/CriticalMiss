@@ -14,7 +14,7 @@ namespace CriticalMiss.WebService.Library.Models
         public HttpBaseInformation()
         {
             Client = new HttpClient();
-            Client.BaseAddress = new Uri("http://localhost:60288");
+            Client.BaseAddress = new Uri("http://localhost:5002");
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
