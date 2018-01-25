@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CmHttpUrlBuilderService {
 
-  private baseUrl: string = 'http://localhost:3000/api';
+  private baseUrl: string = 'http://ec2-18-221-176-158.us-east-2.compute.amazonaws.com:8082/api';
 
   constructor() { }
 
