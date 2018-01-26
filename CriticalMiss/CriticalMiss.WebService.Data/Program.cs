@@ -25,7 +25,7 @@ namespace CriticalMiss.WebService.Data
                 })
                 .UseKestrel()
                 .UseStartup<Startup>()
-                .UseUrls("http://127.0.0.1:5002")
+                .UseUrls("http://*:5002")
                 .Build();
     }
 }

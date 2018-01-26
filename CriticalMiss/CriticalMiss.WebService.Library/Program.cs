@@ -21,7 +21,7 @@ namespace CriticalMiss.WebService.Library
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseStartup<Startup>()
-                .UseUrls("http://127.0.0.1:5001")
+                .UseUrls("http://*:5001")
                 .Build();
     }
 }

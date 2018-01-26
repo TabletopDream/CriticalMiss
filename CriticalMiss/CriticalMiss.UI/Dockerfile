@@ -1,16 +1,15 @@
 FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
-EXPOSE 5002
+EXPOSE 5000
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
 COPY *.sln ./
-COPY CriticalMiss.WebService.Data/CriticalMiss.WebService.Data.csproj CriticalMiss.WebService.Data/
-COPY CriticalMiss.Data/CriticalMiss.Data.csproj CriticalMiss.Data/
+COPY CriticalMiss.UI/CriticalMiss.UI.csproj CriticalMiss.UI/
 COPY CriticalMiss.Common/CriticalMiss.Common.csproj CriticalMiss.Common/
 RUN dotnet restore
 COPY . .
-WORKDIR /src/CriticalMiss.WebService.Data
+WORKDIR /src/CriticalMiss.UI
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish
@@ -19,4 +18,4 @@ RUN dotnet publish -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "CriticalMiss.WebService.Data.dll"]
+ENTRYPOINT ["dotnet", "CriticalMiss.UI.dll"]

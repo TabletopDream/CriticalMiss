@@ -21,7 +21,7 @@ namespace CriticalMiss.UI
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseStartup<Startup>()                
-                .UseUrls("http://127.0.0.1:5000")
+                .UseUrls("http://0.0.0.0:5000")
                 .Build();
     }
 }

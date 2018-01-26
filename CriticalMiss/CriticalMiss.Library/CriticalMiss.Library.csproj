@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CriticalMiss.Common\CriticalMiss.Common.csproj" />
-    <ProjectReference Include="..\CriticalMiss.Data\CriticalMiss.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
