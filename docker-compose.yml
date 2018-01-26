@@ -2,7 +2,7 @@ version: '3'
 
 services:
   "criticalmiss_angular":
-    image: "criticalmiss-angular"
+    image: "ajhl49/criticalmiss-angular"
     build:
       context: ./CriticalMissNg
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
       - "80:80"
   
   "criticalmiss_webservice_data":
-    image: "criticalmiss-webservice-data"
+    image: "ajhl49/criticalmiss-webservice-data"
     build:
       context: ./CriticalMiss
       dockerfile: CriticalMiss.WebService.Data/Dockerfile
@@ -24,7 +24,7 @@ services:
       - critmiss
 
   "criticalmiss_ui":
-    image: "criticalmiss-ui"
+    image: "ajhl49/criticalmiss-ui"
     deploy:
       replicas: 1
     build:
@@ -34,7 +34,7 @@ services:
       - critmiss
 
   "criticalmiss_webservice_library":
-    image: "criticalmiss-webservice-library"
+    image: "ajhl49/criticalmiss-webservice-library"
     deploy:
       replicas: 1
     build:
