@@ -1,10 +1,22 @@
 version: '3'
 
 services:
+  "criticalmiss_angular":
+    image: "criticalmiss-angular"
+    build:
+      context: ./CriticalMissNg
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    networks:
+      - critmiss
+    ports:
+      - "80:80"
+  
   "criticalmiss_webservice_data":
     image: "criticalmiss-webservice-data"
     build:
-      context: .
+      context: ./CriticalMiss
       dockerfile: CriticalMiss.WebService.Data/Dockerfile
 #    deploy:
 #      replicas: 1
@@ -16,19 +28,17 @@ services:
     deploy:
       replicas: 1
     build:
-      context: .
+      context: ./CriticalMiss
       dockerfile: CriticalMiss.UI/Dockerfile
-    ports: 
-      - "80:5000"
     networks:
       - critmiss
 
   "criticalmiss_webservice_library":
     image: "criticalmiss-webservice-library"
     deploy:
-#      replicas: 1
+      replicas: 1
     build:
-      context: .
+      context: ./CriticalMiss
       dockerfile: CriticalMiss.WebService.Library/Dockerfile
     networks:
       - critmiss
