@@ -309,3 +309,4 @@ __pycache__/
 
 _connections.json
 
+/.vagrant/machines/default/virtualbox
